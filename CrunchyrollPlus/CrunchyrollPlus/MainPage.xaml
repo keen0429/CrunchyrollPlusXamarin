@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="CrunchyrollPlus.MainPage">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30*" />
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="10*"/>
+
+            <RowDefinition Height="40*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="15*"/>
+            <ColumnDefinition Width="70*"/>
+            <ColumnDefinition Width="15*"/>
+
+
+        </Grid.ColumnDefinitions>
+        <Label HorizontalOptions="Center" VerticalOptions="Center" Text="Login" FontSize="Header" Grid.Row="0" Grid.Column="1"/>
+        <Entry Placeholder="Username" x:Name="username" FontSize="Default" Grid.Row="1" Grid.Column="1" />
+        <Entry Placeholder="Password" IsPassword="True" x:Name="password" Grid.Row="2" FontSize="Default" Grid.Column="1" />
+        <Button Text="Login" Grid.Row="3" Grid.Column="1" Clicked="Login"/>
+    </Grid>
+</ContentPage>
