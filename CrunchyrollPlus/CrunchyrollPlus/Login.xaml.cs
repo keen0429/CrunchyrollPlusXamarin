@@ -12,17 +12,15 @@ namespace CrunchyrollPlus
     // Learn more about making custom code visible in the Xamarin.Forms previewer
     // by visiting https://aka.ms/xamarinforms-previewer
     [DesignTimeVisible(false)]
-    public partial class MainPage : ContentPage
+    public partial class Login : ContentPage
     {
-        public MainPage()
+        public Login(Loading loading)
         {
             InitializeComponent();
+            Navigation.RemovePage(loading);
         }
-        async void Login(object sender, EventArgs args)
-        {
-            Console.WriteLine("login");
-        }
-        async void SendLoginRequest()
+        
+        async void SendLoginRequest(object sender, EventArgs args)
         {
             string username = this.username.Text;
             string password = this.password.Text;
