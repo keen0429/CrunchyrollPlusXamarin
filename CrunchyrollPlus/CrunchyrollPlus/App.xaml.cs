@@ -14,15 +14,11 @@ namespace CrunchyrollPlus
         {
             NavigationPage.SetHasNavigationBar(this, false);
             InitializeComponent();
-            crunchyClient = new HttpClient();
-            crunchyClient.BaseAddress = new Uri("https://api.crunchyroll.com");
+            
             
             MainPage = new NavigationPage(new Loading());
         }
-        public static string GetPath(string req, string data)
-        {
-            return $"/{req}.0.json?session_id={sessionId}{data}";
-        }
+        
         
         
         protected override void OnStart()
