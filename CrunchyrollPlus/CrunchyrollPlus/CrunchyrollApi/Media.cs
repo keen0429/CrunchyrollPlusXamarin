@@ -5,18 +5,20 @@ using Newtonsoft.Json.Linq;
 
 namespace CrunchyrollPlus
 {
-    struct Media
+    public struct Media
     {
-        string iD;
-        string name;
-        string description;
-        string largeImage;
-        bool freeAvailable;
-        bool premiumAvailable;
+        
+        public string iD;
+        public string name;
+        public string description;
+        public string largeImage;
+        public bool freeAvailable;
+        public bool premiumAvailable;
         public int playhead;
 
         public Media(string iD, string name, string description, string largeImage, bool freeAvailable, bool premiumAvailable, int playhead)
         {
+            
             this.iD = iD;
             this.name = name;
             this.description = description;

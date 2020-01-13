@@ -6,7 +6,7 @@ using Newtonsoft.Json.Linq;
 
 namespace CrunchyrollPlus
 {
-    struct Series
+    public struct Series
     {
         public string id;
         public string name;

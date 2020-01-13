@@ -15,6 +15,7 @@ namespace CrunchyrollPlus
     [DesignTimeVisible(false)]
     public partial class Login : ContentPage
     {
+        CrunchyrollApi crunchyApi = CrunchyrollApi.GetSingleton();
         public Login(Loading loading)
         {
             InitializeComponent();
@@ -23,28 +24,21 @@ namespace CrunchyrollPlus
         
         async void SendLoginRequest(object sender, EventArgs args)
         {
+            
             string username = this.username.Text;
             string password = this.password.Text;
 
-            HttpResponseMessage httpResponseMessage = await App.crunchyClient.PostAsync(App.GetPath("login", $"&account={username}&password={password}"), null);
-            if (httpResponseMessage.IsSuccessStatusCode)
+            CrunchyrollApi.LoginResponse res = await crunchyApi.Login(username, password);
+            if (res.success)
             {
-                string res = await httpResponseMessage.Content.ReadAsStringAsync();
-                JObject o = JObject.Parse(res);
-                if ((bool)o["error"])
-                {
-
-                }
-                else
-                {
-                    JObject data = (JObject ) o["data"];
-                    JObject user = (JObject)data["user"];
-                    Application.Current.Properties["auth"] = data["auth"];
-                    Application.Current.Properties["loginExpire"] = data["expires"];
-                    await Navigation.PushAsync(new Homepage());
-
-                }
+                await Navigation.PushAsync(new Homepage());
             }
+            else
+            {
+                //TODO: show error message
+
+            }
+
         }
     }
 }

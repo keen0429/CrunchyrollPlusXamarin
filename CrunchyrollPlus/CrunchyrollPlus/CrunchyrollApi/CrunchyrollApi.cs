@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using System.Linq;
 namespace CrunchyrollPlus
 {
-    class CrunchyrollApi
+    public class CrunchyrollApi
     {
         public HttpClient crunchyClient;
-        public string sessionId;
+        public string sessionId="";
         private CrunchyrollApi()
         {
             crunchyClient = new HttpClient();
@@ -59,7 +59,9 @@ namespace CrunchyrollPlus
                     }
                     else
                     {
+
                         JObject data = (JObject)o["data"];
+                        sessionId = (string)data["session_id"];
                         if (data["auth"] == null)
                         {
                             return new SessionResponse(true, false);
@@ -81,11 +83,11 @@ namespace CrunchyrollPlus
         #region Login
         public struct LoginResponse
         {
-            bool success;
-            string message;
-            public LoginResponse(bool succes, string message)
+            public bool success;
+            public string message;
+            public LoginResponse(bool success, string message)
             {
-                this.success = succes;
+                this.success = success;
                 this.message = message;
             }
         }
@@ -118,8 +120,8 @@ namespace CrunchyrollPlus
         #region Queue
         public struct QueueEntry
         {
-            Media mostLikely;
-            Series series;
+            public Media mostLikely;
+            public Series series;
 
             /// <summary>
             /// Successful request
@@ -137,9 +139,9 @@ namespace CrunchyrollPlus
         }
         public struct GetQueueResponse
         {
-            QueueEntry[] entry;
-            bool success;
-            string message;
+            public QueueEntry[] entry;
+            public bool success;
+            public string message;
 
             /// <summary>
             /// Unsucceful

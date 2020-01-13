@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CrunchyrollPlus
 {
-    struct Collection
+    public struct Collection
     {
         string name;
         string id;

@@ -7,7 +7,18 @@
              mc:Ignorable="d"
              x:Class="CrunchyrollPlus.Homepage">
     <!--Pages can be added as references or inline-->
-    <me:Queue Title="Queue"/>
+    <ContentPage  Title="Queue">
+        <Grid x:Name="mediaGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+
+            </Grid.ColumnDefinitions>
+        </Grid>
+    </ContentPage>
     <ContentPage Title="Recently watched" />
   <ContentPage Title="Settings" />
 </TabbedPage>
