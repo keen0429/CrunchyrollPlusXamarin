@@ -47,11 +47,12 @@ namespace CrunchyrollPlus
                 string url = $"/start_session.0.json?access_token=LNDJgOit5yaRIWN&device_id={Guid.NewGuid()}&device_type={deviceType}";
                 if (Application.Current.Properties.ContainsKey("auth"))
                 {
-                    
+                    Debug.WriteLine("LOG: ADDED auth");
                     url += "&auth=" + Application.Current.Properties["auth"].ToString();
 
                 }
                 HttpResponseMessage res = await crunchyClient.PostAsync(url, null);
+                Debug.WriteLine("LOG: URL: " + url);
                 if (res.IsSuccessStatusCode)
                 {
                     string resData = await res.Content.ReadAsStringAsync();
@@ -114,7 +115,8 @@ namespace CrunchyrollPlus
                     {
                         JObject data = (JObject)o["data"];
                         JObject user = (JObject)data["user"];
-                        Application.Current.Properties["auth"] = data["auth"];
+                        Application.Current.Properties["auth"] = (string)data["auth"];
+                        await Application.Current.SavePropertiesAsync(); //Important if you want to save the data
                         return new LoginResponse(true, "");
 
                     }
