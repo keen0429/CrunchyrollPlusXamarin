@@ -7,6 +7,7 @@ namespace CrunchyrollPlus
 {
     public struct Media
     {
+        // Need episode count and lenght
         
         public string iD;
         public string name;

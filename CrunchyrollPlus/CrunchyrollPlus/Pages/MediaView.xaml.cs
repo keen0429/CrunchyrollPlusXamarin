@@ -10,14 +10,14 @@ using Xamarin.Forms.Xaml;
 namespace CrunchyrollPlus
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class QueueMedia : ContentView
+    public partial class MediaView : ContentView
     {
-        public QueueMedia(Media media)
+        public MediaView(Media media)
         {
-            
             InitializeComponent();
+            episodeScreenshot.Source = media.largeImage;
             episodeName.Text = media.name;
-            thumbnail.Source = media.largeImage;
+            
         }
     }
 }

@@ -37,19 +37,17 @@ namespace CrunchyrollPlus
                     AddMedia(i.mostLikely);
                 }
             }
+            else
+            {
+                Debug.WriteLine("LOG: ERROR: " + res.message);
+            }
         }
 
         private void AddMedia(Media media)
         {
-            if (column == 2)
-            {
-                row++;
-                mediaGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-                column = 0;
-            }
-            column++;
+            
             Debug.WriteLine("LOG: DD");
-            mediaGrid.Children.Add(new QueueMedia(media),column,row);
+            queueMedia.Children.Add(new MediaView(media));
 
         }
     }

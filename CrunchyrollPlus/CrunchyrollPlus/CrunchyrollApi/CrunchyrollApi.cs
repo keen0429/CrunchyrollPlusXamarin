@@ -4,12 +4,14 @@ using Xamarin.Forms;
 using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Diagnostics;
 namespace CrunchyrollPlus
 {
     public class CrunchyrollApi
     {
         public HttpClient crunchyClient;
-        public string sessionId="";
+        private string sessionId="";
+        
         private CrunchyrollApi()
         {
             crunchyClient = new HttpClient();
@@ -45,6 +47,7 @@ namespace CrunchyrollPlus
                 string url = $"/start_session.0.json?access_token=LNDJgOit5yaRIWN&device_id={Guid.NewGuid()}&device_type={deviceType}";
                 if (Application.Current.Properties.ContainsKey("auth"))
                 {
+                    
                     url += "&auth=" + Application.Current.Properties["auth"].ToString();
 
                 }
@@ -52,18 +55,21 @@ namespace CrunchyrollPlus
                 if (res.IsSuccessStatusCode)
                 {
                     string resData = await res.Content.ReadAsStringAsync();
+                    Debug.WriteLine("LOG: SESSIONRESPONSE: " + resData + "    END");
                     JObject o = JObject.Parse(resData);
                     if ((bool)o["error"])
                     {
-
+                        return new SessionResponse(false, false);
                     }
                     else
                     {
 
                         JObject data = (JObject)o["data"];
                         sessionId = (string)data["session_id"];
-                        if (data["auth"] == null)
+                        Debug.WriteLine("LOG: AUTH"+data["auth"].Type);
+                        if (data["auth"].Type == JTokenType.Null)
                         {
+                            Debug.WriteLine("LOG: auth null");
                             return new SessionResponse(true, false);
                         }
                         else
@@ -165,7 +171,7 @@ namespace CrunchyrollPlus
         {
             return Task.Run(async () =>
             {
-                HttpResponseMessage res = await crunchyClient.PostAsync(GetPath("queue", ""), null);
+                HttpResponseMessage res = await crunchyClient.PostAsync(GetPath("queue", "&media_types=anime"), null);
                 if (res.IsSuccessStatusCode)
                 {
                     string jsonString = await res.Content.ReadAsStringAsync();
@@ -353,6 +359,7 @@ namespace CrunchyrollPlus
         #endregion
         public string GetPath(string req, string data)
         {
+            Debug.WriteLine("LOG: SessionID: " + sessionId);
             return $"/{req}.0.json?session_id={sessionId}{data}";
         }
 

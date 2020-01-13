@@ -8,16 +8,9 @@
              x:Class="CrunchyrollPlus.Homepage">
     <!--Pages can be added as references or inline-->
     <ContentPage  Title="Queue">
-        <Grid x:Name="mediaGrid">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-
-            </Grid.ColumnDefinitions>
-        </Grid>
+        <StackLayout x:Name="queueMedia">
+            
+        </StackLayout>
     </ContentPage>
     <ContentPage Title="Recently watched" />
   <ContentPage Title="Settings" />

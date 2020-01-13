@@ -8,8 +8,6 @@ namespace CrunchyrollPlus
 {
     public partial class App : Application
     {
-        public static HttpClient crunchyClient;
-        public static string sessionId;
         public App()
         {
             NavigationPage.SetHasNavigationBar(this, false);
