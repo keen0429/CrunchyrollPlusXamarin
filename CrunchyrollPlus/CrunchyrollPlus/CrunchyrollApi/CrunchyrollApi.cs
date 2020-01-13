@@ -263,11 +263,11 @@ namespace CrunchyrollPlus
         }
         #endregion
         #region GetCollection
-        struct GetCollectionsResponse
+        public struct GetCollectionsResponse
         {
-            Collection[] collections;
-            bool success;
-            string message;
+           public Collection[] collections;
+           public bool success;
+           public string message;
 
             public GetCollectionsResponse(Collection[] collections)
             {
@@ -282,7 +282,7 @@ namespace CrunchyrollPlus
                 success = false;
             }
         }
-        Task<GetCollectionsResponse> GetCollections(string id)
+        public Task<GetCollectionsResponse> GetCollections(string id)
         {
             return Task.Run(async () =>
             {
@@ -358,6 +358,101 @@ namespace CrunchyrollPlus
                 
             });
         }
+        #endregion
+        #region ListMedias
+        public struct ListMediaResponse
+        {
+            public bool success;
+            public string message;
+            public Media[] medias;
+            public ListMediaResponse(string message)
+            {
+                success = false;
+                this.message = message;
+                medias = null;
+            }
+            public ListMediaResponse(Media[] medias)
+            {
+                success = true;
+                message = "";
+                this.medias = medias;
+            }
+        }   
+        public Task<ListMediaResponse> GetMedias(string collectionID)
+        {
+            return Task.Run(async () => {
+                HttpResponseMessage res = await crunchyClient.PostAsync(GetPath("list_media", $"limit=1000&collection_id={collectionID}"),null);
+                if (res.IsSuccessStatusCode)
+                {
+                    JObject o = JObject.Parse(await res.Content.ReadAsStringAsync());
+                    if ((bool)o["error"])
+                    {
+                        return new ListMediaResponse((string)o["message"]);
+                    }
+                    else
+                    {
+                        JArray a = (JArray)o["data"];
+                        Media[] medias = a.Select(i =>
+                        {
+                            return new Media((JObject)i);
+                        }).ToArray();
+                        return new ListMediaResponse(medias);
+                    }
+                }
+                else
+                {
+                    return new ListMediaResponse("Unknown network error");
+                }
+                
+            });
+        }
+        #endregion
+        #region GetSeries
+        public struct GetSeriesResponse
+        {
+            public bool success;
+            public string message;
+            public Series series;
+            
+            public GetSeriesResponse(string message)
+            {
+                success = false;
+                this.message = message;
+                series = new Series();
+            }
+
+            public GetSeriesResponse(Series series)
+            {
+                this.series = series;
+                success = true;
+                message = "";
+            }
+        }
+        public Task<GetSeriesResponse> GetSeries(string id)
+        {
+            return Task.Run(async () =>
+            {
+                HttpResponseMessage res = await crunchyClient.PostAsync(GetPath("info", $"series_id={id}"),null);
+                if (res.IsSuccessStatusCode)
+                {
+                    JObject o = JObject.Parse(await res.Content.ReadAsStringAsync());
+                    if ((bool)o["error"])
+                    {
+                        return new GetSeriesResponse((string)o["message"]);
+                    }
+                    else
+                    {
+                        return new GetSeriesResponse(new Series((JObject)o["data"]));
+                    }
+                }
+                else
+                {
+                    return new GetSeriesResponse("Unknown network error");
+                }
+                
+            });
+        }
+
         #endregion
         public string GetPath(string req, string data)
         {

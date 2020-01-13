@@ -8,7 +8,7 @@ namespace CrunchyrollPlus
     public struct Media
     {
         // Need episode count and lenght
-        
+        public string seriesId;
         public string iD;
         public string name;
         public string description;
@@ -17,7 +17,7 @@ namespace CrunchyrollPlus
         public bool premiumAvailable;
         public int playhead;
 
-        public Media(string iD, string name, string description, string largeImage, bool freeAvailable, bool premiumAvailable, int playhead)
+        public Media(string iD, string name, string description, string largeImage, bool freeAvailable, bool premiumAvailable, int playhead, string seriesId)
         {
             
             this.iD = iD;
@@ -27,6 +27,7 @@ namespace CrunchyrollPlus
             this.freeAvailable = freeAvailable;
             this.premiumAvailable = premiumAvailable;
             this.playhead = playhead;
+            this.seriesId = seriesId;
         }
         public Media(JObject o)
         {
@@ -36,6 +37,7 @@ namespace CrunchyrollPlus
             largeImage = (string)o["screenshot_image"]["large_url"];
             freeAvailable = (bool)o["free_available"];
             premiumAvailable = (bool)o["premium_available"];
+            seriesId = (string)o["series_id"];
             if (o.ContainsKey("playhead"))
             {
                 playhead = (int)o["playhead"];

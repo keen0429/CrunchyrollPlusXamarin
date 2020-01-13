@@ -6,8 +6,8 @@ namespace CrunchyrollPlus
 {
     public struct Collection
     {
-        string name;
-        string id;
+       public string name;
+       public string id;
 
         public Collection(string name, string id)
         {

@@ -7,6 +7,7 @@ using System.Diagnostics;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Newtonsoft.Json.Linq;
+using JikanDotNet;
 
 namespace CrunchyrollPlus
 {
@@ -49,6 +50,10 @@ namespace CrunchyrollPlus
             Debug.WriteLine("LOG: DD");
             queueMedia.Children.Add(new MediaView(media));
 
+        }
+        private void InsertMALWatching()
+        {
+            
         }
     }
 }

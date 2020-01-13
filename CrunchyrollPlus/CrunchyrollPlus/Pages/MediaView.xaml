@@ -6,7 +6,11 @@
              mc:Ignorable="d"
              x:Class="CrunchyrollPlus.MediaView">
     <ContentView.Content>
+        
         <Grid>
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnOpenShow" NumberOfTapsRequired="2"/>
+            </Grid.GestureRecognizers>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
