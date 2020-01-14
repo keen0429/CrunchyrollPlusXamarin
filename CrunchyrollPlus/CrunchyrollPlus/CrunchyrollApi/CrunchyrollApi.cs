@@ -286,8 +286,11 @@ namespace CrunchyrollPlus
         {
             return Task.Run(async () =>
             {
-            HttpResponseMessage res = await crunchyClient.PostAsync(GetPath("list_collections", $"series_id={id}"), null);
+                
+            HttpResponseMessage res = await crunchyClient.GetAsync(GetPath("list_collections", $"&series_id={id}"));
+                Debug.WriteLine("LOG: URL: "+ GetPath("list_collections", $"&series_id={id}"));
                 if (res.IsSuccessStatusCode)
+
                 {
                     JObject o = JObject.Parse(await res.Content.ReadAsStringAsync());
                     if ((bool)o["error"])
@@ -297,7 +300,7 @@ namespace CrunchyrollPlus
                     else
                     {
                         JArray a = (JArray)o["data"];
-                        Collection[] collections = (Collection[])a.Select(i => new Collection((string)i["name"], (string)i["collection_id"]));
+                        Collection[] collections = (Collection[])a.Select(i => new Collection((string)i["name"], (string)i["collection_id"])).ToArray();
 
                         return new GetCollectionsResponse(collections);
 
@@ -381,7 +384,7 @@ namespace CrunchyrollPlus
         public Task<ListMediaResponse> GetMedias(string collectionID)
         {
             return Task.Run(async () => {
-                HttpResponseMessage res = await crunchyClient.PostAsync(GetPath("list_media", $"limit=1000&collection_id={collectionID}"),null);
+                HttpResponseMessage res = await crunchyClient.PostAsync(GetPath("list_media", $"&limit=1000&collection_id={collectionID}"),null);
                 if (res.IsSuccessStatusCode)
                 {
                     JObject o = JObject.Parse(await res.Content.ReadAsStringAsync());
@@ -392,10 +395,7 @@ namespace CrunchyrollPlus
                     else
                     {
                         JArray a = (JArray)o["data"];
-                        Media[] medias = a.Select(i =>
-                        {
-                            return new Media((JObject)i);
-                        }).ToArray();
+                        Media[] medias = a.Select(i => new Media((JObject)i)).ToArray();
                         return new ListMediaResponse(medias);
                     }
                 }

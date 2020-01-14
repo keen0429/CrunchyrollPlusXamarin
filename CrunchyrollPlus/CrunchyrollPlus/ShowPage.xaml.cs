@@ -20,7 +20,7 @@ namespace CrunchyrollPlus
             InitializeComponent();
             showThumbnail.Source = series.fullImagePortrait;
             showThumbnail.WidthRequest = Application.Current.MainPage.Width;
-            showThumbnail.HeightRequest = Application.Current.MainPage.Width * 1.5;
+            showThumbnail.HeightRequest = Application.Current.MainPage.Width * 1.5; // this is the ratio for crunchyroll portrait images
             description.Text = series.description;
             name.Text = series.name;
             showThumbnail.Source = series.fullImagePortrait;
@@ -57,8 +57,9 @@ namespace CrunchyrollPlus
         {
             foreach (Collection i in collections)
             {
-                // selectCollection.Items.Add(i.name);
+                selectCollection.Items.Add(i.name);
             }
+            selectCollection.SelectedIndex = 0;
         }
         void OnCollectionChange(object sender, EventArgs e)
         {
@@ -72,7 +73,7 @@ namespace CrunchyrollPlus
             {
                 foreach (Media i in res.medias)
                 {
-                    // medias.Children.Add(new MediaView(i));
+                    medias.Children.Add(new MediaView(i));
                 }
             }
             else

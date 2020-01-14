@@ -16,8 +16,9 @@ namespace CrunchyrollPlus
         public bool freeAvailable;
         public bool premiumAvailable;
         public int playhead;
+        public string episodeNumber;
 
-        public Media(string iD, string name, string description, string largeImage, bool freeAvailable, bool premiumAvailable, int playhead, string seriesId)
+        public Media(string iD, string name, string description, string largeImage, bool freeAvailable, bool premiumAvailable, int playhead, string seriesId, string episodeNumber)
         {
             
             this.iD = iD;
@@ -28,6 +29,7 @@ namespace CrunchyrollPlus
             this.premiumAvailable = premiumAvailable;
             this.playhead = playhead;
             this.seriesId = seriesId;
+            this.episodeNumber = episodeNumber;
         }
         public Media(JObject o)
         {
@@ -38,6 +40,7 @@ namespace CrunchyrollPlus
             freeAvailable = (bool)o["free_available"];
             premiumAvailable = (bool)o["premium_available"];
             seriesId = (string)o["series_id"];
+            episodeNumber = (string)o["episode_number"];
             if (o.ContainsKey("playhead"))
             {
                 playhead = (int)o["playhead"];
