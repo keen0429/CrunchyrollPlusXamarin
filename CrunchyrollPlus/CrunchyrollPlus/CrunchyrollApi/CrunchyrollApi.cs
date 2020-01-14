@@ -316,9 +316,9 @@ namespace CrunchyrollPlus
         #region Autocomplete
         public struct AutocompleteResponse
         {
-            Series[] series;
-            bool success;
-            string message;
+            public Series[] series;
+            public bool success;
+            public string message;
             public AutocompleteResponse(Series[] series)
             {
                 this.series = series;
@@ -338,7 +338,7 @@ namespace CrunchyrollPlus
         {
             return Task.Run(async () =>
             {
-                HttpResponseMessage res = await crunchyClient.PostAsync(GetPath("autocomplete", $"media_types=anime&q={query}"), null);
+                HttpResponseMessage res = await crunchyClient.PostAsync(GetPath("autocomplete", $"&media_types=anime&q={query}"), null);
                 if (res.IsSuccessStatusCode)
                 {
                     JObject o = JObject.Parse(await res.Content.ReadAsStringAsync());

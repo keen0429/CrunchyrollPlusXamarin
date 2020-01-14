@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-            xmlns:me="clr-namespace:CrunchyrollPlus"
+             xmlns:me="clr-namespace:CrunchyrollPlus"
              mc:Ignorable="d"
              x:Class="CrunchyrollPlus.Homepage">
     <!--Pages can be added as references or inline-->
@@ -13,6 +13,8 @@
         </StackLayout>
     </ContentPage>
     <ContentPage Title="Recently watched" />
-    <ContentPage Title="Search" />
+    <me:Search Title="Search"/>
+    <ContentPage Title="Settings" />
+
 
 </TabbedPage>

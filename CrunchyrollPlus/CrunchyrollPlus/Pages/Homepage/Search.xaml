@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="CrunchyrollPlus.Search">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout>
+                <Grid Margin="10" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="2*"/>
+
+                    </Grid.ColumnDefinitions>
+                    <Entry Placeholder="Anime name" x:Name="searchQuery" Grid.Column="0" Completed="SearchAnime"/>
+                    <Button Text="Search" Grid.Column="1" Clicked="SearchAnime"/>
+                </Grid>
+                <StackLayout x:Name="searchResults">
+
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+        
+            
+    </ContentPage.Content>
+</ContentPage>
