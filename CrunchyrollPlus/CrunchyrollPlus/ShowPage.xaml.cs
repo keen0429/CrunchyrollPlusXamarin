@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Diagnostics;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using System.Threading;
 
 namespace CrunchyrollPlus
 {
@@ -34,7 +35,6 @@ namespace CrunchyrollPlus
             {
                 collections = res.collections;
                 PopulatePicker(res.collections);
-                UpdateMedia(0);
             }
             else
             {
@@ -61,24 +61,35 @@ namespace CrunchyrollPlus
             }
             selectCollection.SelectedIndex = 0;
         }
-        void OnCollectionChange(object sender, EventArgs e)
+         void OnCollectionChange(object sender, EventArgs e)
         {
             Picker picker = (Picker)sender;
             UpdateMedia(picker.SelectedIndex);
+
         }
         private async void UpdateMedia(int index)
         {
+            Debug.WriteLine("LOG: UPDATE MEDIA THREAD");
             CrunchyrollApi.ListMediaResponse res = await crunchyrollApi.GetMedias(collections[index].id);
+
+            StackLayout stackLayout = new StackLayout();
+
+
             if (res.success)
             {
-                foreach (Media i in res.medias)
+                View[] views2 = new View[res.medias.Length];
+                List<View> views = new List<View>();
+                for(int i = 0; i < res.medias.Length; i++)
                 {
-                    medias.Children.Add(new MediaView(i));
+                    stackLayout.Children.Add( new MediaView(res.medias[i],false));
                 }
+                container.Children.Add(stackLayout);
+                
+                
             }
             else
             {
-                // Error handeling
+                // Error handeling//
             }
         }
     }

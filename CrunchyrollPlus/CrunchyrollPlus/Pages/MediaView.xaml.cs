@@ -16,7 +16,8 @@ namespace CrunchyrollPlus
         Media media;
         CrunchyrollApi crunchy = CrunchyrollApi.GetSingleton();
         Series series;
-        public MediaView(Media media)
+        bool doubleTap;
+        public MediaView(Media media, bool doubleTap)
         {
             
             InitializeComponent();
@@ -25,10 +26,12 @@ namespace CrunchyrollPlus
             episodeName.Text = media.name;
             episodeCount.Text ="Episode "+ media.episodeNumber;
             this.media = media;
-            Init();
-            
+            this.doubleTap = doubleTap;
+            if(doubleTap) InitDoubleTap();
+
+
         }
-        private async void Init()
+        private async void InitDoubleTap()
         {
             CrunchyrollApi.GetSeriesResponse res = await crunchy.GetSeries(media.seriesId);
             if (res.success)
@@ -46,9 +49,12 @@ namespace CrunchyrollPlus
         }
         private async void OnOpenShow(object sender, EventArgs e)
         {
-
-            Debug.WriteLine("LOG: SER: " +series.fullImagePortrait);
-            await Navigation.PushAsync(new ShowPage(series));
+            if (doubleTap)
+            {
+                Debug.WriteLine("LOG: SER: " + series.fullImagePortrait);
+                await Navigation.PushAsync(new ShowPage(series));
+            }
+            
         }
     }
 }

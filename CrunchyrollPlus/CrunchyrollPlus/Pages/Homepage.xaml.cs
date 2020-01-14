@@ -48,7 +48,7 @@ namespace CrunchyrollPlus
         {
             
             Debug.WriteLine("LOG: DD");
-            queueMedia.Children.Add(new MediaView(media));
+            queueMedia.Children.Add(new MediaView(media,true));
 
         }
         private void InsertMALWatching()
