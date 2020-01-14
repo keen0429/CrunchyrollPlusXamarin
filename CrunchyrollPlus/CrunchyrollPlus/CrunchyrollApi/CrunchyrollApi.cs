@@ -432,7 +432,7 @@ namespace CrunchyrollPlus
         {
             return Task.Run(async () =>
             {
-                HttpResponseMessage res = await crunchyClient.PostAsync(GetPath("info", $"series_id={id}"),null);
+                HttpResponseMessage res = await crunchyClient.PostAsync(GetPath("info", $"&series_id={id}"),null);
                 if (res.IsSuccessStatusCode)
                 {
                     JObject o = JObject.Parse(await res.Content.ReadAsStringAsync());

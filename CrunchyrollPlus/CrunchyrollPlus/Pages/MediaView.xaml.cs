@@ -20,6 +20,7 @@ namespace CrunchyrollPlus
         {
             
             InitializeComponent();
+            
             episodeScreenshot.Source = media.largeImage;
             episodeName.Text = media.name;
             this.media = media;
@@ -28,7 +29,7 @@ namespace CrunchyrollPlus
         }
         private async void Init()
         {
-            CrunchyrollApi.GetSeriesResponse res = await crunchy.GetSeries(media.iD);
+            CrunchyrollApi.GetSeriesResponse res = await crunchy.GetSeries(media.seriesId);
             if (res.success)
             {
                 Debug.WriteLine("LOG: SUCCESS SHOW");
@@ -37,6 +38,7 @@ namespace CrunchyrollPlus
             else
             {
                 Debug.WriteLine("LOG: FAILED SHOW");
+                Debug.WriteLine("LOG: FAIL: " + res.message);
 
                 //Error handeling;
             }

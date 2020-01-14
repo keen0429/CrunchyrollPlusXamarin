@@ -18,11 +18,14 @@ namespace CrunchyrollPlus
         public ShowPage(Series series)
         {
             InitializeComponent();
+            showThumbnail.Source = series.fullImagePortrait;
+            showThumbnail.WidthRequest = Application.Current.MainPage.Width;
+            showThumbnail.HeightRequest = Application.Current.MainPage.Width * 1.5;
             description.Text = series.description;
             name.Text = series.name;
             showThumbnail.Source = series.fullImagePortrait;
             Init(series);
-            
+
         }
         private async void Init(Series series)
         {
@@ -38,7 +41,7 @@ namespace CrunchyrollPlus
                 // Error handeling
             }
         }
-            
+
 
         private void GetCollection()
         {
@@ -49,12 +52,12 @@ namespace CrunchyrollPlus
 
         }
 
-        
+
         private void PopulatePicker(Collection[] collections)
         {
-            foreach(Collection i in collections)
+            foreach (Collection i in collections)
             {
-                selectCollection.Items.Add(i.name);
+                // selectCollection.Items.Add(i.name);
             }
         }
         void OnCollectionChange(object sender, EventArgs e)
@@ -67,9 +70,9 @@ namespace CrunchyrollPlus
             CrunchyrollApi.ListMediaResponse res = await crunchyrollApi.GetMedias(collections[index].id);
             if (res.success)
             {
-                foreach(Media i in res.medias)
+                foreach (Media i in res.medias)
                 {
-                    medias.Children.Add(new MediaView(i));
+                    // medias.Children.Add(new MediaView(i));
                 }
             }
             else
