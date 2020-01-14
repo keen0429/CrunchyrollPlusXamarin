@@ -13,5 +13,6 @@
         </StackLayout>
     </ContentPage>
     <ContentPage Title="Recently watched" />
-  <ContentPage Title="Settings" />
+    <ContentPage Title="Search" />
+
 </TabbedPage>

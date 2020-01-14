@@ -15,7 +15,8 @@ namespace CrunchyrollPlus
     {
         CrunchyrollApi crunchyrollApi = CrunchyrollApi.GetSingleton();
         Collection[] collections = null;
-
+        private int currentMaxMediaShow =0;
+        private Media[] medias;    
         public ShowPage(Series series)
         {
             InitializeComponent();
@@ -69,28 +70,47 @@ namespace CrunchyrollPlus
         }
         private async void UpdateMedia(int index)
         {
+
             Debug.WriteLine("LOG: UPDATE MEDIA THREAD");
             CrunchyrollApi.ListMediaResponse res = await crunchyrollApi.GetMedias(collections[index].id);
 
-            StackLayout stackLayout = new StackLayout();
-
-
+            medias = res.medias;
+            showMedias.Children.Clear();
             if (res.success)
             {
-                View[] views2 = new View[res.medias.Length];
-                List<View> views = new List<View>();
-                for(int i = 0; i < res.medias.Length; i++)
+                int max = res.medias.Length > 30 ? 30 : res.medias.Length;
+                currentMaxMediaShow = max;
+                for(int i = 0; i < max; i++)
                 {
-                    stackLayout.Children.Add( new MediaView(res.medias[i],false));
+                    showMedias.Children.Add( new MediaView(res.medias[i],false));
                 }
-                container.Children.Add(stackLayout);
-                
-                
+                if (max != res.medias.Length)
+                {
+
+                    Button button = new Button { Text = "Show more episodes" };
+                    button.Clicked += ExtendMedia;
+                    container.Children.Add(button);
+                }
+
+
+
+
+
             }
             else
             {
                 // Error handeling//
             }
+        }
+        private async void ExtendMedia(object sender, EventArgs e)
+        {
+            int max = medias.Length > (currentMaxMediaShow + 30) ? currentMaxMediaShow + 30 : medias.Length;
+            if (max == medias.Length) container.Children.Remove((Button)sender);
+            for(int i = currentMaxMediaShow; i < max; i++)
+            {
+                showMedias.Children.Add(new MediaView(medias[i], false));
+            }
+            currentMaxMediaShow = max;
         }
     }
 }

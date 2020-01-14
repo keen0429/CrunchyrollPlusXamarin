@@ -15,6 +15,10 @@
                 <Label Text="" x:Name="name"/>
                 <Label Text="" x:Name="description"/>
                 <Picker x:Name="selectCollection" SelectedIndexChanged="OnCollectionChange"/>
+                <StackLayout x:Name="showMedias">
+                    
+                </StackLayout>
+                
             </StackLayout>
         </ScrollView>
             
