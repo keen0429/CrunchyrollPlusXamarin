@@ -12,13 +12,14 @@ namespace CrunchyrollPlus
         public string name;
         public string description;
         public string fullImagePortrait;
-
-        public Series(string id, string name, string description, string fullImagePortrait)
+        public string largeImageLandscape;
+        public Series(string id, string name, string description, string fullImagePortrait,  string largeImageLandscape)
         {
             this.id = id;
             this.name = name;
             this.description = description;
             this.fullImagePortrait = fullImagePortrait;
+            this.largeImageLandscape = largeImageLandscape;
         }
         public Series(JObject s)
         {
@@ -26,6 +27,8 @@ namespace CrunchyrollPlus
             name = (string)s["name"];
             description = (string)s["description"];
             fullImagePortrait = (string)s["portrait_image"]["full_url"];
+            largeImageLandscape = (string)s["landscape_image"]["large_url"];
+
         }
     }
 }

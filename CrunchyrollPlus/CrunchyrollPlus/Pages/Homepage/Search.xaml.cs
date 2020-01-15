@@ -21,6 +21,7 @@ namespace CrunchyrollPlus
 
         private async void SearchAnime(object sender, EventArgs e)
         {
+            searchResults.Children.Clear();
             Debug.WriteLine("LOG: SEARCH: CALL");
             CrunchyrollApi.AutocompleteResponse res = await crunchyApi.Autocomplete(searchQuery.Text);
             if (res.success)

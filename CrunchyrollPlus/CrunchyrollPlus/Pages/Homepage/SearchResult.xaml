@@ -5,9 +5,23 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="CrunchyrollPlus.SearchResult">
-  <ContentView.Content>
+  <ContentView.Content >
         <Grid>
-            
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnOpenShow" NumberOfTapsRequired="1"/>
+            </Grid.GestureRecognizers>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40*"/>
+                <ColumnDefinition Width="60*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition x:Name="row"/>
+            </Grid.RowDefinitions>
+            <Image x:Name="thumbnail" Grid.Column="0" Aspect="AspectFill" />
+            <StackLayout Grid.Column="1">
+                <Label x:Name="showName" FontSize="Large"/>
+                <!--Add rating-->
+            </StackLayout>
         </Grid>
   </ContentView.Content>
 </ContentView>
