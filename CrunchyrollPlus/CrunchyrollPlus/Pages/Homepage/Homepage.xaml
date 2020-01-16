@@ -7,7 +7,7 @@
              mc:Ignorable="d"
              x:Class="CrunchyrollPlus.Homepage">
     <!--Pages can be added as references or inline-->
-    <ContentPage  Title="Queue">
+    <ContentPage Style="{StaticResource pageBackground}"  Title="Queue">
         <StackLayout x:Name="queueMedia">
             
         </StackLayout>

@@ -6,6 +6,13 @@
              mc:Ignorable="d"
              x:Class="CrunchyrollPlus.App">
     <Application.Resources>
-
+        <ResourceDictionary>
+            <Style x:Key="pageBackground" TargetType="ContentPage">
+                <Setter Property="BackgroundColor" Value="#202020"/>
+            </Style>
+            <Style x:Key="baseText" TargetType="Label">
+                <Setter Property="TextColor" Value="#E8E8E8"/>
+            </Style>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

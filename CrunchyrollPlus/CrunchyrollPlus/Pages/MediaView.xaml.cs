@@ -21,7 +21,6 @@ namespace CrunchyrollPlus
         {
             
             InitializeComponent();
-            
             episodeScreenshot.Source = media.largeImage;
             episodeName.Text = media.name;
             episodeCount.Text ="Episode "+ media.episodeNumber;
