@@ -21,7 +21,10 @@ namespace CrunchyrollPlus
             InitializeComponent();
             Navigation.RemovePage(loading);
         }
-        
+        protected override bool OnBackButtonPressed()
+        {
+            return true;
+        }
         async void SendLoginRequest(object sender, EventArgs args)
         {
             

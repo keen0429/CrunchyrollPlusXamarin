@@ -24,7 +24,10 @@ namespace CrunchyrollPlus
             InitQueue();
             
         }
-
+        protected override bool OnBackButtonPressed()
+        {
+            return true;
+        }
         private async void InitQueue()
         {
             Debug.WriteLine("LOG: INIT QUEUE");
