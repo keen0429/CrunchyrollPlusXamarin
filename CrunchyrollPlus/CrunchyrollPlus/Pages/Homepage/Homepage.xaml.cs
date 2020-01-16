@@ -22,6 +22,7 @@ namespace CrunchyrollPlus
             
             InitializeComponent();
             InitQueue();
+            
         }
 
         private async void InitQueue()

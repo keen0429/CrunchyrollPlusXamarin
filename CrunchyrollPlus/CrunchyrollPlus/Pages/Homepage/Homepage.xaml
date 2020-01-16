@@ -5,13 +5,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:me="clr-namespace:CrunchyrollPlus"
              mc:Ignorable="d"
-             x:Class="CrunchyrollPlus.Homepage">
+             x:Class="CrunchyrollPlus.Homepage"
+            NavigationPage.HasNavigationBar="False"
+            BarBackgroundColor="#202020">
     <!--Pages can be added as references or inline-->
-    <ContentPage Style="{StaticResource pageBackground}"  Title="Queue">
+    <ContentPage Title="Queue">
         <StackLayout x:Name="queueMedia">
             
         </StackLayout>
     </ContentPage>
+    
     <ContentPage Title="Recently watched" />
     <me:Search Title="Search"/>
     <ContentPage Title="Settings" />

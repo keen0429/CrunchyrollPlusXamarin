@@ -4,15 +4,18 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="CrunchyrollPlus.App">
+             x:Class="CrunchyrollPlus.App"
+             >
     <Application.Resources>
         <ResourceDictionary>
-            <Style x:Key="pageBackground" TargetType="ContentPage">
+            <Style TargetType="d:ContentPage" ApplyToDerivedTypes="True">
                 <Setter Property="BackgroundColor" Value="#202020"/>
             </Style>
-            <Style x:Key="baseText" TargetType="Label">
+            <Style TargetType="Label">
                 <Setter Property="TextColor" Value="#E8E8E8"/>
             </Style>
+
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>
