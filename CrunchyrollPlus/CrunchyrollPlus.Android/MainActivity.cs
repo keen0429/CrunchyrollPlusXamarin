@@ -8,12 +8,17 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using Android.Content;
+using Xamarin.Forms;
 
 namespace CrunchyrollPlus.Droid
 {
-    [Activity(Label = "CrunchyrollPlus", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "CrunchyrollPlus", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation,ScreenOrientation =ScreenOrientation.Portrait)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
+        public MainActivity()
+        {
+            Global.activity = this;
+        }
         protected override void OnCreate(Bundle savedInstanceState)
         {
             Current = this;
@@ -26,6 +31,7 @@ namespace CrunchyrollPlus.Droid
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
+            
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
@@ -57,5 +63,15 @@ namespace CrunchyrollPlus.Droid
                 }
             }
         }
+
+        public void ForceLandscape()
+        {
+            RequestedOrientation = ScreenOrientation.Landscape;
+        }
+        public void ForcePortrait()
+        {
+            RequestedOrientation = ScreenOrientation.Portrait;
+        }
     }
+    
 }

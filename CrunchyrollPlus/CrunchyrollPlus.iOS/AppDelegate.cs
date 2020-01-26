@@ -4,6 +4,7 @@ using System.Linq;
 
 using Foundation;
 using UIKit;
+using Xamarin.Forms;
 
 namespace CrunchyrollPlus.iOS
 {
@@ -11,6 +12,7 @@ namespace CrunchyrollPlus.iOS
     // User Interface of the application, as well as listening (and optionally responding) to 
     // application events from iOS.
     [Register("AppDelegate")]
+
     public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
     {
         //
@@ -24,8 +26,9 @@ namespace CrunchyrollPlus.iOS
         {
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
-
+            
             return base.FinishedLaunching(app, options);
         }
+
     }
 }

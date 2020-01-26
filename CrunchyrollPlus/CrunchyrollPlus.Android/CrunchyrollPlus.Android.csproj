@@ -59,7 +59,10 @@
   <ItemGroup>
     <Compile Include="FormsVideoLibrary\VideoPicker.cs" />
     <Compile Include="FormsVideoLibrary\VideoPlayerRenderer.cs" />
+    <Compile Include="Services\FullscreenService.cs" />
+    <Compile Include="Global.cs" />
     <Compile Include="MainActivity.cs" />
+    <Compile Include="Services\OrientationService.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

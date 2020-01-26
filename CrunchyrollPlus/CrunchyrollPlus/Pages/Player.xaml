@@ -6,12 +6,14 @@
              xmlns:video="clr-namespace:FormsVideoLibrary"
              mc:Ignorable="d"
              x:Class="CrunchyrollPlus.Player"
+             NavigationPage.HasNavigationBar="False"
+             
              >
-    
     <video:VideoPlayer x:Name="videoPlayer"
                            Grid.Row="0"
                            AutoPlay="True" 
-                           AreTransportControlsEnabled="True"
-                           Source="https://archive.org/download/ElephantsDream/ed_hd_512kb.mp4"
+                           AreTransportControlsEnabled="False"
+                       HorizontalOptions="FillAndExpand"
                        />
+    
 </ContentPage>

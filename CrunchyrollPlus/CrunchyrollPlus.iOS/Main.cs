@@ -5,6 +5,7 @@ using System.Linq;
 using Foundation;
 using UIKit;
 
+
 namespace CrunchyrollPlus.iOS
 {
     public class Application
@@ -15,6 +16,7 @@ namespace CrunchyrollPlus.iOS
             // if you want to use a different Application Delegate class from "AppDelegate"
             // you can specify it here.
             UIApplication.Main(args, null, "AppDelegate");
+            
         }
     }
 }

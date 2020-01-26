@@ -12,9 +12,29 @@ namespace CrunchyrollPlus
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Player : ContentPage
     {
+        string url = "https://dl.v.vrv.co/evs/e6214caef17a0f7a82d17e689d523c3b/assets/8849cd688573ec6291d129fd8ebbc3a5_,3556948.mp4,3556949.mp4,3556947.mp4,3556945.mp4,3556946.mp4,.urlset/master.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cCo6Ly9kbC52LnZydi5jby9ldnMvZTYyMTRjYWVmMTdhMGY3YTgyZDE3ZTY4OWQ1MjNjM2IvYXNzZXRzLzg4NDljZDY4ODU3M2VjNjI5MWQxMjlmZDhlYmJjM2E1XywzNTU2OTQ4Lm1wNCwzNTU2OTQ5Lm1wNCwzNTU2OTQ3Lm1wNCwzNTU2OTQ1Lm1wNCwzNTU2OTQ2Lm1wNCwudXJsc2V0L21hc3Rlci5tM3U4IiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNTgwMjAwOTc4fX19XX0_&Signature=g~whi2pWg53ZeyvpkbRwqvNioqVlHLckzwm0mafjzGpQbzQrgGXR9UVJJVC5vpV8RmPtv~5hSNAlUFIS25iJaqRDXjzWXzlzIXE4fA7s4DrcwGbDQ1qlXJAuSmPIDfslXX9sPQlPkFPlea42qcVvx~l0k~O39OWofIPeQAA0uFWntP0zkCsVolLCRQaEhSQx3k7k59fCw0p5w7hL96zw2n3lmWZSXJxEnDDOGn8zi0ggZaiDVsuarET-7oCc1EyyGM-WWNCpBR43YyjlZBSeszG~bG4wJ0bRntPk~PWeQo0RfCRXpk3l6hfHcuqEb3GJJATXBimU7V46i-SAra-7PQ__&Key-Pair-Id=DLVR";
         public Player()
         {
+            
             InitializeComponent();
+            
+            videoPlayer.Source = FormsVideoLibrary.VideoSource.FromUri(url);
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            Console.WriteLine("LOG: METHOD RAN");
+            IDeviceOrientationService service = DependencyService.Get<IDeviceOrientationService>();
+            service.ForceLandscape();
+            DependencyService.Get<IFullscreenService>().EnterFullscreen();
+        }
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            DependencyService.Get<IDeviceOrientationService>().ForcePortrait();
+            DependencyService.Get<IFullscreenService>().ExitFullscreen();
+
         }
     }
 }

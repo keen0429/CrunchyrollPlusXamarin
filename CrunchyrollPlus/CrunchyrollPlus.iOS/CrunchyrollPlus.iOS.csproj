@@ -64,10 +64,12 @@
   <ItemGroup>
     <Compile Include="FormsVideoLibrary\VideoPicker.cs" />
     <Compile Include="FormsVideoLibrary\VideoPlayerRenderer.cs" />
+    <Compile Include="FullscreenService.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
+    <Compile Include="Services\OrientationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
