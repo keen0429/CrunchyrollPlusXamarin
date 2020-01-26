@@ -10,6 +10,7 @@
         <Grid>
             <Grid.GestureRecognizers>
                 <TapGestureRecognizer Tapped="OnOpenShow" NumberOfTapsRequired="2"/>
+                <TapGestureRecognizer Tapped="OnOpenMedia" NumberOfTapsRequired="1"/>
             </Grid.GestureRecognizers>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>

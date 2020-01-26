@@ -48,7 +48,7 @@
     <EmbeddedResource Update="Pages\Homepage\SearchResult.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Player.xaml">
+    <EmbeddedResource Update="Pages\Player.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

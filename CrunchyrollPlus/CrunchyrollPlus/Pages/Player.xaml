@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:video="clr-namespace:FormsVideoLibrary"
+             mc:Ignorable="d"
+             x:Class="CrunchyrollPlus.Player"
+             >
+    
+    <video:VideoPlayer x:Name="videoPlayer"
+                           Grid.Row="0"
+                           AutoPlay="True" 
+                           AreTransportControlsEnabled="True"
+                           Source="https://archive.org/download/ElephantsDream/ed_hd_512kb.mp4"
+                       />
+</ContentPage>

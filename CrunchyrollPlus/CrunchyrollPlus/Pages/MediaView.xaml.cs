@@ -55,5 +55,9 @@ namespace CrunchyrollPlus
             }
             
         }
+        private async void OnOpenMedia(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new Player());
+        }
     }
 }
