@@ -136,4 +136,19 @@
       <Name>CrunchyrollPlus</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\play.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pause.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\back.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\forward10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\rewind10.png" />
+  </ItemGroup>
 </Project>

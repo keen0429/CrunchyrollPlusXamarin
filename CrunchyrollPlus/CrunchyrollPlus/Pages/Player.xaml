@@ -7,13 +7,42 @@
              mc:Ignorable="d"
              x:Class="CrunchyrollPlus.Player"
              NavigationPage.HasNavigationBar="False"
+             BackgroundColor="Black"
              
              >
-    <video:VideoPlayer x:Name="videoPlayer"
-                           Grid.Row="0"
-                           AutoPlay="True" 
-                           AreTransportControlsEnabled="False"
-                       HorizontalOptions="FillAndExpand"
-                       />
-    
+
+    <ContentPage.Content>
+        <AbsoluteLayout>
+
+            <video:VideoPlayer x:Name="videoPlayer" AutoPlay="True"  AreTransportControlsEnabled="False"  AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" />
+
+            <Image  Source="pause.png" AbsoluteLayout.LayoutBounds=".5,.5,.1,.1" AbsoluteLayout.LayoutFlags="All" HorizontalOptions="CenterAndExpand" x:Name="playPause"  >
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="playPause_Clicked" NumberOfTapsRequired="1"/>
+                </Image.GestureRecognizers></Image>
+            <ImageButton BackgroundColor="Transparent" Source="rewind10.png" AbsoluteLayout.LayoutBounds=".3,.5,.2,.2"
+                         AbsoluteLayout.LayoutFlags="All" HorizontalOptions="CenterAndExpand" x:Name="rewind" Clicked="rewind_Clicked"/>
+            <ImageButton Source="forward10.png" BackgroundColor="Transparent" Clicked="forward_Clicked" AbsoluteLayout.LayoutBounds=".7,.5,.2,.2"
+                         AbsoluteLayout.LayoutFlags="All" HorizontalOptions="CenterAndExpand" x:Name="forward"/>
+            <ImageButton BackgroundColor="Transparent" Source="back.png" Clicked="back_Clicked" AbsoluteLayout.LayoutBounds=".01,.02,.1,.2" AbsoluteLayout.LayoutFlags="All"
+                         HorizontalOptions="CenterAndExpand" x:Name="back"/>
+
+            <video:PositionSlider ThumbColor="#E35F06" MinimumTrackColor="#E35F06" VerticalOptions="End" AbsoluteLayout.LayoutBounds=".1,.9,1,.3"
+                                  AbsoluteLayout.LayoutFlags="All"
+                              BindingContext="{x:Reference videoPlayer}"
+                              Duration="{Binding Duration}"           
+                              Position="{Binding Position}">
+                <video:PositionSlider.Triggers>
+                    <DataTrigger TargetType="video:PositionSlider"
+                             Binding="{Binding Status}"
+                             Value="{x:Static video:VideoStatus.NotReady}">
+                        <Setter Property="IsEnabled" Value="False" />
+                    </DataTrigger>
+                </video:PositionSlider.Triggers>
+            </video:PositionSlider>
+        </AbsoluteLayout>
+
+    </ContentPage.Content>
+
+
 </ContentPage>
