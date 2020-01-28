@@ -11,7 +11,8 @@ namespace CrunchyrollPlus
     {
         public HttpClient crunchyClient;
         private string sessionId="";
-        
+        private const string MEDIAPROPSELECTOR = "media.stream_data,media.playhead, media.name,media.media_id,media.description,media.screenshot_image,media.free_available,premium_available,media.episode_number,media.series_id";
+
         private CrunchyrollApi()
         {
             crunchyClient = new HttpClient();
@@ -187,8 +188,7 @@ namespace CrunchyrollPlus
                         JArray data = (JArray)o["data"];
                         QueueEntry[] a = data.Select(i => {
                             JObject mostLike = (JObject)i["most_likely_media"];
-                            //Media mostLikely = new Media(mostLike["media_id"].ToString(), (string)mostLike["name"], (string)mostLike["description"],
-                            //    (string)mostLike["screenshot_image"]["large_url"], (bool)mostLike["free_available"], (bool)mostLike["premium_available"], (int)i["playhead"]);
+                           
                             Media mostLikely = new Media(mostLike);
                             mostLikely.playhead = (int)i["playhead"];
                             JObject s = (JObject)i["series"];
@@ -206,12 +206,12 @@ namespace CrunchyrollPlus
         }
         #endregion
         #region StreamData
-        struct StreamDataResponse
+        public struct StreamDataResponse
         {
-            bool success;
-            string message;
-            string url;
-            int playhead;
+            public bool success;
+            public string message;
+            public string url;
+            public int playhead;
 
             /// <summary>
             /// Unsuccessful response
@@ -239,7 +239,7 @@ namespace CrunchyrollPlus
             
         }
 
-        Task<StreamDataResponse> GetStreamData(string mediaId)
+        public Task<StreamDataResponse> GetStreamData(string mediaId)
         {
             return Task.Run(async () =>
             {
