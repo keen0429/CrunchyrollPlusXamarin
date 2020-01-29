@@ -27,13 +27,53 @@ namespace CrunchyrollPlus
             this.index = index;
             this.medias = medias;
             InitSource();
+            InitSkip();
+        }
+        public Player(string mediaId, int index, string collectionId)
+        {
+            InitializeComponent();
+            this.mediaId = mediaId;
+            this.index = index;
+
+            InitSource();
+            GetMedias(collectionId);
+
+        }
+        private async void GetMedias(string collectionId)
+        {
+            CrunchyrollApi.ListMediaResponse res = await crunchyApi.GetMedias(collectionId);
+            if (res.success)
+            {
+                medias = res.medias;
+                InitSkip();
+            }
+            else
+            {
+
+                
+            }
+        }
+        private void InitSkip()
+        {
+            skip.IsVisible = true;
         }
         async private void InitSource()
         {
+            Console.WriteLine("LOG: SOURCE CALL");
             CrunchyrollApi.StreamDataResponse res = await crunchyApi.GetStreamData(mediaId);
+            Console.WriteLine("LOG: RES DONE");
+            if (res.success)
+            {
+                Console.WriteLine("LOG: SOURCE SUCCESS");
 
-            videoPlayer.Source = FormsVideoLibrary.VideoSource.FromUri(res.url);
-            videoPlayer.Duration.Add(new TimeSpan(0, 0, res.playhead));
+                videoPlayer.Source = VideoSource.FromUri(res.url);
+                videoPlayer.Duration.Add(new TimeSpan(0, 0, res.playhead));
+            }
+            else
+            {
+                Console.WriteLine("LOG: SOURCE ERROR :   " + res.message);
+            }
+            
         }
         protected override void OnAppearing()
         {
@@ -86,6 +126,12 @@ namespace CrunchyrollPlus
 
         async private void back_Clicked(object sender, EventArgs e)
         {
+            await Navigation.PopAsync();
+        }
+
+        private async void skip_Clicked(object sender, EventArgs e)
+        {
+            Navigation.InsertPageBefore(new Player(medias[index + 1].iD, index + 1, medias),this);
             await Navigation.PopAsync();
         }
     }

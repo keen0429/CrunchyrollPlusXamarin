@@ -7,7 +7,6 @@ namespace CrunchyrollPlus
 {
     public struct Media
     {
-        // Need episode count and lenght
         public string seriesId;
         public string iD;
         public string name;
@@ -17,8 +16,9 @@ namespace CrunchyrollPlus
         public bool premiumAvailable;
         public int playhead;
         public string episodeNumber;
+        public string collectionId;
 
-        public Media(string iD, string name, string description, string largeImage, bool freeAvailable, bool premiumAvailable, int playhead, string seriesId, string episodeNumber)
+        public Media(string iD, string name, string description, string largeImage, bool freeAvailable, bool premiumAvailable, int playhead, string seriesId, string episodeNumber, string collectionId)
         {
             
             this.iD = iD;
@@ -30,9 +30,11 @@ namespace CrunchyrollPlus
             this.playhead = playhead;
             this.seriesId = seriesId;
             this.episodeNumber = episodeNumber;
+            this.collectionId = collectionId;
         }
         public Media(JObject o)
         {
+            Console.WriteLine("LOG: MEDIA CONSTRUCTOR REACHED");
             iD = o["media_id"].ToString();
             name = (string)o["name"];
             description = (string)o["description"];
@@ -49,6 +51,7 @@ namespace CrunchyrollPlus
             {
                 playhead = 0;
             }
+            collectionId = (string)o["collection_id"];
 
 
 

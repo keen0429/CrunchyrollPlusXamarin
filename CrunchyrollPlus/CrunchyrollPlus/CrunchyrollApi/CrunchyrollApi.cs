@@ -11,7 +11,7 @@ namespace CrunchyrollPlus
     {
         public HttpClient crunchyClient;
         private string sessionId="";
-        private const string MEDIAPROPSELECTOR = "media.stream_data,media.playhead, media.name,media.media_id,media.description,media.screenshot_image,media.free_available,premium_available,media.episode_number,media.series_id";
+        private const string MEDIAPROPSELECTOR = "media.stream_data,media.playhead, media.name,media.media_id,media.description,media.screenshot_image,media.free_available,premium_available,media.episode_number,media.series_id,media.collection_id";
 
         private CrunchyrollApi()
         {
@@ -174,11 +174,16 @@ namespace CrunchyrollPlus
         {
             return Task.Run(async () =>
             {
-                HttpResponseMessage res = await crunchyClient.PostAsync(GetPath("queue", "&media_types=anime"), null);
+                string url = GetPath("queue", "&media_types=anime&fields=most_likely_media,series");
+                
+                HttpResponseMessage res = await crunchyClient.PostAsync(url, null);
                 if (res.IsSuccessStatusCode)
                 {
+                    
                     string jsonString = await res.Content.ReadAsStringAsync();
                     JObject o = JObject.Parse(jsonString);
+                    
+                    Console.WriteLine("LOG: QUEUE       " + jsonString);
                     if ((bool)o["error"])
                     {
                         return new GetQueueResponse(false, (string)o["message"]);
@@ -187,10 +192,12 @@ namespace CrunchyrollPlus
                     {
                         JArray data = (JArray)o["data"];
                         QueueEntry[] a = data.Select(i => {
+
+
                             JObject mostLike = (JObject)i["most_likely_media"];
-                           
+                            string temp = i.ToString();
+
                             Media mostLikely = new Media(mostLike);
-                            mostLikely.playhead = (int)i["playhead"];
                             JObject s = (JObject)i["series"];
                             Series series = new Series(s);
                             return new QueueEntry(mostLikely, series);
@@ -243,7 +250,8 @@ namespace CrunchyrollPlus
         {
             return Task.Run(async () =>
             {
-                HttpResponseMessage res = await crunchyClient.PostAsync(GetPath("info", $"&media_id={mediaId}&fields=media.stream_data,media.playhead"), null);
+                string url = GetPath("info", $"&media_id={mediaId}&fields=media.stream_data,media.playhead");
+                HttpResponseMessage res = await crunchyClient.PostAsync(url, null);
                 if (res.IsSuccessStatusCode)
                 {
                     string jsonString = await res.Content.ReadAsStringAsync();
@@ -456,7 +464,6 @@ namespace CrunchyrollPlus
         #endregion
         public string GetPath(string req, string data)
         {
-            Debug.WriteLine("LOG: SessionID: " + sessionId);
             return $"/{req}.0.json?session_id={sessionId}{data}";
         }
 

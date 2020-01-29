@@ -17,18 +17,36 @@ namespace CrunchyrollPlus
         CrunchyrollApi crunchy = CrunchyrollApi.GetSingleton();
         Series series;
         bool doubleTap;
-        public MediaView(Media media, bool doubleTap)
+        Media[] medias;
+        string collectionId="";
+        int index;
+
+        public MediaView(Media media, bool doubleTap, string collectionId,int index)
         {
             
             InitializeComponent();
+            this.collectionId = collectionId;
             episodeScreenshot.Source = media.largeImage;
             episodeName.Text = media.name;
             episodeCount.Text ="Episode "+ media.episodeNumber;
             this.media = media;
             this.doubleTap = doubleTap;
+            this.index = index;
             if(doubleTap) InitDoubleTap();
 
 
+        }
+        public MediaView(Media media, bool doubleTap, Media[] medias, int index)
+        {
+            InitializeComponent();
+            this.medias = medias;
+            episodeScreenshot.Source = media.largeImage;
+            episodeName.Text = media.name;
+            episodeCount.Text = "Episode " + media.episodeNumber;
+            this.media = media;
+            this.doubleTap = doubleTap;
+            this.index = index;
+            if (doubleTap) InitDoubleTap();
         }
         private async void InitDoubleTap()
         {
@@ -57,7 +75,9 @@ namespace CrunchyrollPlus
         }
         private async void OnOpenMedia(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new Player());
+            
+            if(collectionId=="") await Navigation.PushAsync(new Player(media.iD, index, medias));
+            else await Navigation.PushAsync(new Player(media.iD,index,collectionId));
         }
     }
 }

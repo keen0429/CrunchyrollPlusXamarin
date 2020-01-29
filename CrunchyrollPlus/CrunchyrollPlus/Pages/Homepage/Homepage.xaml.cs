@@ -19,7 +19,7 @@ namespace CrunchyrollPlus
         CrunchyrollApi crunchyApi = CrunchyrollApi.GetSingleton();
         public Homepage()
         {
-            
+            Console.WriteLine("LOG: Entered homepage");
             InitializeComponent();
             InitQueue();
             
@@ -35,12 +35,11 @@ namespace CrunchyrollPlus
             CrunchyrollApi.GetQueueResponse res = await crunchyApi.GetQueue();
             if (res.success)
             {
-                foreach(CrunchyrollApi.QueueEntry i in res.entry)
+                for(int i = 0; i < res.entry.Length; i++)
                 {
-                    Debug.WriteLine("LOG: ITTERATION");
-
-                    AddMedia(i.mostLikely);
+                    AddMedia(res.entry[i].mostLikely,i);
                 }
+                
             }
             else
             {
@@ -48,16 +47,13 @@ namespace CrunchyrollPlus
             }
         }
 
-        private void AddMedia(Media media)
+        private void AddMedia(Media media, int index)
         {
             
             Debug.WriteLine("LOG: DD");
-            queueMedia.Children.Add(new MediaView(media,true));
+            queueMedia.Children.Add(new MediaView(media,true,media.collectionId,index));
 
         }
-        private void InsertMALWatching()
-        {
-            
-        }
+        
     }
 }

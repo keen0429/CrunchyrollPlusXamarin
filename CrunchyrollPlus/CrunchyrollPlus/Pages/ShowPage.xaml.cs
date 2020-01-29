@@ -82,7 +82,7 @@ namespace CrunchyrollPlus
                 currentMaxMediaShow = max;
                 for(int i = 0; i < max; i++)
                 {
-                    showMedias.Children.Add( new MediaView(res.medias[i],false));
+                    showMedias.Children.Add( new MediaView(res.medias[i],false,res.medias,i));
                 }
                 if (max != res.medias.Length)
                 {
@@ -108,7 +108,7 @@ namespace CrunchyrollPlus
             if (max == medias.Length) container.Children.Remove((Button)sender);
             for(int i = currentMaxMediaShow; i < max; i++)
             {
-                showMedias.Children.Add(new MediaView(medias[i], false));
+                showMedias.Children.Add(new MediaView(medias[i], false,medias,i));
             }
             currentMaxMediaShow = max;
         }
