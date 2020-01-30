@@ -12,36 +12,51 @@
              >
 
     <ContentPage.Content>
+        
         <AbsoluteLayout>
 
-            <video:VideoPlayer x:Name="videoPlayer" AutoPlay="True"  AreTransportControlsEnabled="False"  AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" />
+            <video:VideoPlayer x:Name="videoPlayer" AutoPlay="True"  AreTransportControlsEnabled="False"  AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" >
+                <video:VideoPlayer.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="ShowHide" NumberOfTapsRequired="1"/>
 
-            <Image  Source="pause.png" AbsoluteLayout.LayoutBounds=".5,.5,.14,.14" AbsoluteLayout.LayoutFlags="All" HorizontalOptions="CenterAndExpand" x:Name="playPause"  >
+                </video:VideoPlayer.GestureRecognizers>
+            </video:VideoPlayer>
+
+            
+            <AbsoluteLayout AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" x:Name="mediaControls" IsVisible="True"  >
+                <AbsoluteLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="ShowHide" NumberOfTapsRequired="1"/>
+                </AbsoluteLayout.GestureRecognizers>
+                <Image  Source="pause.png" AbsoluteLayout.LayoutBounds=".5,.5,.14,.14" AbsoluteLayout.LayoutFlags="All" HorizontalOptions="CenterAndExpand" x:Name="playPause"  >
                 <Image.GestureRecognizers>
                     <TapGestureRecognizer Tapped="playPause_Clicked" NumberOfTapsRequired="1"/>
-                </Image.GestureRecognizers></Image>
-            <ImageButton BackgroundColor="Transparent" Source="rewind10.png" AbsoluteLayout.LayoutBounds=".3,.5,.14,.14"
+                </Image.GestureRecognizers>
+                </Image>
+                <ImageButton BackgroundColor="Transparent" Source="rewind10.png" AbsoluteLayout.LayoutBounds=".3,.5,.14,.14"
                          AbsoluteLayout.LayoutFlags="All" HorizontalOptions="CenterAndExpand" x:Name="rewind" Clicked="rewind_Clicked"/>
-            <ImageButton Source="forward10.png" BackgroundColor="Transparent" Clicked="forward_Clicked" AbsoluteLayout.LayoutBounds=".7,.5,.14,.14"
+                <ImageButton Source="forward10.png" BackgroundColor="Transparent" Clicked="forward_Clicked" AbsoluteLayout.LayoutBounds=".7,.5,.14,.14"
                          AbsoluteLayout.LayoutFlags="All" HorizontalOptions="CenterAndExpand" x:Name="forward"/>
-            <ImageButton BackgroundColor="Transparent" Source="back.png" Clicked="back_Clicked" AbsoluteLayout.LayoutBounds=".01,.02,.1,.1" AbsoluteLayout.LayoutFlags="All"
+                <ImageButton BackgroundColor="Transparent" Source="back.png" Clicked="back_Clicked" AbsoluteLayout.LayoutBounds=".01,.02,.1,.1" AbsoluteLayout.LayoutFlags="All"
                          HorizontalOptions="CenterAndExpand" x:Name="back"/>
-            <ImageButton Source="skip.png" x:Name="skip" Clicked="skip_Clicked" BackgroundColor="Transparent" VerticalOptions="End" AbsoluteLayout.LayoutBounds=".95,.96,.07,.07" AbsoluteLayout.LayoutFlags="All"
+                <ImageButton Source="skip.png" x:Name="skip" Clicked="skip_Clicked" BackgroundColor="Transparent" VerticalOptions="End" AbsoluteLayout.LayoutBounds=".95,.96,.07,.07" AbsoluteLayout.LayoutFlags="All"
                          HorizontalOptions="End" IsVisible="False"/>
 
-            <video:PositionSlider ThumbColor="#E35F06" MinimumTrackColor="#E35F06" VerticalOptions="End" AbsoluteLayout.LayoutBounds=".1,.95,.9,.1"
+                <video:PositionSlider ThumbColor="#E35F06" MinimumTrackColor="#E35F06" VerticalOptions="End" AbsoluteLayout.LayoutBounds=".1,.95,.9,.1"
                                   AbsoluteLayout.LayoutFlags="All"
                               BindingContext="{x:Reference videoPlayer}"
                               Duration="{Binding Duration}"           
                               Position="{Binding Position}">
-                <video:PositionSlider.Triggers>
-                    <DataTrigger TargetType="video:PositionSlider"
+                    <video:PositionSlider.Triggers>
+                        <DataTrigger TargetType="video:PositionSlider"
                              Binding="{Binding Status}"
                              Value="{x:Static video:VideoStatus.NotReady}">
-                        <Setter Property="IsEnabled" Value="False" />
-                    </DataTrigger>
-                </video:PositionSlider.Triggers>
-            </video:PositionSlider>
+                            <Setter Property="IsEnabled" Value="False" />
+                        </DataTrigger>
+                    </video:PositionSlider.Triggers>
+                </video:PositionSlider>
+            </AbsoluteLayout>
+            
+
         </AbsoluteLayout>
 
     </ContentPage.Content>

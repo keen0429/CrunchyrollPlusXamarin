@@ -21,8 +21,10 @@ namespace CrunchyrollPlus
         bool nextMedia = false;
         public Player(string mediaId,int index, Media[] medias, bool enterFullScreen)
         {
+            
             nextMedia = !enterFullScreen;
             InitializeComponent();
+            
             this.mediaId = mediaId;
             this.index = index;
             this.medias = medias;
@@ -172,6 +174,11 @@ namespace CrunchyrollPlus
             nextMedia = true;
             Navigation.InsertPageBefore(new Player(medias[index + 1].iD, index + 1, medias,false),this);
             await Navigation.PopAsync();
+        }
+
+        private void ShowHide(object sender, EventArgs e)
+        {
+            mediaControls.IsVisible = !mediaControls.IsVisible;
         }
     }
 }
