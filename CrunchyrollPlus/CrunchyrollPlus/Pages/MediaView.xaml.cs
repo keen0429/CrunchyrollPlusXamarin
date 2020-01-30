@@ -76,8 +76,8 @@ namespace CrunchyrollPlus
         private async void OnOpenMedia(object sender, EventArgs e)
         {
             
-            if(collectionId=="") await Navigation.PushAsync(new Player(media.iD, index, medias));
-            else await Navigation.PushAsync(new Player(media.iD,index,collectionId));
+            if(collectionId=="") await Navigation.PushAsync(new Player(media.iD, index, medias,true));
+            else await Navigation.PushAsync(new Player(media.iD,index,collectionId,true));
         }
     }
 }

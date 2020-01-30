@@ -14,6 +14,7 @@ namespace CrunchyrollPlus.Droid
 {
     public abstract class Global
     {
+        public static int initialFlag;
         static public MainActivity activity;
     }
 }
