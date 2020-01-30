@@ -37,7 +37,7 @@ namespace CrunchyrollPlus
             {
                 for(int i = 0; i < res.entry.Length; i++)
                 {
-                    AddMedia(res.entry[i].mostLikely,i);
+                    AddMedia(res.entry[i].mostLikely,-1);
                 }
                 
             }

@@ -29,6 +29,7 @@ namespace CrunchyrollPlus
             Console.WriteLine("LOG: INDEXXXX :   " + index);
             Console.WriteLine("LOG: EPISODE NUMBER :         " + medias[index].episodeNumber);
             Console.WriteLine("LOG: EPISODE ID :     " + mediaId);
+            Console.WriteLine("LOG: MEDIA LENGTH: " + medias.Length);
             InitSource();
             InitSkip();
         }
@@ -51,6 +52,7 @@ namespace CrunchyrollPlus
             {
                 Console.WriteLine("LOG: MEDIA COUNT = " + res.medias.Length);
                 medias = res.medias;
+                FindIndex();
                 Console.WriteLine("LOG: INDEXXXX :   " + index);
                 Console.WriteLine("LOG: EPISODE NUMBER :         " + medias[index].episodeNumber);
                 Console.WriteLine("LOG: EPISODE ID :     " + mediaId);
@@ -61,6 +63,10 @@ namespace CrunchyrollPlus
 
                 
             }
+        }
+        private void FindIndex()
+        {
+            index = Array.FindIndex<Media>(medias, i => i.iD == mediaId);
         }
         private void InitSkip()
         {

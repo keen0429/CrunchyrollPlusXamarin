@@ -70,8 +70,6 @@ namespace CrunchyrollPlus
         }
         private async void UpdateMedia(int index)
         {
-
-            Debug.WriteLine("LOG: UPDATE MEDIA THREAD");
             CrunchyrollApi.ListMediaResponse res = await crunchyrollApi.GetMedias(collections[index].id);
 
             medias = res.medias;
