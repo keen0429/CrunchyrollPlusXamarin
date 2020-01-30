@@ -26,18 +26,22 @@ namespace CrunchyrollPlus
             this.mediaId = mediaId;
             this.index = index;
             this.medias = medias;
+            Console.WriteLine("LOG: INDEXXXX :   " + index);
+            Console.WriteLine("LOG: EPISODE NUMBER :         " + medias[index].episodeNumber);
+            Console.WriteLine("LOG: EPISODE ID :     " + mediaId);
             InitSource();
             InitSkip();
         }
         public Player(string mediaId, int index, string collectionId, bool enterFullScreen)
         {
+
             nextMedia = !enterFullScreen;
             InitializeComponent();
             this.mediaId = mediaId;
             this.index = index;
-
-            InitSource();
             GetMedias(collectionId);
+            InitSource();
+            
 
         }
         private async void GetMedias(string collectionId)
@@ -45,7 +49,11 @@ namespace CrunchyrollPlus
             CrunchyrollApi.ListMediaResponse res = await crunchyApi.GetMedias(collectionId);
             if (res.success)
             {
+                Console.WriteLine("LOG: MEDIA COUNT = " + res.medias.Length);
                 medias = res.medias;
+                Console.WriteLine("LOG: INDEXXXX :   " + index);
+                Console.WriteLine("LOG: EPISODE NUMBER :         " + medias[index].episodeNumber);
+                Console.WriteLine("LOG: EPISODE ID :     " + mediaId);
                 InitSkip();
             }
             else
@@ -56,10 +64,15 @@ namespace CrunchyrollPlus
         }
         private void InitSkip()
         {
-            skip.IsVisible = true;
+
+            if(index+1<medias.Length) skip.IsVisible = true;
+
         }
         async private void InitSource()
         {
+            
+
+
             Console.WriteLine("LOG: SOURCE CALL");
             CrunchyrollApi.StreamDataResponse res = await crunchyApi.GetStreamData(mediaId);
             Console.WriteLine("LOG: RES DONE");
@@ -86,16 +99,23 @@ namespace CrunchyrollPlus
                 DependencyService.Get<IFullscreenService>().EnterFullscreen();
                 IDeviceOrientationService service = DependencyService.Get<IDeviceOrientationService>();
                 service.ForceLandscape();
-                nextMedia = false;
+                
             }
+            nextMedia = false;
         }
         protected override void OnDisappearing()
         {
             Console.WriteLine("LOG: Dissapearing");
+
             if (!nextMedia)
             {
+                Console.WriteLine("nextMedia false");
                 DependencyService.Get<IFullscreenService>().ExitFullscreen();
                 DependencyService.Get<IDeviceOrientationService>().ForcePortrait();
+            }
+            else
+            {
+                Console.WriteLine("NEXT MEDIA TRU");
             }
             base.OnDisappearing();
             
