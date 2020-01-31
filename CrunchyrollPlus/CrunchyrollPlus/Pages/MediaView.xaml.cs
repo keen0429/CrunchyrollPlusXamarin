@@ -1,4 +1,5 @@
 ﻿using System;
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,33 +22,35 @@ namespace CrunchyrollPlus
         string collectionId="";
         int index;
 
-        public MediaView(Media media, bool doubleTap, string collectionId,int index)
+        public MediaView(Media media, bool doubleTap, string collectionId)
         {
             
             InitializeComponent();
             this.collectionId = collectionId;
-            episodeScreenshot.Source = media.largeImage;
+
+            if (media.freeAvailable) episodeScreenshot.Source = media.largeImage;
+            else episodeScreenshot.Source = media.largeImageStar;
             episodeName.Text = media.name;
             episodeCount.Text ="Episode "+ media.episodeNumber;
             this.media = media;
             this.doubleTap = doubleTap;
-            this.index = index;
             if(doubleTap) InitDoubleTap();
 
 
         }
-        public MediaView(Media media, bool doubleTap, Media[] medias, int index)
+        public MediaView(Media media, bool doubleTap, Media[] medias)
         {
             InitializeComponent();
             this.medias = medias;
-            episodeScreenshot.Source = media.largeImage;
+            if (media.freeAvailable) episodeScreenshot.Source = media.largeImage;
+            else episodeScreenshot.Source = media.largeImageStar;
             episodeName.Text = media.name;
             episodeCount.Text = "Episode " + media.episodeNumber;
             this.media = media;
             this.doubleTap = doubleTap;
-            this.index = index;
             if (doubleTap) InitDoubleTap();
         }
+        
         private async void InitDoubleTap()
         {
             CrunchyrollApi.GetSeriesResponse res = await crunchy.GetSeries(media.seriesId);
@@ -75,7 +78,7 @@ namespace CrunchyrollPlus
         }
         private async void OnOpenMedia(object sender, EventArgs e)
         {
-            
+            if (!media.freeAvailable) return;
             if(collectionId=="") await Navigation.PushAsync(new Player(media.iD, index, medias,true));
             else await Navigation.PushAsync(new Player(media.iD,index,collectionId,true));
         }

@@ -18,7 +18,10 @@ namespace CrunchyrollPlus
         public string episodeNumber;
         public string collectionId;
 
-        public Media(string iD, string name, string description, string largeImage, bool freeAvailable, bool premiumAvailable, int playhead, string seriesId, string episodeNumber, string collectionId)
+        public string largeImageStar;
+
+        public Media(string iD, string name, string description, string largeImage, bool freeAvailable, bool premiumAvailable,
+            int playhead, string seriesId, string episodeNumber, string collectionId, string largeImageStar)
         {
             
             this.iD = iD;
@@ -31,6 +34,7 @@ namespace CrunchyrollPlus
             this.seriesId = seriesId;
             this.episodeNumber = episodeNumber;
             this.collectionId = collectionId;
+            this.largeImageStar = largeImageStar;
         }
         public Media(JObject o)
         {
@@ -52,6 +56,7 @@ namespace CrunchyrollPlus
                 playhead = 0;
             }
             collectionId = (string)o["collection_id"];
+            largeImageStar = (string)o["screenshot_image"]["fwidestar_url"];
 
 
 

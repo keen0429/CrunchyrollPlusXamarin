@@ -19,10 +19,9 @@ namespace CrunchyrollPlus
         int index;
         Media[] medias;
         bool nextMedia = false;
-        public Player(string mediaId,int index, Media[] medias, bool enterFullScreen)
+        public Player(string mediaId,int index, Media[] medias)
         {
             
-            nextMedia = !enterFullScreen;
             InitializeComponent();
             
             this.mediaId = mediaId;
@@ -35,7 +34,7 @@ namespace CrunchyrollPlus
             InitSource();
             InitSkip();
         }
-        public Player(string mediaId, int index, string collectionId, bool enterFullScreen)
+        public Player(string mediaId, int index, string collectionId)
         {
 
             nextMedia = !enterFullScreen;
