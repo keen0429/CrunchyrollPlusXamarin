@@ -17,7 +17,7 @@
     
     <ContentPage Title="Recently watched" />
     <me:Search Title="Search"/>
-    <ContentPage Title="Settings" />
+    <me:Settings Title="Settings"/>
 
 
 </TabbedPage>

@@ -5,6 +5,8 @@ using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Diagnostics;
+using System.Net;
+
 namespace CrunchyrollPlus
 {
     public class CrunchyrollApi
@@ -23,6 +25,7 @@ namespace CrunchyrollPlus
         {
             return singleton;
         }
+
         #region Session
         public struct SessionResponse
         {
@@ -44,8 +47,7 @@ namespace CrunchyrollPlus
         {
             
             return Task.Run(async () => {
-                const string deviceType = "com.crunchyroll.windows.desktop";
-                string url = $"/start_session.0.json?access_token=LNDJgOit5yaRIWN&device_id={Guid.NewGuid()}&device_type={deviceType}";
+                string url = GetSessionUrl();
                 if (Application.Current.Properties.ContainsKey("auth"))
                 {
                     Debug.WriteLine("LOG: ADDED auth");
@@ -462,9 +464,80 @@ namespace CrunchyrollPlus
         }
 
         #endregion
+        #region US Session
+        Task<SessionResponse> GetUsSession(int count=0)
+        {
+            return Task.Run(async () =>
+            {
+                HttpClient getProxy = new HttpClient();
+                getProxy.BaseAddress = new Uri("https://api.getproxylist.com/");
+                HttpResponseMessage res = await getProxy.GetAsync("/proxy?country[]=US&anonymity[]=high%20anonymity&port[]=80");
+                if (res.IsSuccessStatusCode)
+                {
+                    string data = await res.Content.ReadAsStringAsync();
+
+                    string ip = (string)JObject.Parse(data)["ip"];
+                    WebProxy usProxy = new WebProxy($"http://{ip}:80");
+                    HttpClient crunchyProxy = new HttpClient(handler:new HttpClientHandler {Proxy=usProxy });
+                    crunchyProxy.BaseAddress = new Uri("https://api.crunchyroll.com");
+                    HttpResponseMessage resSes = await crunchyProxy.GetAsync(GetSessionUrl());
+                    if (resSes.IsSuccessStatusCode)
+                    {
+                        string resData = await res.Content.ReadAsStringAsync();
+                        Debug.WriteLine("LOG: SESSIONRESPONSE: " + resData + "    END");
+                        JObject o = JObject.Parse(resData);
+                        if ((bool)o["error"])
+                        {
+                            return new SessionResponse(false, false);
+                        }
+                        else
+                        {
+
+                            JObject responseData = (JObject)o["data"];
+                            sessionId = (string)responseData["session_id"];
+                            Debug.WriteLine("LOG: AUTH" + responseData["auth"].Type);
+                            if (responseData["auth"].Type == JTokenType.Null)
+                            {
+                                Debug.WriteLine("LOG: auth null");
+                                return new SessionResponse(true, false);
+                            }
+                            else
+                            {
+                                return new SessionResponse(true, true);
+
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (count == 4)
+                        {
+                            return await StartSession();
+                        }
+                        else
+                        {
+                            return await GetUsSession(count + 1);
+                        }
+                    }
+
+
+                }
+
+
+                return new SessionResponse(false, false);
+
+            });
+        }
+        #endregion
         public string GetPath(string req, string data)
         {
             return $"/{req}.0.json?session_id={sessionId}{data}";
+        }
+        public string GetSessionUrl()
+        {
+            const string deviceType = "com.crunchyroll.windows.desktop";
+
+            return $"/start_session.0.json?access_token=LNDJgOit5yaRIWN&device_id={Guid.NewGuid()}&device_type={deviceType}";
         }
 
         
