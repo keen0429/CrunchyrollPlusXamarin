@@ -15,12 +15,17 @@ namespace CrunchyrollPlus.Droid
 {
     public class FullscreenService : IFullscreenService
     {
-        
+        public FullscreenService()
+        {
+            int uiOptions = (int)Global.activity.Window.DecorView.SystemUiVisibility;
+
+            Global.initialFlag = uiOptions;
+        }
         public void EnterFullscreen()
         {
 
             int uiOptions = (int)Global.activity.Window.DecorView.SystemUiVisibility;
-            Global.initialFlag = uiOptions;
+            
 
            uiOptions |= (int)SystemUiFlags.Fullscreen;
             uiOptions |= (int)SystemUiFlags.Immersive;
@@ -36,6 +41,13 @@ namespace CrunchyrollPlus.Droid
             Global.activity.Window.DecorView.SystemUiVisibility = (StatusBarVisibility)Global.initialFlag;
 
 
+        }
+        public bool IsFullscreen()
+        {
+            int uiOptions = (int)Global.activity.Window.DecorView.SystemUiVisibility;
+
+
+            return uiOptions == 2054;
         }
     }
 }

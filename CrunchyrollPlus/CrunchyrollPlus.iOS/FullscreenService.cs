@@ -22,5 +22,9 @@ namespace CrunchyrollPlus.iOS
             UIApplication.SharedApplication.StatusBarHidden = false;
 
         }
+        public bool IsFullscreen()
+        {
+            return UIApplication.SharedApplication.StatusBarHidden;
+        }
     }
 }

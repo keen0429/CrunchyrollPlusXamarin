@@ -8,5 +8,6 @@ namespace CrunchyrollPlus
     {
         void EnterFullscreen();
         void ExitFullscreen();
+        bool IsFullscreen();
     }
 }

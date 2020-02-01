@@ -19,44 +19,59 @@ namespace CrunchyrollPlus
         int index;
         Media[] medias;
         bool nextMedia = false;
-        public Player(string mediaId,int index, Media[] medias)
+        public Player(string mediaId,int index, Media[] medias,bool enterFullScreen)
         {
+            nextMedia = !enterFullScreen;
             
             InitializeComponent();
-            
-            this.mediaId = mediaId;
-            this.index = index;
+
+            Init(index, mediaId, enterFullScreen);
             this.medias = medias;
-            Console.WriteLine("LOG: INDEXXXX :   " + index);
-            Console.WriteLine("LOG: EPISODE NUMBER :         " + medias[index].episodeNumber);
-            Console.WriteLine("LOG: EPISODE ID :     " + mediaId);
-            Console.WriteLine("LOG: MEDIA LENGTH: " + medias.Length);
             InitSource();
             InitSkip();
         }
-        public Player(string mediaId, int index, string collectionId)
+        public Player(string mediaId, int index, string collectionId, bool enterFullScreen)
         {
 
-            nextMedia = !enterFullScreen;
             InitializeComponent();
-            this.mediaId = mediaId;
-            this.index = index;
+            
             GetMedias(collectionId);
+            Init(index, mediaId, enterFullScreen);
             InitSource();
             
 
+        }
+        public void Init(int index, string mediaId, bool enterFullScreen)
+           
+        {
+            nextMedia = !enterFullScreen;
+            this.mediaId = mediaId;
+            this.index = index;
+            videoPlayer.UpdateStatus += StatusChange;
+
+        }
+        void StatusChange(object sender, EventArgs e)
+        {
+            Console.WriteLine("LOG: STATUS CHANGE");
+            if (videoPlayer.Status.Equals(VideoStatus.NotReady))
+            {
+                loadingSpinner.IsRunning = true;
+            }
+            else
+            {
+                loadingSpinner.IsRunning = false;
+            }
+            
         }
         private async void GetMedias(string collectionId)
         {
             CrunchyrollApi.ListMediaResponse res = await crunchyApi.GetMedias(collectionId);
             if (res.success)
             {
-                Console.WriteLine("LOG: MEDIA COUNT = " + res.medias.Length);
+                
                 medias = res.medias;
                 FindIndex();
-                Console.WriteLine("LOG: INDEXXXX :   " + index);
-                Console.WriteLine("LOG: EPISODE NUMBER :         " + medias[index].episodeNumber);
-                Console.WriteLine("LOG: EPISODE ID :     " + mediaId);
+                
                 InitSkip();
             }
             else
@@ -177,6 +192,12 @@ namespace CrunchyrollPlus
 
         private void ShowHide(object sender, EventArgs e)
         {
+
+            if (!DependencyService.Get<IFullscreenService>().IsFullscreen())
+            {
+                DependencyService.Get<IFullscreenService>().EnterFullscreen();
+            }
+
             mediaControls.IsVisible = !mediaControls.IsVisible;
         }
     }

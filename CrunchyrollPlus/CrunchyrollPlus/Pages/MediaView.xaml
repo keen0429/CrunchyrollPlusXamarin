@@ -16,8 +16,8 @@
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="25*"/>
-                <ColumnDefinition Width="75*"/>
+                <ColumnDefinition Width="35*"/>
+                <ColumnDefinition Width="65*"/>
             </Grid.ColumnDefinitions>
             <Image Source="" x:Name="episodeScreenshot" Grid.Row="0" Grid.Column="0"/>
             <StackLayout Grid.Row="0" Grid.Column="1" >

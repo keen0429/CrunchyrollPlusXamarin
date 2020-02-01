@@ -22,8 +22,9 @@
                 </video:VideoPlayer.GestureRecognizers>
             </video:VideoPlayer>
 
-            
-            <AbsoluteLayout AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" x:Name="mediaControls" IsVisible="True"  >
+            <ActivityIndicator  AbsoluteLayout.LayoutBounds=".5,.5,.14,.14" AbsoluteLayout.LayoutFlags="All" x:Name="loadingSpinner"/>
+
+            <AbsoluteLayout AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" x:Name="mediaControls" IsVisible="False"  >
                 <AbsoluteLayout.GestureRecognizers>
                     <TapGestureRecognizer Tapped="ShowHide" NumberOfTapsRequired="1"/>
                 </AbsoluteLayout.GestureRecognizers>

@@ -24,28 +24,30 @@ namespace CrunchyrollPlus
 
         public MediaView(Media media, bool doubleTap, string collectionId)
         {
-            
+            index = -1;
             InitializeComponent();
             this.collectionId = collectionId;
 
-            if (media.freeAvailable) episodeScreenshot.Source = media.largeImage;
-            else episodeScreenshot.Source = media.largeImageStar;
+            episodeScreenshot.Source = media.largeImage;
+
+            if (!media.freeAvailable) episodeCount.Text = "Premium only:    ";
             episodeName.Text = media.name;
-            episodeCount.Text ="Episode "+ media.episodeNumber;
+            episodeCount.Text +="Episode "+ media.episodeNumber;
             this.media = media;
             this.doubleTap = doubleTap;
             if(doubleTap) InitDoubleTap();
 
-
         }
-        public MediaView(Media media, bool doubleTap, Media[] medias)
+        public MediaView(Media media, bool doubleTap, Media[] medias, int index)
         {
+            this.index = index;
             InitializeComponent();
             this.medias = medias;
-            if (media.freeAvailable) episodeScreenshot.Source = media.largeImage;
-            else episodeScreenshot.Source = media.largeImageStar;
+            episodeScreenshot.Source = media.largeImage;
+            
+            if (!media.freeAvailable) episodeCount.Text = "Premium only:        ";
             episodeName.Text = media.name;
-            episodeCount.Text = "Episode " + media.episodeNumber;
+            episodeCount.Text += "Episode " + media.episodeNumber;
             this.media = media;
             this.doubleTap = doubleTap;
             if (doubleTap) InitDoubleTap();
