@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Diagnostics;
 using System.Net;
+using System.IO;
 
 namespace CrunchyrollPlus
 {
@@ -464,7 +465,7 @@ namespace CrunchyrollPlus
         }
 
         #endregion
-        #region US Session
+        #region US Session Redundency
         Task<SessionResponse> GetUsSession(int count=0)
         {
             return Task.Run(async () =>
@@ -527,6 +528,17 @@ namespace CrunchyrollPlus
                 return new SessionResponse(false, false);
 
             });
+        }
+        #endregion
+
+        #region DownloadVideo           
+
+        public async void DownloadVideo(string mediaId)
+        {
+            // Future implement use vlc lib to record video then save to file system and then load when needed
+
+
+            
         }
         #endregion
         public string GetPath(string req, string data)
