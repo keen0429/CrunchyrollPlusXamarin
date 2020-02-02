@@ -39,6 +39,17 @@ namespace CrunchyrollPlus
         }  
 
 
+        public Task<SessionResponse> StartUsSession()
+        {
+            return Task.Run(() =>
+            {
+                
+                
+                return new SessionResponse();
+
+            });
+        }
+
         /// <summary>
         /// Starts a session with the crunchyroll api
         /// </summary>
@@ -48,12 +59,7 @@ namespace CrunchyrollPlus
             
             return Task.Run(async () => {
                 string url = GetSessionUrl();
-                if (Application.Current.Properties.ContainsKey("auth"))
-                {
-                    Debug.WriteLine("LOG: ADDED auth");
-                    url += "&auth=" + Application.Current.Properties["auth"].ToString();
-
-                }
+                
                 HttpResponseMessage res = await crunchyClient.PostAsync(url, null);
                 Debug.WriteLine("LOG: URL: " + url);
                 if (res.IsSuccessStatusCode)
@@ -464,71 +470,141 @@ namespace CrunchyrollPlus
         }
 
         #endregion
-        #region US Session
-        Task<SessionResponse> GetUsSession(int count=0)
+        #region US Session Redundant
+
+        public Task<SessionResponse> GetUsSessionRedundant(bool trySaved = false,int count=0)
         {
-            return Task.Run(async () =>
-            {
-                HttpClient getProxy = new HttpClient();
-                getProxy.BaseAddress = new Uri("https://api.getproxylist.com/");
-                HttpResponseMessage res = await getProxy.GetAsync("/proxy?country[]=US&anonymity[]=high%20anonymity&port[]=80");
-                if (res.IsSuccessStatusCode)
+
+            return Task.Run(async () => {
+
+                if (trySaved && Application.Current.Properties.ContainsKey("lastWorkingProxy"))
                 {
-                    string data = await res.Content.ReadAsStringAsync();
-
-                    string ip = (string)JObject.Parse(data)["ip"];
-                    WebProxy usProxy = new WebProxy($"http://{ip}:80");
-                    HttpClient crunchyProxy = new HttpClient(handler:new HttpClientHandler {Proxy=usProxy });
-                    crunchyProxy.BaseAddress = new Uri("https://api.crunchyroll.com");
-                    HttpResponseMessage resSes = await crunchyProxy.GetAsync(GetSessionUrl());
-                    if (resSes.IsSuccessStatusCode)
+                    try
                     {
-                        string resData = await res.Content.ReadAsStringAsync();
-                        Debug.WriteLine("LOG: SESSIONRESPONSE: " + resData + "    END");
-                        JObject o = JObject.Parse(resData);
-                        if ((bool)o["error"])
-                        {
-                            return new SessionResponse(false, false);
-                        }
-                        else
-                        {
+                        WebProxy usProxy = new WebProxy($"http://{Application.Current.Properties["lastWorkingProxy"]}:80");
 
-                            JObject responseData = (JObject)o["data"];
-                            sessionId = (string)responseData["session_id"];
-                            Debug.WriteLine("LOG: AUTH" + responseData["auth"].Type);
-                            if (responseData["auth"].Type == JTokenType.Null)
+                        HttpClient crunchyProxy = new HttpClient(handler: new HttpClientHandler { Proxy = usProxy });
+                        crunchyProxy.BaseAddress = new Uri("https://api.crunchyroll.com");
+                        HttpResponseMessage resSes = await crunchyProxy.GetAsync(GetSessionUrl());
+                        if (resSes.IsSuccessStatusCode)
+                        {
+                            string resData = await resSes.Content.ReadAsStringAsync();
+                            JObject o = JObject.Parse(resData);
+                            if ((bool)o["error"])
                             {
-                                Debug.WriteLine("LOG: auth null");
-                                return new SessionResponse(true, false);
+                                 return await GetUsSessionRedundant(trySaved: false);
                             }
                             else
                             {
-                                return new SessionResponse(true, true);
+                                // Check country 
 
+                                JObject responseData = (JObject)o["data"];
+
+                                sessionId = (string)responseData["session_id"];
+                                if (responseData["auth"].Type == JTokenType.Null)
+                                {
+                                    return new SessionResponse(true, false);
+                                }
+                                else
+                                {
+                                    return new SessionResponse(true, true);
+
+                                }
                             }
-                        }
-                    }
-                    else
-                    {
-                        if (count == 4)
-                        {
-                            return await StartSession();
                         }
                         else
                         {
-                            return await GetUsSession(count + 1);
-                        }
-                    }
+                             return await GetUsSessionRedundant(trySaved: false);
 
+                        }
+
+                    }
+                    catch (Exception e)
+                    {
+                        return await GetUsSessionRedundant(trySaved: false);
+                    }
 
                 }
 
+                if (count == 5) return new SessionResponse(false, false);
+
+                try
+                {
+                    HttpClient getProxy = new HttpClient();
+                    getProxy.BaseAddress = new Uri("https://api.getproxylist.com/");
+                    HttpResponseMessage res = await getProxy.GetAsync("/proxy?country[]=US&anonymity[]=high%20anonymity&port[]=80");
+
+                    if (res.IsSuccessStatusCode)
+                    {
+                        string data = await res.Content.ReadAsStringAsync();
+
+                        string ip = (string)JObject.Parse(data)["ip"];
+
+                        WebProxy usProxy = new WebProxy($"http://{ip}:80");
+                        HttpClient crunchyProxy = new HttpClient(handler: new HttpClientHandler { Proxy = usProxy });
+                        crunchyProxy.BaseAddress = new Uri("https://api.crunchyroll.com");
+
+                        HttpResponseMessage resSes = await crunchyProxy.GetAsync(GetSessionUrl());
+
+                        if (resSes.IsSuccessStatusCode)
+                        {
+                            string resData = await res.Content.ReadAsStringAsync();
+                            JObject o = JObject.Parse(resData);
+
+                            if ((bool)o["error"])
+                            {
+                                return await GetUsSessionRedundant(trySaved: false, count = count + 1);
+                            }
+                            else
+                            {
+                                // CHeck country
+                                
+
+                                JObject responseData = (JObject)o["data"];
+                                if(!CheckUsCountryCode(responseData)) return await 
+
+                                Application.Current.Properties["lastWorkingProxy"] = ip;
+                                await Application.Current.SavePropertiesAsync(); //Important if you want to save the data
+                                sessionId = (string)responseData["session_id"];
+
+                                if (responseData["auth"].Type == JTokenType.Null)
+                                {
+                                    Debug.WriteLine("LOG: auth null");
+                                    return new SessionResponse(true, false);
+                                }
+                                else
+                                {
+                                    return new SessionResponse(true, true);
+
+                                }
+                            }
+                        }
+                        else
+                        {
+                            return await GetUsSessionRedundant(trySaved: false, count: count + 1);
+                        }
+
+
+                    }
+                }
+                catch (Exception e)
+                {
+                    return await GetUsSessionRedundant(trySaved: false, count: count + 1);
+                }
 
                 return new SessionResponse(false, false);
 
+
             });
+
+            
         }
         #endregion
+
+        public bool CheckUsCountryCode(JObject data)
+        {
+            return (string)data["country_code"] == "US";
+        }
         public string GetPath(string req, string data)
         {
             return $"/{req}.0.json?session_id={sessionId}{data}";
@@ -536,8 +612,14 @@ namespace CrunchyrollPlus
         public string GetSessionUrl()
         {
             const string deviceType = "com.crunchyroll.windows.desktop";
+            string url = $"/start_session.0.json?access_token=LNDJgOit5yaRIWN&device_id={Guid.NewGuid()}&device_type={deviceType}";
+            if (Application.Current.Properties.ContainsKey("auth"))
+            {
+                Debug.WriteLine("LOG: ADDED auth");
+                url += "&auth=" + Application.Current.Properties["auth"].ToString();
 
-            return $"/start_session.0.json?access_token=LNDJgOit5yaRIWN&device_id={Guid.NewGuid()}&device_type={deviceType}";
+            }
+            return url;
         }
 
         
