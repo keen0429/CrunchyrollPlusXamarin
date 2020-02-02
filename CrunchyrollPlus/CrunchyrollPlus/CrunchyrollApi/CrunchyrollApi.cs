@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Diagnostics;
 using System.Net;
+using System.IO;
 
 namespace CrunchyrollPlus
 {
@@ -601,10 +602,22 @@ namespace CrunchyrollPlus
         }
         #endregion
 
+
         public bool CheckUsCountryCode(JObject data)
         {
             return (string)data["country_code"] == "US";
         }
+
+        #region DownloadVideo           
+
+        public async void DownloadVideo(string mediaId)
+        {
+            // Future implement use vlc lib to record video then save to file system and then load when needed
+
+
+            
+        }
+        #endregion
         public string GetPath(string req, string data)
         {
             return $"/{req}.0.json?session_id={sessionId}{data}";
