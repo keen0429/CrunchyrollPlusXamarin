@@ -499,6 +499,24 @@ namespace CrunchyrollPlus
         }
         #endregion
 
+        #region Remove from queue
+
+        public Task<bool> RemoveFromQueue(string seriesId)
+        {
+            return Task.Run(async () =>
+            {
+                HttpResponseMessage res = await crunchyClient.GetAsync(GetPath("remove_from_queue", "&series_id=" + seriesId));
+                if (res.IsSuccessStatusCode)
+                {
+                    return !(bool)JObject.Parse(await res.Content.ReadAsStringAsync())["error"];
+                }
+               
+
+                return false;
+            });
+        }
+        #endregion
+
 
 
         #region US Session Redundant

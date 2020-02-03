@@ -48,7 +48,14 @@ namespace CrunchyrollPlus
 
         async void AddToQueue(object sender, EventArgs e)
         {
-            await crunchyrollApi.AddToQueue(series.id);
+            if(await crunchyrollApi.AddToQueue(series.id))
+            {
+                addToQueue.Text = "Remove from queue";
+            }
+            else
+            {
+                // Error handeling
+            }
         }
 
 
