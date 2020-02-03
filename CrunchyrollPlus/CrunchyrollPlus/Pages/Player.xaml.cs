@@ -55,7 +55,7 @@ namespace CrunchyrollPlus
             this.mediaId = mediaId;
             this.index = index;
             videoPlayer.UpdateStatus += StatusChange;
-            Device.StartTimer(TimeSpan.FromMilliseconds(600), () => UpdateTime());
+            Device.StartTimer(TimeSpan.FromMilliseconds(600), () => UpdateTime()); // Need to have lower than 1000 ms because it is not in sync with the video 
 
 
 
