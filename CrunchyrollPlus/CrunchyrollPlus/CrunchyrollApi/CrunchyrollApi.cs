@@ -390,11 +390,13 @@ namespace CrunchyrollPlus
         }   
         public Task<ListMediaResponse> GetMedias(string collectionID)
         {
-            return Task.Run(async () => {
+            return Task.Run(async () => 
+            {
                 HttpResponseMessage res = await crunchyClient.PostAsync(GetPath("list_media", $"&limit=1000&collection_id={collectionID}"),null);
                 if (res.IsSuccessStatusCode)
                 {
-                    JObject o = JObject.Parse(await res.Content.ReadAsStringAsync());
+                    string d = await res.Content.ReadAsStringAsync();
+                    JObject o = JObject.Parse(d);
                     if ((bool)o["error"])
                     {
                         return new ListMediaResponse((string)o["message"]);
@@ -498,7 +500,6 @@ namespace CrunchyrollPlus
             });
         }
         #endregion
-
         #region Remove from queue
 
         public Task<bool> RemoveFromQueue(string seriesId)
@@ -515,6 +516,26 @@ namespace CrunchyrollPlus
                 return false;
             });
         }
+        #endregion
+        #region Get duration
+
+        public Task<int> GetDuration(string mediaId)
+        {
+            return Task.Run(async () =>
+            {
+                HttpResponseMessage res = await crunchyClient.GetAsync(GetPath("info", "&fields=media.duration&media_id=" + mediaId));
+                if (res.IsSuccessStatusCode)
+                {
+                    JObject o = JObject.Parse(await res.Content.ReadAsStringAsync());
+                    if ((bool)o["error"])
+                    {
+                        return -1;
+                    }
+                    return (int)o["data"]["duration"];
+                }
+                return -1;
+            });
+        } 
         #endregion
 
 

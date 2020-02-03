@@ -22,6 +22,12 @@ namespace CrunchyrollPlus
         string collectionId="";
         int index;
 
+        /// <summary>
+        /// Used for queue
+        /// </summary>
+        /// <param name="media"></param>
+        /// <param name="doubleTap"></param>
+        /// <param name="collectionId"></param>
         public MediaView(Media media, bool doubleTap, string collectionId)
         {
             index = -1;
@@ -36,8 +42,16 @@ namespace CrunchyrollPlus
             this.media = media;
             this.doubleTap = doubleTap;
             if(doubleTap) InitDoubleTap();
+            GetDuration();
 
         }
+        /// <summary>
+        /// Used for ShowPage
+        /// </summary>
+        /// <param name="media"></param>
+        /// <param name="doubleTap"></param>
+        /// <param name="medias"></param>
+        /// <param name="index"></param>
         public MediaView(Media media, bool doubleTap, Media[] medias, int index)
         {
             this.index = index;
@@ -51,8 +65,19 @@ namespace CrunchyrollPlus
             this.media = media;
             this.doubleTap = doubleTap;
             if (doubleTap) InitDoubleTap();
+
+            InitProgress();
         }
-        
+        async void GetDuration()
+        {
+            media.duration = await crunchy.GetDuration(media.iD);
+            InitProgress();
+        }
+        private void InitProgress()
+        {
+            double progress = (double)media.playhead / (double)media.duration;
+            // progressBar.Progress = progress;
+        }
         private async void InitDoubleTap()
         {
             CrunchyrollApi.GetSeriesResponse res = await crunchy.GetSeries(media.seriesId);
