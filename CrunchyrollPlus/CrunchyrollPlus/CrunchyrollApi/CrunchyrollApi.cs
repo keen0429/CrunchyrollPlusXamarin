@@ -473,7 +473,7 @@ namespace CrunchyrollPlus
                 {
                     string data = await res.Content.ReadAsStringAsync();
                     JObject o = JObject.Parse(data);
-                    return (bool)o["error"];
+                    return !(bool)o["error"];
                     //TODO: Do something if error by reading code don't know what to do tho, if you done anything wrong then that is code fault not user fault, otherwise server
                 }
                 else
@@ -483,6 +483,20 @@ namespace CrunchyrollPlus
             });
         }
 
+        #endregion
+        #region Add to queue
+        public Task<bool> AddToQueue(string seriesId)
+        {
+            return Task.Run(async ()=>{
+                HttpResponseMessage res = await crunchyClient.GetAsync(GetPath("add_to_queue", "&series_id=" + seriesId));
+                if (res.IsSuccessStatusCode)
+                {
+                    JObject o = JObject.Parse(await res.Content.ReadAsStringAsync());
+                    return !(bool)o["error"];
+                }
+                return false;
+            });
+        }
         #endregion
 
 
