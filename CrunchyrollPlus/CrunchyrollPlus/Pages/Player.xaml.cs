@@ -103,7 +103,9 @@ namespace CrunchyrollPlus
                 Console.WriteLine("LOG: SOURCE SUCCESS");
 
                 videoPlayer.Source = VideoSource.FromUri(res.url);
-                videoPlayer.Duration.Add(new TimeSpan(0, 0, res.playhead));
+                videoPlayer.Position = new TimeSpan(0, 0, res.playhead);
+                
+                
             }
             else
             {
@@ -128,6 +130,9 @@ namespace CrunchyrollPlus
         protected override void OnDisappearing()
         {
             Console.WriteLine("LOG: Dissapearing");
+
+            crunchyApi.LogProgess(mediaId, (int)videoPlayer.Position.TotalSeconds);
+
 
             if (!nextMedia)
             {

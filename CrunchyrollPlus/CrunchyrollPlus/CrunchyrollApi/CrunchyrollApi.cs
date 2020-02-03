@@ -40,26 +40,15 @@ namespace CrunchyrollPlus
         }  
 
 
-        public Task<SessionResponse> StartUsSession()
-        {
-            return Task.Run(() =>
-            {
-                
-                
-                return new SessionResponse();
-
-            });
-        }
-
         /// <summary>
         /// Starts a session with the crunchyroll api
         /// </summary>
         /// <returns>If request is successful </returns>
-        public Task<SessionResponse> StartSession()
+        public Task<SessionResponse> StartSession(bool useUs)
         {
             
             return Task.Run(async () => {
-                string url = GetSessionUrl();
+                string url = GetSessionUrl(useUs);
                 
                 HttpResponseMessage res = await crunchyClient.PostAsync(url, null);
                 Debug.WriteLine("LOG: URL: " + url);
@@ -125,6 +114,7 @@ namespace CrunchyrollPlus
                     {
                         JObject data = (JObject)o["data"];
                         JObject user = (JObject)data["user"];
+                        Application.Current.Properties["userId"] = (string)user["user_id"];
                         Application.Current.Properties["auth"] = (string)data["auth"];
                         await Application.Current.SavePropertiesAsync(); //Important if you want to save the data
                         return new LoginResponse(true, "");
@@ -471,12 +461,40 @@ namespace CrunchyrollPlus
         }
 
         #endregion
+        #region Log progress
+
+        public Task<bool> LogProgess(string mediaId, int playhead)
+        {
+            return Task.Run(async () =>
+            {
+                string url = GetPath("log", $"&event=playback_status&media_id={mediaId}&playhead={playhead.ToString()}");
+                HttpResponseMessage res = await crunchyClient.GetAsync(url);
+                if (res.IsSuccessStatusCode)
+                {
+                    string data = await res.Content.ReadAsStringAsync();
+                    JObject o = JObject.Parse(data);
+                    return (bool)o["error"];
+                    //TODO: Do something if error by reading code don't know what to do tho, if you done anything wrong then that is code fault not user fault, otherwise server
+                }
+                else
+                {
+                    return false;
+                }
+            });
+        }
+
+        #endregion
+
+
+
         #region US Session Redundant
 
-        public Task<SessionResponse> GetUsSessionRedundant(bool trySaved = false,int count=0)
+        public Task<SessionResponse> GetUsSessionRedundant(bool trySaved = true,int count=0)
         {
+            // Doesn't currently work but could be used later if the US api is down
 
-            return Task.Run(async () => {
+            return Task.Run(async () =>
+            {
 
                 if (trySaved && Application.Current.Properties.ContainsKey("lastWorkingProxy"))
                 {
@@ -486,7 +504,7 @@ namespace CrunchyrollPlus
 
                         HttpClient crunchyProxy = new HttpClient(handler: new HttpClientHandler { Proxy = usProxy });
                         crunchyProxy.BaseAddress = new Uri("https://api.crunchyroll.com");
-                        HttpResponseMessage resSes = await crunchyProxy.GetAsync(GetSessionUrl());
+                        HttpResponseMessage resSes = await crunchyProxy.GetAsync(GetSessionUrl(false));
                         if (resSes.IsSuccessStatusCode)
                         {
                             string resData = await resSes.Content.ReadAsStringAsync();
@@ -540,12 +558,11 @@ namespace CrunchyrollPlus
                         string data = await res.Content.ReadAsStringAsync();
 
                         string ip = (string)JObject.Parse(data)["ip"];
-
                         WebProxy usProxy = new WebProxy($"http://{ip}:80");
                         HttpClient crunchyProxy = new HttpClient(handler: new HttpClientHandler { Proxy = usProxy });
                         crunchyProxy.BaseAddress = new Uri("https://api.crunchyroll.com");
 
-                        HttpResponseMessage resSes = await crunchyProxy.GetAsync(GetSessionUrl());
+                        HttpResponseMessage resSes = await crunchyProxy.GetAsync(GetSessionUrl(false));
 
                         if (resSes.IsSuccessStatusCode)
                         {
@@ -562,7 +579,7 @@ namespace CrunchyrollPlus
                                 
 
                                 JObject responseData = (JObject)o["data"];
-                                if(!CheckUsCountryCode(responseData)) return await 
+                                if (!CheckUsCountryCode(responseData)) return await GetUsSessionRedundant(trySaved: false, count: count + 1);
 
                                 Application.Current.Properties["lastWorkingProxy"] = ip;
                                 await Application.Current.SavePropertiesAsync(); //Important if you want to save the data
@@ -590,6 +607,7 @@ namespace CrunchyrollPlus
                 }
                 catch (Exception e)
                 {
+                    Console.WriteLine(e.Message);
                     return await GetUsSessionRedundant(trySaved: false, count: count + 1);
                 }
 
@@ -603,14 +621,10 @@ namespace CrunchyrollPlus
         #endregion
 
 
-        public bool CheckUsCountryCode(JObject data)
-        {
-            return (string)data["country_code"] == "US";
-        }
-
+        
         #region DownloadVideo           
 
-        public async void DownloadVideo(string mediaId)
+        private async void DownloadVideo(string mediaId)
         {
             // Future implement use vlc lib to record video then save to file system and then load when needed
 
@@ -618,23 +632,29 @@ namespace CrunchyrollPlus
             
         }
         #endregion
-        public string GetPath(string req, string data)
+        private string GetPath(string req, string data)
         {
             return $"/{req}.0.json?session_id={sessionId}{data}";
         }
-        public string GetSessionUrl()
+        private string GetSessionUrl(bool useUs)
         {
             const string deviceType = "com.crunchyroll.windows.desktop";
             string url = $"/start_session.0.json?access_token=LNDJgOit5yaRIWN&device_id={Guid.NewGuid()}&device_type={deviceType}";
+            if (useUs) url = "https://api1.cr-unblocker.com/getsession.php?version=1.1";
             if (Application.Current.Properties.ContainsKey("auth"))
             {
                 Debug.WriteLine("LOG: ADDED auth");
-                url += "&auth=" + Application.Current.Properties["auth"].ToString();
+                url += "&auth=" + Application.Current.Properties["auth"].ToString()+"&user_id="+Application.Current.Properties["userId"].ToString();
 
             }
             return url;
         }
+        private bool CheckUsCountryCode(JObject data)
+        {
+            return (string)data["country_code"] == "US";
+        }
 
-        
+
+
     }
 }

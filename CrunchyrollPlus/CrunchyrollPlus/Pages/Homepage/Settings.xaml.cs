@@ -15,13 +15,14 @@ namespace CrunchyrollPlus
         public Settings()
         {
             InitializeComponent();
-            usSessionSwitch.IsToggled = (bool)Application.Current.Properties["usSession"];
+            usSessionSwitch.IsToggled = Application.Current.Properties.ContainsKey("useUsSession")&&(bool)Application.Current.Properties["useUsSession"];
 
         }
 
-        private void UsSessionChanged(object sender, ToggledEventArgs e)
+        private async void UsSessionChanged(object sender, ToggledEventArgs e)
         {
-            Application.Current.Properties["usSession"] = usSessionSwitch.IsToggled;
+            Application.Current.Properties["useUsSession"] = usSessionSwitch.IsToggled;
+            await Application.Current.SavePropertiesAsync();
 
         }
     }

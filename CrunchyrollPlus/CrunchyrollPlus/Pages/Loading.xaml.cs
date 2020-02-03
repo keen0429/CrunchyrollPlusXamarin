@@ -17,7 +17,16 @@ namespace CrunchyrollPlus
         }
         public async void StartSession()
         {
-            CrunchyrollApi.SessionResponse sessionResponse = await crunchyrollApi.StartSession();
+            CrunchyrollApi.SessionResponse sessionResponse;
+
+            if (Application.Current.Properties.ContainsKey("useUsSession") && (bool)Application.Current.Properties["useUsSession"])
+            {
+                sessionResponse = await crunchyrollApi.StartSession(true);
+            }
+            else
+            {
+                sessionResponse = await crunchyrollApi.StartSession(false);
+            }
             if(sessionResponse.success)
             {
                 if (sessionResponse.authed)
