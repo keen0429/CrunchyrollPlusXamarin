@@ -12,7 +12,8 @@
             <StackLayout x:Name="container" >
                 <Image x:Name="showThumbnail"  Aspect="AspectFill"   VerticalOptions="FillAndExpand" />
 
-                <Button Text="CONTINUE WATCHING"/>
+                <Button Text="CONTINUE WATCHING" />
+                <Button Text="Add to queue" Clicked="AddToQueue"/>
                 <Label Text="" x:Name="name"/>
                 <Label Text="" x:Name="description"/>
                 <Picker x:Name="selectCollection" SelectedIndexChanged="OnCollectionChange"/>

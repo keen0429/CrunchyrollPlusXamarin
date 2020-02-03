@@ -16,10 +16,12 @@ namespace CrunchyrollPlus
         CrunchyrollApi crunchyrollApi = CrunchyrollApi.GetSingleton();
         Collection[] collections = null;
         private int currentMaxMediaShow =0;
-        private Media[] medias;    
+        private Media[] medias;
+        Series series;
         public ShowPage(Series series)
         {
             InitializeComponent();
+            this.series = series;
             showThumbnail.Source = series.fullImagePortrait;
             showThumbnail.WidthRequest = Application.Current.MainPage.Width;
             showThumbnail.HeightRequest = Application.Current.MainPage.Width * 1.5; // this is the ratio for crunchyroll portrait images
@@ -44,13 +46,9 @@ namespace CrunchyrollPlus
         }
 
 
-        private void GetCollection()
+        async void AddToQueue(object sender, EventArgs e)
         {
-
-        }
-        private void GetMedia()
-        {
-
+            await crunchyrollApi.AddToQueue(series.id);
         }
 
 
