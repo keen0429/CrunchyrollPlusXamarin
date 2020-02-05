@@ -10,9 +10,12 @@
             BarBackgroundColor="#202020">
     <!--Pages can be added as references or inline-->
     <ContentPage Title="Queue">
-        <StackLayout x:Name="queueMedia">
-            
-        </StackLayout>
+        <ScrollView >
+            <StackLayout x:Name="queueMedia">
+
+            </StackLayout>
+        </ScrollView>
+
     </ContentPage>
     
     <ContentPage Title="Recently watched" />

@@ -58,7 +58,7 @@ namespace CrunchyrollPlus
             this.index = index;
             InitializeComponent();
             this.medias = medias;
-            episodeScreenshot.Source = media.largeImage;
+            
             
             if (!media.freeAvailable) episodeCount.Text = "Premium only:        ";
             episodeName.Text = media.name;
@@ -76,6 +76,8 @@ namespace CrunchyrollPlus
             int seconds = media.duration % 60;
             int minutes = (media.duration - seconds) / 60;
             episodeLength.Text = $"{minutes.ToString()}:{minutes.ToString()}";
+            episodeScreenshot.Source = media.largeImage;
+            
         }
 
         async void GetDuration()
