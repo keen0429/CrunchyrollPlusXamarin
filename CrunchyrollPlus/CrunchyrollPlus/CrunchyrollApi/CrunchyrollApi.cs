@@ -15,7 +15,7 @@ namespace CrunchyrollPlus
         public HttpClient crunchyClient;
         private string sessionId="";
         private const string MEDIAPROPSELECTOR = "media.stream_data,media.playhead, media.name,media.media_id,media.description,media.screenshot_image,media.free_available,premium_available,media.episode_number,media.series_id,media.collection_id";
-
+        public QueueEntry[] queue;
         private CrunchyrollApi()
         {
             crunchyClient = new HttpClient();
@@ -202,6 +202,7 @@ namespace CrunchyrollPlus
                             Series series = new Series(s);
                             return new QueueEntry(mostLikely, series);
                         }).ToArray();
+                        queue = a;
                         return new GetQueueResponse(a);
                     }
 

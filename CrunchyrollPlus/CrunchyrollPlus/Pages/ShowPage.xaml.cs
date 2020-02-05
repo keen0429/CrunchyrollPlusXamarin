@@ -52,23 +52,17 @@ namespace CrunchyrollPlus
 
         private async void InitQueueButton()
         {
-            CrunchyrollApi.GetQueueResponse res = await crunchyrollApi.GetQueue();
-
-            if (res.success)
+            foreach (CrunchyrollApi.QueueEntry i in crunchyrollApi.queue)
             {
-                foreach(CrunchyrollApi.QueueEntry i in res.entry)
+                if (i.series.id == series.id)
                 {
-                    if (i.series.id == series.id)
-                    {
-                        inQueue =  true;
-                        break;
-                    }
-                    
+                    inQueue = true;
+                    break;
                 }
-                if (inQueue) queueToggle.Text = "Remove from queue";
-                queueToggle.IsVisible = true;
 
             }
+            if (inQueue) queueToggle.Text = "Remove from queue";
+            queueToggle.IsVisible = true;
         }
         
         async void ToggleQueue(object sender, EventArgs e)

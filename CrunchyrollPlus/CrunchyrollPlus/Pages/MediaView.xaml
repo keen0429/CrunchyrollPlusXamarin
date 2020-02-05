@@ -27,7 +27,7 @@
                 <Label x:Name="episodeLength" HorizontalOptions="StartAndExpand" Text="24:32 IMPLEMENT" Style="{StaticResource subtleText}" />
                 
             </StackLayout>
-            <ProgressBar Progress="0" Grid.Column="0" Margin="0,-6,0,-6"  Grid.Row="1" VerticalOptions="Start"  ProgressColor="{StaticResource crunchyrAccentColor}"  x:Name="progressBar"/>
+            <ProgressBar Progress="0" Grid.Column="0" Margin="0,-6,0,-6"  Grid.Row="1" VerticalOptions="Start"  ProgressColor="{StaticResource crunchyAccentColor}"  x:Name="progressBar"/>
         </Grid>
     </ContentView.Content>
 </ContentView>
