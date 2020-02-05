@@ -43,6 +43,7 @@ namespace CrunchyrollPlus
             this.doubleTap = doubleTap;
             if(doubleTap) InitDoubleTap();
             GetDuration();
+            Init();
 
         }
         /// <summary>
@@ -67,7 +68,16 @@ namespace CrunchyrollPlus
             if (doubleTap) InitDoubleTap();
 
             InitProgress();
+            Init();
         }
+
+        private void Init()
+        {
+            int seconds = media.duration % 60;
+            int minutes = (media.duration - seconds) / 60;
+            episodeLength.Text = $"{minutes.ToString()}:{minutes.ToString()}";
+        }
+
         async void GetDuration()
         {
             media.duration = await crunchy.GetDuration(media.iD);
@@ -76,7 +86,7 @@ namespace CrunchyrollPlus
         private void InitProgress()
         {
             double progress = (double)media.playhead / (double)media.duration;
-            // progressBar.Progress = progress;
+            progressBar.Progress = progress;
         }
         private async void InitDoubleTap()
         {

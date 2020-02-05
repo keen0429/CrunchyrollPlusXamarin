@@ -173,7 +173,8 @@ namespace CrunchyrollPlus
         {
             return Task.Run(async () =>
             {
-                string url = GetPath("queue", "&media_types=anime&fields=most_likely_media,series");
+                const string FIELDS = "&fields=most_likely_media, series,media.playhead, media.name,media.media_id,media.description,media.screenshot_image,media.free_available,media.premium_available,media.episode_number,media.series_id,media.duration";
+                string url = GetPath("queue", "&media_types=anime"+FIELDS);
                 
                 HttpResponseMessage res = await crunchyClient.PostAsync(url, null);
                 if (res.IsSuccessStatusCode)
@@ -392,7 +393,8 @@ namespace CrunchyrollPlus
         {
             return Task.Run(async () => 
             {
-                HttpResponseMessage res = await crunchyClient.PostAsync(GetPath("list_media", $"&limit=1000&collection_id={collectionID}"),null);
+                const string FIELDS = "&fields=media, meida.series_id,media.media_id,media.name,media.description,media.screenshot_image,media.free_available,media.premium_available,media.episode_number,media.collection_id,media.duration,media.series_id,media.playhead";
+                HttpResponseMessage res = await crunchyClient.PostAsync(GetPath("list_media", $"&limit=1000&collection_id={collectionID}"+FIELDS),null);
                 if (res.IsSuccessStatusCode)
                 {
                     string d = await res.Content.ReadAsStringAsync();
