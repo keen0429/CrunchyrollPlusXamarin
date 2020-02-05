@@ -18,6 +18,8 @@ namespace CrunchyrollPlus
         private int currentMaxMediaShow =0;
         private Media[] medias;
         Series series;
+
+        bool isInQueue = false;
         public ShowPage(Series series)
         {
             InitializeComponent();
@@ -28,6 +30,8 @@ namespace CrunchyrollPlus
             description.Text = series.description;
             name.Text = series.name;
             showThumbnail.Source = series.fullImagePortrait;
+
+
             Init(series);
 
         }
