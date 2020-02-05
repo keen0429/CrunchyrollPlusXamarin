@@ -22,9 +22,9 @@
             </Grid.ColumnDefinitions>
             <Image Source="" x:Name="episodeScreenshot" HorizontalOptions="FillAndExpand" Grid.Row="0" Grid.Column="0" Margin="0" />
             <StackLayout Grid.Row="0" Grid.Column="1" >
-                <Label x:Name="episodeCount" HorizontalOptions="StartAndExpand" Text="" />
+                <Label x:Name="episodeCount" HorizontalOptions="StartAndExpand" Text="" Style="{StaticResource subtleText}" />
                 <Label x:Name="episodeName" HorizontalOptions="StartAndExpand" Text=""  />
-                <Label x:Name="episodeLength" HorizontalOptions="StartAndExpand" Text="24:32 IMPLEMENT"  />
+                <Label x:Name="episodeLength" HorizontalOptions="StartAndExpand" Text="24:32 IMPLEMENT" Style="{StaticResource subtleText}" />
                 
             </StackLayout>
             <ProgressBar Progress="0" Grid.Column="0" Margin="0,-6,0,-6"  Grid.Row="1" VerticalOptions="Start"  ProgressColor="{StaticResource crunchyrAccentColor}"  x:Name="progressBar"/>

@@ -14,7 +14,10 @@
             <Style TargetType="Label">
                 <Setter Property="TextColor" Value="#E8E8E8"/>
             </Style>
-            <Color x:Key="crunchyrAccentColor">#E35F06</Color>
+            <Style TargetType="Label" x:Key="subtleText">
+                <Setter Property="TextColor" Value="#707070"/>
+            </Style>
+            <Color x:Key="crunchyrAccentColor">#929292</Color>
 
 
         </ResourceDictionary>
