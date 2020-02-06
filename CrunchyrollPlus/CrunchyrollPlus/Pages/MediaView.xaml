@@ -6,8 +6,8 @@
              mc:Ignorable="d"
              x:Class="CrunchyrollPlus.MediaView">
     <ContentView.Content>
-        
-        <Grid RowSpacing="0">
+
+        <Grid RowSpacing="0" BackgroundColor="#131313" Padding="8" Margin="3">
             <Grid.GestureRecognizers>
                 <TapGestureRecognizer Tapped="OnOpenShow" NumberOfTapsRequired="2"/>
                 <TapGestureRecognizer Tapped="OnOpenMedia" NumberOfTapsRequired="1"/>
