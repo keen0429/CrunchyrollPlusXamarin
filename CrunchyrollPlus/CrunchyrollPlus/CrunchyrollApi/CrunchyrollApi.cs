@@ -15,7 +15,7 @@ namespace CrunchyrollPlus
         public HttpClient crunchyClient;
         private string sessionId="";
         private const string MEDIAPROPSELECTOR = "media.stream_data,media.playhead, media.name,media.media_id,media.description,media.screenshot_image,media.free_available,premium_available,media.episode_number,media.series_id,media.collection_id";
-
+        public QueueEntry[] queue;
         private CrunchyrollApi()
         {
             crunchyClient = new HttpClient();
@@ -173,7 +173,8 @@ namespace CrunchyrollPlus
         {
             return Task.Run(async () =>
             {
-                string url = GetPath("queue", "&media_types=anime&fields=most_likely_media,series");
+                const string FIELDS = "&fields=most_likely_media, series,media.playhead, media.name,media.media_id,media.description,media.screenshot_image,media.free_available,media.premium_available,media.episode_number,media.series_id,media.duration";
+                string url = GetPath("queue", "&media_types=anime"+FIELDS);
                 
                 HttpResponseMessage res = await crunchyClient.PostAsync(url, null);
                 if (res.IsSuccessStatusCode)
@@ -201,6 +202,7 @@ namespace CrunchyrollPlus
                             Series series = new Series(s);
                             return new QueueEntry(mostLikely, series);
                         }).ToArray();
+                        queue = a;
                         return new GetQueueResponse(a);
                     }
 
@@ -390,11 +392,14 @@ namespace CrunchyrollPlus
         }   
         public Task<ListMediaResponse> GetMedias(string collectionID)
         {
-            return Task.Run(async () => {
-                HttpResponseMessage res = await crunchyClient.PostAsync(GetPath("list_media", $"&limit=1000&collection_id={collectionID}"),null);
+            return Task.Run(async () => 
+            {
+                const string FIELDS = "&fields=media, meida.series_id,media.media_id,media.name,media.description,media.screenshot_image,media.free_available,media.premium_available,media.episode_number,media.collection_id,media.duration,media.series_id,media.playhead";
+                HttpResponseMessage res = await crunchyClient.PostAsync(GetPath("list_media", $"&limit=1000&collection_id={collectionID}"+FIELDS),null);
                 if (res.IsSuccessStatusCode)
                 {
-                    JObject o = JObject.Parse(await res.Content.ReadAsStringAsync());
+                    string d = await res.Content.ReadAsStringAsync();
+                    JObject o = JObject.Parse(d);
                     if ((bool)o["error"])
                     {
                         return new ListMediaResponse((string)o["message"]);
@@ -498,7 +503,6 @@ namespace CrunchyrollPlus
             });
         }
         #endregion
-
         #region Remove from queue
 
         public Task<bool> RemoveFromQueue(string seriesId)
@@ -515,6 +519,26 @@ namespace CrunchyrollPlus
                 return false;
             });
         }
+        #endregion
+        #region Get duration
+
+        public Task<int> GetDuration(string mediaId)
+        {
+            return Task.Run(async () =>
+            {
+                HttpResponseMessage res = await crunchyClient.GetAsync(GetPath("info", "&fields=media.duration&media_id=" + mediaId));
+                if (res.IsSuccessStatusCode)
+                {
+                    JObject o = JObject.Parse(await res.Content.ReadAsStringAsync());
+                    if ((bool)o["error"])
+                    {
+                        return -1;
+                    }
+                    return (int)o["data"]["duration"];
+                }
+                return -1;
+            });
+        } 
         #endregion
 
 

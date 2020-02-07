@@ -21,8 +21,15 @@ namespace CrunchyrollPlus
         {
             Console.WriteLine("LOG: Entered homepage");
             InitializeComponent();
-            InitQueue();
+            // InitQueue();
             
+        }
+
+        protected override void OnAppearing()
+        {
+            
+            InitQueue();
+            Console.WriteLine("LOG: QUEUE APPEARING ");
         }
         protected override bool OnBackButtonPressed()
         {
@@ -30,9 +37,9 @@ namespace CrunchyrollPlus
         }
         private async void InitQueue()
         {
-            Debug.WriteLine("LOG: INIT QUEUE");
-
+            
             CrunchyrollApi.GetQueueResponse res = await crunchyApi.GetQueue();
+            queueMedia.Children.Clear();
             if (res.success)
             {
                 for(int i = 0; i < res.entry.Length; i++)
@@ -50,7 +57,6 @@ namespace CrunchyrollPlus
         private void AddMedia(Media media, int index)
         {
             
-            Debug.WriteLine("LOG: DD");
             queueMedia.Children.Add(new MediaView(media,true,media.collectionId));
 
         }

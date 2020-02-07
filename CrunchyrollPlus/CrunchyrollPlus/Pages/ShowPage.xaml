@@ -13,7 +13,7 @@
                 <Image x:Name="showThumbnail"  Aspect="AspectFill"   VerticalOptions="FillAndExpand" />
 
                 <Button Text="CONTINUE WATCHING" />
-                <Button Text="Add to queue" Clicked="AddToQueue" x:Name="addToQueue"/>
+                <Button Text="Add to queue" Clicked="ToggleQueue" x:Name="queueToggle" IsVisible="False"/>
                 <Label Text="" x:Name="name"/>
                 <Label Text="" x:Name="description"/>
                 <Picker x:Name="selectCollection" SelectedIndexChanged="OnCollectionChange"/>

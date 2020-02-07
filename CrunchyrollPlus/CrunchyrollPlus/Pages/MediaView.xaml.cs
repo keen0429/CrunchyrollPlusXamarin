@@ -22,6 +22,12 @@ namespace CrunchyrollPlus
         string collectionId="";
         int index;
 
+        /// <summary>
+        /// Used for queue
+        /// </summary>
+        /// <param name="media"></param>
+        /// <param name="doubleTap"></param>
+        /// <param name="collectionId"></param>
         public MediaView(Media media, bool doubleTap, string collectionId)
         {
             index = -1;
@@ -36,14 +42,23 @@ namespace CrunchyrollPlus
             this.media = media;
             this.doubleTap = doubleTap;
             if(doubleTap) InitDoubleTap();
+            GetDuration();
+            Init();
 
         }
+        /// <summary>
+        /// Used for ShowPage
+        /// </summary>
+        /// <param name="media"></param>
+        /// <param name="doubleTap"></param>
+        /// <param name="medias"></param>
+        /// <param name="index"></param>
         public MediaView(Media media, bool doubleTap, Media[] medias, int index)
         {
             this.index = index;
             InitializeComponent();
             this.medias = medias;
-            episodeScreenshot.Source = media.largeImage;
+            
             
             if (!media.freeAvailable) episodeCount.Text = "Premium only:        ";
             episodeName.Text = media.name;
@@ -51,8 +66,30 @@ namespace CrunchyrollPlus
             this.media = media;
             this.doubleTap = doubleTap;
             if (doubleTap) InitDoubleTap();
+
+            InitProgress();
+            Init();
         }
-        
+
+        private void Init()
+        {
+            int seconds = media.duration % 60;
+            int minutes = (media.duration - seconds) / 60;
+            episodeLength.Text = $"{minutes.ToString()}:{minutes.ToString()}";
+            episodeScreenshot.Source = media.largeImage;
+            
+        }
+
+        async void GetDuration()
+        {
+            media.duration = await crunchy.GetDuration(media.iD);
+            InitProgress();
+        }
+        private void InitProgress()
+        {
+            double progress = (double)media.playhead / (double)media.duration;
+            progressBar.Progress = progress;
+        }
         private async void InitDoubleTap()
         {
             CrunchyrollApi.GetSeriesResponse res = await crunchy.GetSeries(media.seriesId);

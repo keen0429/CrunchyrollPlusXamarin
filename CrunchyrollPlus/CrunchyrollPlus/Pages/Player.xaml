@@ -42,10 +42,10 @@
                 <ImageButton Source="skip.png" x:Name="skip" Clicked="skip_Clicked" BackgroundColor="Transparent" VerticalOptions="End" AbsoluteLayout.LayoutBounds=".95,.96,.07,.07" AbsoluteLayout.LayoutFlags="All"
                          HorizontalOptions="End" IsVisible="False"/>
 
-                <Label BindingContext="{x:Reference videoPlayer}" Text="{Binding Position}" 
-                       AbsoluteLayout.LayoutBounds=".8,.95,.1,.1" AbsoluteLayout.LayoutFlags="All"/>
+                <Label x:Name="timePosition" 
+                       AbsoluteLayout.LayoutBounds=".9,.95,.1,.1" AbsoluteLayout.LayoutFlags="All"/>
                 <video:PositionSlider ThumbColor="#E35F06" MinimumTrackColor="#E35F06" 
-                                      VerticalOptions="End" AbsoluteLayout.LayoutBounds=".1,.95,.8,.1"
+                                      VerticalOptions="End" AbsoluteLayout.LayoutBounds=".1,.95,.9,.1"
                                   AbsoluteLayout.LayoutFlags="All"
                               BindingContext="{x:Reference videoPlayer}"
                               Duration="{Binding Duration}"           

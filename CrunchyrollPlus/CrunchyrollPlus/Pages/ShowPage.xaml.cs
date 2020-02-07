@@ -19,7 +19,8 @@ namespace CrunchyrollPlus
         private Media[] medias;
         Series series;
 
-        bool isInQueue = false;
+        bool inQueue = false;
+
         public ShowPage(Series series)
         {
             InitializeComponent();
@@ -37,9 +38,12 @@ namespace CrunchyrollPlus
         }
         private async void Init(Series series)
         {
+            InitQueueButton();
             CrunchyrollApi.GetCollectionsResponse res = await crunchyrollApi.GetCollections(series.id);
             if (res.success)
             {
+                
+                
                 collections = res.collections;
                 PopulatePicker(res.collections);
             }
@@ -49,17 +53,48 @@ namespace CrunchyrollPlus
             }
         }
 
-
-        async void AddToQueue(object sender, EventArgs e)
+        private async void InitQueueButton()
         {
-            if(await crunchyrollApi.AddToQueue(series.id))
+            foreach (CrunchyrollApi.QueueEntry i in crunchyrollApi.queue)
             {
-                addToQueue.Text = "Remove from queue";
+                if (i.series.id == series.id)
+                {
+                    inQueue = true;
+                    break;
+                }
+
+            }
+            if (inQueue) queueToggle.Text = "Remove from queue";
+            queueToggle.IsVisible = true;
+        }
+        
+        async void ToggleQueue(object sender, EventArgs e)
+        {
+            if (inQueue)
+            {
+                if (await crunchyrollApi.RemoveFromQueue(series.id))
+                {
+                    queueToggle.Text = "Add to queue";
+                    inQueue = false;
+                }
+                else
+                {
+                    // Error handeling
+                }
             }
             else
             {
-                // Error handeling
+                if (await crunchyrollApi.AddToQueue(series.id))
+                {
+                    queueToggle.Text = "Remove from queue";
+                    inQueue = true;
+                }
+                else
+                {
+                    // Error handeling
+                }
             }
+            
         }
 
 

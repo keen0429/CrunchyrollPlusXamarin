@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -19,6 +20,8 @@ namespace CrunchyrollPlus
         int index;
         Media[] medias;
         bool nextMedia = false;
+
+        Timer a;
         public Player(string mediaId,int index, Media[] medias,bool enterFullScreen)
         {
             nextMedia = !enterFullScreen;
@@ -41,25 +44,43 @@ namespace CrunchyrollPlus
             
 
         }
+
+        
         public void Init(int index, string mediaId, bool enterFullScreen)
            
         {
+            
+
             nextMedia = !enterFullScreen;
             this.mediaId = mediaId;
             this.index = index;
             videoPlayer.UpdateStatus += StatusChange;
+            Device.StartTimer(TimeSpan.FromMilliseconds(600), () => UpdateTime()); // Need to have lower than 1000 ms because it is not in sync with the video 
+
+
 
         }
+
+        bool UpdateTime()
+        {
+           
+            timePosition.Text = $"{videoPlayer.Position.Minutes.ToString()}:{videoPlayer.Position.Seconds.ToString()}/{videoPlayer.Duration.Minutes}:{videoPlayer.Duration.Seconds}";
+            return true;
+        }
+        
         void StatusChange(object sender, EventArgs e)
         {
-            Console.WriteLine("LOG: STATUS CHANGE");
-            if (videoPlayer.Status.Equals(VideoStatus.NotReady))
+
+            if (!loadingSpinner.IsRunning) return;
+
+            if (!videoPlayer.Status.Equals(VideoStatus.NotReady))
             {
-                loadingSpinner.IsRunning = true;
-            }
-            else
-            {
+                
+
                 loadingSpinner.IsRunning = false;
+                
+                
+
             }
             
         }

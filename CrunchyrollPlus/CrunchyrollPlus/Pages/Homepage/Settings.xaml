@@ -6,22 +6,29 @@
              mc:Ignorable="d"
              x:Class="CrunchyrollPlus.Settings">
     <ContentPage.Content>
-        <ScrollView>
-            <Grid Margin="15">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="30*"/>
-                    <ColumnDefinition Width="70*"/>
-                </Grid.ColumnDefinitions>
-                <Label Grid.Row="0" Grid.Column="0" Text="Use US session"/>
-                <Switch Grid.Column="1" Grid.Row="0" Toggled="UsSessionChanged" x:Name="usSessionSwitch"/>
-                
+        <AbsoluteLayout>
+            <ScrollView>
+                <Grid Margin="15">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50*"/>
+                        <ColumnDefinition Width="50*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Text="Use US session"/>
+                    <Switch Grid.Column="1" Grid.Row="0" Toggled="UsSessionChanged" x:Name="usSessionSwitch"/>
+                    <Label Grid.Row="1" Grid.Column="0" Text="Default episode load count"/>
+                    <Entry Keyboard="Numeric" Grid.Row="1" Grid.Column="1"/>
+                    
 
-            </Grid>
-        </ScrollView>
+
+                </Grid>
+            </ScrollView>
+            <Button AbsoluteLayout.LayoutBounds=".5,.96,.4,.1" AbsoluteLayout.LayoutFlags="All" Text="Log Out"/>
+        </AbsoluteLayout>
+        
         
     </ContentPage.Content>
 </ContentPage>
