@@ -19,10 +19,12 @@ namespace CrunchyrollPlus
         CrunchyrollApi crunchyApi = CrunchyrollApi.GetSingleton();
         public Homepage()
         {
+            
             Console.WriteLine("LOG: Entered homepage");
             InitializeComponent();
+            DependencyService.Get<IToastService>().ShowToastLong("Homepage");
             // InitQueue();
-            
+
         }
 
         protected override void OnAppearing()
