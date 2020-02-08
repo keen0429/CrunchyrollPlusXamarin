@@ -49,5 +49,9 @@ namespace CrunchyrollPlus
             //TODO: Popup with information about what you miss
             Navigation.PushAsync(new Homepage());
         }
+        void Register(object sender, EventArgs e)
+        {
+            Device.OpenUri(new Uri("https://www.crunchyroll.com/login"));
+        }
     }
 }
