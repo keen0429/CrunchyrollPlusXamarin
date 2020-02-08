@@ -9,14 +9,6 @@
             NavigationPage.HasNavigationBar="False"
             BarBackgroundColor="#202020">
     <!--Pages can be added as references or inline-->
-    <ContentPage Title="Queue">
-        <ScrollView >
-            <StackLayout x:Name="queueMedia">
-
-            </StackLayout>
-        </ScrollView>
-
-    </ContentPage>
     
     <ContentPage Title="Recently watched" />
     <me:Search Title="Search"/>

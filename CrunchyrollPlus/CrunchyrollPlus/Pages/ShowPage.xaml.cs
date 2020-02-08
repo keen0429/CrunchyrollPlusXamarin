@@ -35,7 +35,7 @@ namespace CrunchyrollPlus
         }
         private async void Init(Series series)
         {
-            InitQueueButton();
+            if(User.signedIn) InitQueueButton();
             CrunchyrollApi.GetCollectionsResponse res = await crunchyrollApi.GetCollections(series.id);
             if (res.success)
             {
@@ -50,7 +50,7 @@ namespace CrunchyrollPlus
             }
         }
 
-        private async void InitQueueButton()
+        private void InitQueueButton()
         {
             foreach (CrunchyrollApi.QueueEntry i in crunchyrollApi.queue)
             {
@@ -130,11 +130,6 @@ namespace CrunchyrollPlus
                     button.Clicked += ExtendMedia;
                     container.Children.Add(button);
                 }
-
-
-
-
-
             }
             else
             {

@@ -153,7 +153,8 @@ namespace CrunchyrollPlus
         {
             Console.WriteLine("LOG: Dissapearing");
 
-            crunchyApi.LogProgess(mediaId, (int)videoPlayer.Position.TotalSeconds);
+            if(User.signedIn) crunchyApi.LogProgess(mediaId, (int)videoPlayer.Position.TotalSeconds);
+
 
 
             if (!nextMedia)

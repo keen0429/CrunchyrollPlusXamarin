@@ -4,12 +4,13 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="CrunchyrollPlus.Queue">
+             x:Class="CrunchyrollPlus.Queue"
+             Title="Queue">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <ScrollView >
+            <StackLayout x:Name="queueMedia">
+
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

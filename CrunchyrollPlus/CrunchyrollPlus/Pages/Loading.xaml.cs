@@ -33,8 +33,10 @@ namespace CrunchyrollPlus
             }
             if(sessionResponse.success)
             {
+                
                 if (sessionResponse.authed)
                 {
+                    User.signedIn = true;
                     await Navigation.PushAsync(new Homepage());
                 }
                 else

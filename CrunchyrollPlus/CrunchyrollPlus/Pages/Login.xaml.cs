@@ -34,6 +34,7 @@ namespace CrunchyrollPlus
             CrunchyrollApi.LoginResponse res = await crunchyApi.Login(username, password, staySignedIn.IsChecked);
             if (res.success)
             {
+                User.signedIn = true;
                 await Navigation.PushAsync(new Homepage());
             }
             else
@@ -42,6 +43,11 @@ namespace CrunchyrollPlus
 
             }
 
+        }
+        void ContinueWithoutCrunchyrollAccount(object sender, EventArgs e)
+        {
+            //TODO: Popup with information about what you miss
+            Navigation.PushAsync(new Homepage());
         }
     }
 }
