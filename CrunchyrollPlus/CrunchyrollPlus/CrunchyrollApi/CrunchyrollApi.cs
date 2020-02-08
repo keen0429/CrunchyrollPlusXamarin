@@ -704,7 +704,12 @@ namespace CrunchyrollPlus
             if (Application.Current.Properties.ContainsKey("auth"))
             {
                 Debug.WriteLine("LOG: ADDED auth");
-                url += "&auth=" + Application.Current.Properties["auth"].ToString()+"&user_id="+Application.Current.Properties["userId"].ToString();
+                string auth = (string)Application.Current.Properties["auth"];
+                if (auth != null)
+                {
+                    url += "&auth=" + auth + "&user_id=" + Application.Current.Properties["userId"].ToString();
+
+                }
 
             }
             return url;

@@ -13,6 +13,10 @@ namespace CrunchyrollPlus
         public Loading()
         {
             InitializeComponent();
+        }
+
+        protected override void OnAppearing()
+        {
             StartSession();
         }
         public async void StartSession()

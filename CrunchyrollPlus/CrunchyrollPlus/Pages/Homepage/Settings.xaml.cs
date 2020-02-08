@@ -25,5 +25,13 @@ namespace CrunchyrollPlus
             await Application.Current.SavePropertiesAsync();
 
         }
+
+        private async void LogOut(object sender, EventArgs e)
+        {
+            Application.Current.Properties["auth"] = null;
+            await Application.Current.SavePropertiesAsync();
+            await Navigation.PopToRootAsync();
+        }
+
     }
 }

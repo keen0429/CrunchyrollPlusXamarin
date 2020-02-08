@@ -26,7 +26,7 @@
 
                 </Grid>
             </ScrollView>
-            <Button AbsoluteLayout.LayoutBounds=".5,.96,.4,.1" AbsoluteLayout.LayoutFlags="All" Text="Log Out"/>
+            <Button AbsoluteLayout.LayoutBounds=".5,.96,.4,.1" AbsoluteLayout.LayoutFlags="All" Text="Log Out" Clicked="LogOut"/>
         </AbsoluteLayout>
         
         
