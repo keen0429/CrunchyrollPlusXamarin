@@ -31,7 +31,7 @@ namespace CrunchyrollPlus
             string username = this.username.Text;
             string password = this.password.Text;
 
-            CrunchyrollApi.LoginResponse res = await crunchyApi.Login(username, password);
+            CrunchyrollApi.LoginResponse res = await crunchyApi.Login(username, password, staySignedIn.IsChecked);
             if (res.success)
             {
                 await Navigation.PushAsync(new Homepage());

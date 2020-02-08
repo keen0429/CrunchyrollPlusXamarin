@@ -97,7 +97,7 @@ namespace CrunchyrollPlus
                 this.message = message;
             }
         }
-        public Task<LoginResponse> Login(string username, string password)
+        public Task<LoginResponse> Login(string username, string password, bool staySignedIn)
         {
             return Task.Run(async () => {
 
@@ -115,8 +115,12 @@ namespace CrunchyrollPlus
                         JObject data = (JObject)o["data"];
                         JObject user = (JObject)data["user"];
                         Application.Current.Properties["userId"] = (string)user["user_id"];
-                        Application.Current.Properties["auth"] = (string)data["auth"];
-                        await Application.Current.SavePropertiesAsync(); //Important if you want to save the data
+                        if (staySignedIn)
+                        {
+                            Application.Current.Properties["auth"] = (string)data["auth"];
+                            await Application.Current.SavePropertiesAsync(); //Important if you want to save the data
+                        }
+                        
                         return new LoginResponse(true, "");
 
                     }
@@ -700,7 +704,12 @@ namespace CrunchyrollPlus
             if (Application.Current.Properties.ContainsKey("auth"))
             {
                 Debug.WriteLine("LOG: ADDED auth");
-                url += "&auth=" + Application.Current.Properties["auth"].ToString()+"&user_id="+Application.Current.Properties["userId"].ToString();
+                string auth = (string)Application.Current.Properties["auth"];
+                if (auth != null)
+                {
+                    url += "&auth=" + auth + "&user_id=" + Application.Current.Properties["userId"].ToString();
+
+                }
 
             }
             return url;
