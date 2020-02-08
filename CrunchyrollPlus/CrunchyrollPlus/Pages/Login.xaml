@@ -7,25 +7,31 @@
              x:Class="CrunchyrollPlus.Login"
              NavigationPage.HasNavigationBar="False">
 
-    <Grid>
+    <Grid RowSpacing="4">
         <Grid.RowDefinitions>
             <RowDefinition Height="30*" />
             <RowDefinition Height="10*"/>
             <RowDefinition Height="10*"/>
             <RowDefinition Height="10*"/>
-
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="10*"/>
             <RowDefinition Height="40*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="15*"/>
-            <ColumnDefinition Width="70*"/>
+            <ColumnDefinition Width="35*"/>
+            <ColumnDefinition Width="35*"/>
             <ColumnDefinition Width="15*"/>
 
 
         </Grid.ColumnDefinitions>
-        <Label HorizontalOptions="Center" VerticalOptions="Center" Text="Login" FontSize="Header" Grid.Row="0" Grid.Column="1"/>
-        <Entry Placeholder="Username" x:Name="username" FontSize="Default" Grid.Row="1" Grid.Column="1" />
-        <Entry Placeholder="Password" IsPassword="True" x:Name="password" Grid.Row="2" FontSize="Default" Grid.Column="1" />
-        <Button Text="Login" Grid.Row="3" Grid.Column="1" Clicked="SendLoginRequest"/>
+        <Label HorizontalOptions="Center" VerticalOptions="Center" Text="Login" FontSize="Title" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <Entry Placeholder="Username" x:Name="username" FontSize="Default" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" />
+        <Entry Placeholder="Password" IsPassword="True" x:Name="password" Grid.Row="2" FontSize="Default" Grid.Column="1" Grid.ColumnSpan="2" />
+        <Label Text="Stay logged in: " Grid.Column="1" Grid.Row="3" VerticalOptions="Center" HorizontalOptions="Start"/>
+        <CheckBox Grid.Row="3" Grid.Column="2" VerticalOptions="Center"  HorizontalOptions="End" x:Name="staySignedIn"/>
+        <Button Text="Login" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2"  Clicked="SendLoginRequest"/>
+        <Button Text="Register" Grid.Row="5"  Grid.Column="1" Grid.ColumnSpan="2"/>
+        <Button Text="Continue without Crunchyroll account" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" VerticalOptions="End"/>
     </Grid>
 </ContentPage>
