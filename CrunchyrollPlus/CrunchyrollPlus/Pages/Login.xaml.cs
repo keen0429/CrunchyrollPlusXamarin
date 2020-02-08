@@ -5,8 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using Xamarin.Essentials;
+
+
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
+
 
 namespace CrunchyrollPlus
 {
@@ -49,9 +53,9 @@ namespace CrunchyrollPlus
             //TODO: Popup with information about what you miss
             Navigation.PushAsync(new Homepage());
         }
-        void Register(object sender, EventArgs e)
+        async void Register(object sender, EventArgs e)
         {
-            Device.OpenUri(new Uri("https://www.crunchyroll.com/login"));
+            await Launcher.OpenAsync(new Uri("https://www.crunchyroll.com/login"));
         }
     }
 }

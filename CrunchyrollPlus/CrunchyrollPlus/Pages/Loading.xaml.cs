@@ -19,14 +19,16 @@ namespace CrunchyrollPlus
         {
             StartSession();
         }
-        public async void StartSession()
+        public async void StartSession(bool uS = true)
         {
             CrunchyrollApi.SessionResponse sessionResponse;
-
-            if (Application.Current.Properties.ContainsKey("useUsSession") && (bool)Application.Current.Properties["useUsSession"])
+            bool usedUs = false;
+            if (Application.Current.Properties.ContainsKey("useUsSession") && (bool)Application.Current.Properties["useUsSession"]&&uS)
             {
                 sessionResponse = await crunchyrollApi.StartSession(true);
+                usedUs = true;
             }
+
             else
             {
                 sessionResponse = await crunchyrollApi.StartSession(false);
@@ -46,6 +48,15 @@ namespace CrunchyrollPlus
             }
             else
             {
+                if (usedUs)
+                {
+                    DependencyService.Get<IToastService>().ShowToastShort("Couldn't get US session, trying default");
+                    StartSession(false);
+                }
+                else
+                {
+                    DependencyService.Get<IToastService>().ShowToastShort("Couldn't start session, please try again later");
+                }
                 //TODO: Error handeling
             }
             
