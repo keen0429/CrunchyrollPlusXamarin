@@ -179,11 +179,13 @@ namespace CrunchyrollPlus
             {
                 videoPlayer.Pause();
                 playPause.Source = "play.png";
+                overlayToggle.shouldRun = false;
             }
             else if (videoPlayer.Status == VideoStatus.Paused)
             {
                 videoPlayer.Play();
                 playPause.Source = "pause.png";
+                SetOverlayHideTimer();
             }
             else
             {
@@ -230,17 +232,22 @@ namespace CrunchyrollPlus
 
             if (mediaControls.IsVisible)
             {
-                overlayToggle = new CustomTimer(new TimeSpan(0,0,5),() =>
-                {
-                    mediaControls.IsVisible = false;
-                    return false;
-                });
+                SetOverlayHideTimer();
             }
             else
             {
                 overlayToggle.shouldRun = false;
             }
             
+        }
+
+        private void SetOverlayHideTimer()
+        {
+            overlayToggle = new CustomTimer(new TimeSpan(0, 0, 5), () =>
+            {
+                mediaControls.IsVisible = false;
+                return false;
+            });
         }
     }
 }
