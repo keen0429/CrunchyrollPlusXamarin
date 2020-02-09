@@ -267,7 +267,13 @@ namespace CrunchyrollPlus
                     }
                     else
                     {
-                        return new StreamDataResponse((string)o["data"]["stream_data"]["streams"][0]["url"], (int)o["data"]["playhead"]);
+                        JArray streams = (JArray)o["data"]["stream_data"]["streams"];
+                        if (streams.Count == 0)
+                        {
+                            return new StreamDataResponse("NoStream");
+                        }
+
+                        return new StreamDataResponse((string)streams[0]["url"], (int)o["data"]["playhead"]);
                     }
                 }
 
