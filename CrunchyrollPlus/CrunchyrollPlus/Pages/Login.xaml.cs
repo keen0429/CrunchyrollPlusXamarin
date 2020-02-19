@@ -5,8 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using Xamarin.Essentials;
+
+
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
+
 
 namespace CrunchyrollPlus
 {
@@ -34,6 +38,7 @@ namespace CrunchyrollPlus
             CrunchyrollApi.LoginResponse res = await crunchyApi.Login(username, password, staySignedIn.IsChecked);
             if (res.success)
             {
+                User.signedIn = true;
                 await Navigation.PushAsync(new Homepage());
             }
             else
@@ -42,6 +47,15 @@ namespace CrunchyrollPlus
 
             }
 
+        }
+        void ContinueWithoutCrunchyrollAccount(object sender, EventArgs e)
+        {
+            //TODO: Popup with information about what you miss
+            Navigation.PushAsync(new Homepage());
+        }
+        async void Register(object sender, EventArgs e)
+        {
+            await Launcher.OpenAsync(new Uri("https://www.crunchyroll.com/login"));
         }
     }
 }

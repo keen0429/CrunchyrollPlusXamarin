@@ -31,7 +31,7 @@
         <Label Text="Stay logged in: " Grid.Column="1" Grid.Row="3" VerticalOptions="Center" HorizontalOptions="Start"/>
         <CheckBox Grid.Row="3" Grid.Column="2" VerticalOptions="Center"  HorizontalOptions="End" x:Name="staySignedIn"/>
         <Button Text="Login" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2"  Clicked="SendLoginRequest"/>
-        <Button Text="Register" Grid.Row="5"  Grid.Column="1" Grid.ColumnSpan="2"/>
-        <Button Text="Continue without Crunchyroll account" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" VerticalOptions="End"/>
+        <Button Text="Register" Grid.Row="5"  Grid.Column="1" Grid.ColumnSpan="2" Clicked="Register"/>
+        <Button Text="Continue without Crunchyroll account" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" VerticalOptions="End" Clicked="ContinueWithoutCrunchyrollAccount"/>
     </Grid>
 </ContentPage>

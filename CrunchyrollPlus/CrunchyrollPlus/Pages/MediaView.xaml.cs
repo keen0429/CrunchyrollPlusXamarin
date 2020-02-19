@@ -34,11 +34,7 @@ namespace CrunchyrollPlus
             InitializeComponent();
             this.collectionId = collectionId;
 
-            episodeScreenshot.Source = media.largeImage;
-
-            if (!media.freeAvailable) episodeCount.Text = "Premium only:    ";
-            episodeName.Text = media.name;
-            episodeCount.Text +="Episode "+ media.episodeNumber;
+           
             this.media = media;
             this.doubleTap = doubleTap;
             if(doubleTap) InitDoubleTap();
@@ -58,12 +54,10 @@ namespace CrunchyrollPlus
             this.index = index;
             InitializeComponent();
             this.medias = medias;
-            
-            
-            if (!media.freeAvailable) episodeCount.Text = "Premium only:        ";
-            episodeName.Text = media.name;
-            episodeCount.Text += "Episode " + media.episodeNumber;
             this.media = media;
+            
+            
+
             this.doubleTap = doubleTap;
             if (doubleTap) InitDoubleTap();
 
@@ -73,6 +67,10 @@ namespace CrunchyrollPlus
 
         private void Init()
         {
+            if (!media.freeAvailable) episodeCount.Text = "Premium only:        ";
+            episodeName.Text = media.name;
+            episodeCount.Text += "Episode " + media.episodeNumber;
+
             int seconds = media.duration % 60;
             int minutes = (media.duration - seconds) / 60;
             episodeLength.Text = $"{minutes.ToString()}:{minutes.ToString()}";

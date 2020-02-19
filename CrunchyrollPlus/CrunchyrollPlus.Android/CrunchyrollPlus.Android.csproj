@@ -15,7 +15,6 @@
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
-    <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
     <TargetFrameworkVersion>v9.0</TargetFrameworkVersion>
     <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
     <AndroidUseAapt2>true</AndroidUseAapt2>
@@ -95,7 +94,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CrunchyrollPlus\CrunchyrollPlus.csproj">
-      <Project>{84202FC3-512A-4B69-AE9C-8266E017069E}</Project>
+      <Project>{B16937B2-CB4D-424D-9BEA-18671C73447C}</Project>
       <Name>CrunchyrollPlus</Name>
     </ProjectReference>
   </ItemGroup>

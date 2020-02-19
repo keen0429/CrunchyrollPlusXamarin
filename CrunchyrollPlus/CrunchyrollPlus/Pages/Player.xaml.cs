@@ -117,9 +117,7 @@ namespace CrunchyrollPlus
             
 
 
-            Console.WriteLine("LOG: SOURCE CALL");
             CrunchyrollApi.StreamDataResponse res = await crunchyApi.GetStreamData(mediaId);
-            Console.WriteLine("LOG: RES DONE");
             if (res.success)
             {
                 Console.WriteLine("LOG: SOURCE SUCCESS");
@@ -131,7 +129,9 @@ namespace CrunchyrollPlus
             }
             else
             {
-                Console.WriteLine("LOG: SOURCE ERROR :   " + res.message);
+                if (res.message == "NoStream") await DisplayAlert("Couldn't get stream", "Media not available, player going to be exited", "OK");
+                else await DisplayAlert("Unknown error", "Unknown error occured, player going to be exited", "OK");
+                await Navigation.PopAsync();
             }
             
         }
@@ -153,7 +153,8 @@ namespace CrunchyrollPlus
         {
             Console.WriteLine("LOG: Dissapearing");
 
-            crunchyApi.LogProgess(mediaId, (int)videoPlayer.Position.TotalSeconds);
+            if(User.signedIn) crunchyApi.LogProgess(mediaId, (int)videoPlayer.Position.TotalSeconds);
+
 
 
             if (!nextMedia)
@@ -178,11 +179,13 @@ namespace CrunchyrollPlus
             {
                 videoPlayer.Pause();
                 playPause.Source = "play.png";
+                overlayToggle.shouldRun = false;
             }
             else if (videoPlayer.Status == VideoStatus.Paused)
             {
                 videoPlayer.Play();
                 playPause.Source = "pause.png";
+                SetOverlayHideTimer();
             }
             else
             {
@@ -229,17 +232,22 @@ namespace CrunchyrollPlus
 
             if (mediaControls.IsVisible)
             {
-                overlayToggle = new CustomTimer(new TimeSpan(0,0,5),() =>
-                {
-                    mediaControls.IsVisible = false;
-                    return false;
-                });
+                SetOverlayHideTimer();
             }
             else
             {
                 overlayToggle.shouldRun = false;
             }
             
+        }
+
+        private void SetOverlayHideTimer()
+        {
+            overlayToggle = new CustomTimer(new TimeSpan(0, 0, 5), () =>
+            {
+                mediaControls.IsVisible = false;
+                return false;
+            });
         }
     }
 }

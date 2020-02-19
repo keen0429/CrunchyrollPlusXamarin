@@ -14,54 +14,28 @@ namespace CrunchyrollPlus
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Homepage : TabbedPage
     {
-        int column = 0;
-        int row = 0;
-        CrunchyrollApi crunchyApi = CrunchyrollApi.GetSingleton();
         public Homepage()
         {
-            
-            Console.WriteLine("LOG: Entered homepage");
+            if (User.signedIn)
+            {
+                Children.Add(new Queue());
+                // Add recently watched
+            }
             InitializeComponent();
-            DependencyService.Get<IToastService>().ShowToastLong("Homepage");
-            // InitQueue();
-
-        }
-
-        protected override void OnAppearing()
-        {
             
-            InitQueue();
-            Console.WriteLine("LOG: QUEUE APPEARING ");
+
+             
+            // DependencyService.Get<IToastService>().ShowToastLong("Homepage");
+            // InitQueue();
+            
         }
+
+        
         protected override bool OnBackButtonPressed()
         {
             return true;
         }
-        private async void InitQueue()
-        {
-            
-            CrunchyrollApi.GetQueueResponse res = await crunchyApi.GetQueue();
-            queueMedia.Children.Clear();
-            if (res.success)
-            {
-                for(int i = 0; i < res.entry.Length; i++)
-                {
-                    AddMedia(res.entry[i].mostLikely,-1);
-                }
-                
-            }
-            else
-            {
-                Debug.WriteLine("LOG: ERROR: " + res.message);
-            }
-        }
-
-        private void AddMedia(Media media, int index)
-        {
-            
-            queueMedia.Children.Add(new MediaView(media,true,media.collectionId));
-
-        }
+       
         
     }
 }
