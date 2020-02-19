@@ -25,9 +25,9 @@ namespace CrunchyrollPlus
             
 
              
-            DependencyService.Get<IToastService>().ShowToastLong("Homepage");
+            // DependencyService.Get<IToastService>().ShowToastLong("Homepage");
             // InitQueue();
-
+            
         }
 
         
