@@ -222,7 +222,7 @@ namespace CrunchyrollPlus
 
         private void ShowHide(object sender, EventArgs e)
         {
-
+            Console.WriteLine("Toggle player overlay");
             if (!DependencyService.Get<IFullscreenService>().IsFullscreen())
             {
                 DependencyService.Get<IFullscreenService>().EnterFullscreen();
