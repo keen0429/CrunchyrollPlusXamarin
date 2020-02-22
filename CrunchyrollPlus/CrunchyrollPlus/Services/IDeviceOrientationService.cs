@@ -8,5 +8,7 @@ namespace CrunchyrollPlus
     {
         void ForceLandscape();
         void ForcePortrait();
+
+        bool IsPortrait();
     }
 }

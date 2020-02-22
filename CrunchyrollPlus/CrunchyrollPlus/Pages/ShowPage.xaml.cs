@@ -25,9 +25,18 @@ namespace CrunchyrollPlus
         {
             InitializeComponent();
             this.series = series;
-            showThumbnail.Source = series.fullImagePortrait;
-            showThumbnail.WidthRequest = Application.Current.MainPage.Width;
-            showThumbnail.HeightRequest = Application.Current.MainPage.Width * 1.5; // this is the ratio for crunchyroll portrait images
+            if (DependencyService.Get<IDeviceOrientationService>().IsPortrait())
+            {
+                showThumbnail.Source = series.fullImagePortrait;
+                showThumbnail.WidthRequest = Application.Current.MainPage.Width;
+                showThumbnail.HeightRequest = Application.Current.MainPage.Width * 1.5; // this is the ratio for crunchyroll portrait images
+            }
+            else
+            {
+                showThumbnail.Source = series.fullImageLandscape;
+                showThumbnail.WidthRequest = Application.Current.MainPage.Width;
+                showThumbnail.HeightRequest = Application.Current.MainPage.Width * 0.51;
+            }
             description.Text = series.description;
             name.Text = series.name;
             showThumbnail.Source = series.fullImagePortrait;

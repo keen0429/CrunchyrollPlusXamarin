@@ -65,10 +65,10 @@
   <ItemGroup>
     <Compile Include="FormsVideoLibrary\VideoPicker.cs" />
     <Compile Include="FormsVideoLibrary\VideoPlayerRenderer.cs" />
-    <Compile Include="FullscreenService.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="ToastService.cs" />
+    <Compile Include="Services\FullscreenService.cs" />
+    <Compile Include="Services\ToastService.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Services\OrientationService.cs" />

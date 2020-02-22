@@ -70,6 +70,7 @@ namespace CrunchyrollPlus.Droid
         }
         public void ForcePortrait()
         {
+            
             RequestedOrientation = ScreenOrientation.Portrait;
         }
     }

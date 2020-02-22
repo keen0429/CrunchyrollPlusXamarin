@@ -13,8 +13,13 @@ namespace CrunchyrollPlus.iOS
         }
         public void ForcePortrait()
         {
+            
             UIDevice.CurrentDevice.SetValueForKey(new NSNumber((int)UIInterfaceOrientation.Portrait), new NSString("orientation"));
 
+        }
+        public bool IsPortrait()
+        {
+            return UIDevice.CurrentDevice.Orientation.Equals(UIDeviceOrientation.Portrait);
         }
     }
 }

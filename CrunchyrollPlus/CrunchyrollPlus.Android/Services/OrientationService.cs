@@ -25,5 +25,9 @@ namespace CrunchyrollPlus.Droid
         {
             Global.activity.ForcePortrait();
         }
+        public bool IsPortrait()
+        {
+            return Global.activity.RequestedOrientation.Equals(Orientation.Vertical);
+        }
     }
 }

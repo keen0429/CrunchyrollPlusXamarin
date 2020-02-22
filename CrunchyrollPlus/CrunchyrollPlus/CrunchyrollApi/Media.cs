@@ -45,7 +45,7 @@ namespace CrunchyrollPlus
             iD = o["media_id"].ToString();
             name = (string)o["name"];
             description = (string)o["description"];
-            largeImage = (string)o["screenshot_image"]["large_url"];
+            largeImage = (string)o["screenshot_image"]["full_url"];
             freeAvailable = (bool)o["free_available"];
             premiumAvailable = (bool)o["premium_available"];
             seriesId = (string)o["series_id"];
