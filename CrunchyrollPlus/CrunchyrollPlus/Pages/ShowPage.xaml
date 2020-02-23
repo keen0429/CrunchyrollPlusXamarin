@@ -10,7 +10,7 @@
         
          <ScrollView>
             <StackLayout x:Name="container" >
-                <Image x:Name="showThumbnail"  Aspect="AspectFit"   HorizontalOptions="FillAndExpand" />
+                <Image x:Name="showThumbnail"  Aspect="AspectFill"   HorizontalOptions="FillAndExpand" />
 
                 <Button Text="CONTINUE WATCHING" />
                 <Button Text="Add to queue" Clicked="ToggleQueue" x:Name="queueToggle" IsVisible="False"/>

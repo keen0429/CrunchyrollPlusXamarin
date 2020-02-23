@@ -39,7 +39,6 @@ namespace CrunchyrollPlus
             }
             description.Text = series.description;
             name.Text = series.name;
-            showThumbnail.Source = series.fullImagePortrait;
 
 
             Init(series);
