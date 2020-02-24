@@ -21,7 +21,6 @@ namespace CrunchyrollPlus
         Media[] medias;
         string collectionId="";
         int index;
-
         /// <summary>
         /// Used for queue
         /// </summary>
@@ -74,7 +73,7 @@ namespace CrunchyrollPlus
             int seconds = media.duration % 60;
             int minutes = (media.duration - seconds) / 60;
             episodeLength.Text = $"{minutes.ToString()}:{minutes.ToString()}";
-            episodeScreenshot.Source = media.largeImage;
+            episodeScreenshot.Source = media.thumbnail;
             
         }
 

@@ -22,10 +22,10 @@ namespace CrunchyrollPlus
                 // Add recently watched
             }
             InitializeComponent();
-            
 
-             
-            // DependencyService.Get<IToastService>().ShowToastLong("Homepage");
+
+
+            // DependencyService.Get<IDeviceOrientationService>().ForceLandscape();
             // InitQueue();
             
         }

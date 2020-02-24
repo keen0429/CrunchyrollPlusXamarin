@@ -16,14 +16,19 @@ namespace CrunchyrollPlus
         CrunchyrollApi crunchyrollApi = CrunchyrollApi.GetSingleton();
         Collection[] collections = null;
         private int currentMaxMediaShow =0;
-        private Media[] medias;
+        public Media[] medias { get; private set; }
         Series series;
+
+
 
         bool inQueue = false;
 
         public ShowPage(Series series)
         {
-            InitializeComponent();
+
+            
+           InitializeComponent();
+            
             this.series = series;
             if (DependencyService.Get<IDeviceOrientationService>().IsPortrait())
             {
@@ -124,23 +129,26 @@ namespace CrunchyrollPlus
         {
             CrunchyrollApi.ListMediaResponse res = await crunchyrollApi.GetMedias(collections[index].id);
 
-            medias = res.medias;
-            showMedias.Children.Clear();
+            
             if (res.success)
             {
-                int max = res.medias.Length > 30 ? 30 : res.medias.Length;
-                currentMaxMediaShow = max;
-                for(int i = 0; i < max; i++)
-                {
-                    showMedias.Children.Add( new MediaView(res.medias[i],false,res.medias,i));
-                }
-                if (max != res.medias.Length)
-                {
+                medias = res.medias;
+                //showMedias.Children.Clear();
+                //int max = res.medias.Length > 30 ? 30 : res.medias.Length;
+                //currentMaxMediaShow = max;
+                //for(int i = 0; i < max; i++)
+                //{
+                //    showMedias.Children.Add( new MediaView(res.medias[i],false,res.medias,i));
+                //}
+                //if (max != res.medias.Length)
+                //{
 
-                    Button button = new Button { Text = "Show more episodes" };
-                    button.Clicked += ExtendMedia;
-                    container.Children.Add(button);
-                }
+                //    Button button = new Button { Text = "Show more episodes" };
+                //    button.Clicked += ExtendMedia;
+                //    container.Children.Add(button);
+                //}
+                BindingContext = this;
+
             }
             else
             {
@@ -149,13 +157,13 @@ namespace CrunchyrollPlus
         }
         private async void ExtendMedia(object sender, EventArgs e)
         {
-            int max = medias.Length > (currentMaxMediaShow + 30) ? currentMaxMediaShow + 30 : medias.Length;
-            if (max == medias.Length) container.Children.Remove((Button)sender);
-            for(int i = currentMaxMediaShow; i < max; i++)
-            {
-                showMedias.Children.Add(new MediaView(medias[i], false,medias,i));
-            }
-            currentMaxMediaShow = max;
+            //int max = medias.Length > (currentMaxMediaShow + 30) ? currentMaxMediaShow + 30 : medias.Length;
+            //if (max == medias.Length) container.Children.Remove((Button)sender);
+            //for(int i = currentMaxMediaShow; i < max; i++)
+            //{
+            //    showMedias.Children.Add(new MediaView(medias[i], false,medias,i));
+            //}
+            //currentMaxMediaShow = max;
         }
     }
 }

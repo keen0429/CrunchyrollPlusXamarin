@@ -17,10 +17,29 @@
                 <Label Text="" x:Name="name"/>
                 <Label Text="" x:Name="description"/>
                 <Picker x:Name="selectCollection" SelectedIndexChanged="OnCollectionChange"/>
-                <StackLayout x:Name="showMedias">
-                    
-                </StackLayout>
-                
+                <ListView ItemsSource="{Binding medias}" x:Name="listView" HasUnevenRows="True">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid RowSpacing="0" BackgroundColor="#131313" >
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="30*" x:Name="imageCol"/>
+                                        <ColumnDefinition Width="70*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Source="{Binding largeImage}" x:Name="episodeScreenshot" HorizontalOptions="FillAndExpand" Grid.Row="0" Grid.Column="0" Margin="0" />
+                                    
+                                    <ProgressBar Progress="0" Grid.Column="0" Margin="0,-6,0,-6"  Grid.Row="1"  VerticalOptions="Start"   ProgressColor="{StaticResource crunchyAccentColor}"  x:Name="progressBar"/>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
             </StackLayout>
         </ScrollView>
             

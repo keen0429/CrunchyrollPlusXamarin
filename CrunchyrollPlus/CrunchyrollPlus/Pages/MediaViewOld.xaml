@@ -7,7 +7,7 @@
              x:Class="CrunchyrollPlus.MediaView">
     <ContentView.Content>
 
-        <Grid RowSpacing="0" BackgroundColor="#131313" Padding="8" Margin="3">
+        <Grid RowSpacing="0" BackgroundColor="#131313" Padding="8" Margin="3" >
             <Grid.GestureRecognizers>
                 <TapGestureRecognizer Tapped="OnOpenShow" NumberOfTapsRequired="2"/>
                 <TapGestureRecognizer Tapped="OnOpenMedia" NumberOfTapsRequired="1"/>
@@ -20,7 +20,7 @@
                 <ColumnDefinition Width="30*" x:Name="imageCol"/>
                 <ColumnDefinition Width="70*"/>
             </Grid.ColumnDefinitions>
-            <Image Source="" x:Name="episodeScreenshot" HorizontalOptions="FillAndExpand" Grid.Row="0" Grid.Column="0" Margin="0" />
+            <Image Source="" x:Name="episodeScreenshot" HorizontalOptions="FillAndExpand"   Grid.Row="0" Grid.Column="0" Margin="0" />
             <StackLayout Grid.Row="0" Grid.Column="1" >
                 <Label x:Name="episodeCount" HorizontalOptions="StartAndExpand" Text="" Style="{StaticResource subtleText}" />
                 <Label x:Name="episodeName" HorizontalOptions="StartAndExpand" Text=""  />
