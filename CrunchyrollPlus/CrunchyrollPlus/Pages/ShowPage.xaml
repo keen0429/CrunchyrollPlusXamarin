@@ -18,6 +18,7 @@
                 <Label Text="" x:Name="description"/>
                 <Picker x:Name="selectCollection" SelectedIndexChanged="OnCollectionChange"/>
                 <ListView ItemsSource="{Binding medias}" x:Name="listView" HasUnevenRows="True">
+
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
@@ -31,9 +32,14 @@
                                         <ColumnDefinition Width="30*" x:Name="imageCol"/>
                                         <ColumnDefinition Width="70*"/>
                                     </Grid.ColumnDefinitions>
-                                    <Image Source="{Binding largeImage}" x:Name="episodeScreenshot" HorizontalOptions="FillAndExpand" Grid.Row="0" Grid.Column="0" Margin="0" />
-                                    
-                                    <ProgressBar Progress="0" Grid.Column="0" Margin="0,-6,0,-6"  Grid.Row="1"  VerticalOptions="Start"   ProgressColor="{StaticResource crunchyAccentColor}"  x:Name="progressBar"/>
+                                    <Image Source="{Binding thumbnail}" HorizontalOptions="FillAndExpand" Grid.Row="0" Grid.Column="0" Margin="0" />
+                                    <StackLayout Grid.Row="0" Grid.Column="1" >
+                                        <Label x:Name="episodeCount" HorizontalOptions="StartAndExpand" Text="{Binding episodeNumber}" Style="{StaticResource subtleText}" />
+                                        <Label x:Name="episodeName" HorizontalOptions="StartAndExpand" Text="{Binding name}"  />
+                                        <Label x:Name="episodeLength" HorizontalOptions="StartAndExpand" Text="24:32 IMPLEMENT" Style="{StaticResource subtleText}" />
+
+                                    </StackLayout>
+                                <ProgressBar Progress="0" Grid.Column="0" Margin="0,-6,0,-6"  Grid.Row="1"  VerticalOptions="Start"   ProgressColor="{StaticResource crunchyAccentColor}"  x:Name="progressBar"/>
                                 </Grid>
                             </ViewCell>
                         </DataTemplate>
