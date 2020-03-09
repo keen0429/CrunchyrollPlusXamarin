@@ -155,6 +155,7 @@ namespace CrunchyrollPlus
                 // Error handeling//
             }
         }
+        
         private async void ExtendMedia(object sender, EventArgs e)
         {
             //int max = medias.Length > (currentMaxMediaShow + 30) ? currentMaxMediaShow + 30 : medias.Length;

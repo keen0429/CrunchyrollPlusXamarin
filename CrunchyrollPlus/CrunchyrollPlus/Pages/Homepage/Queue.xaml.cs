@@ -13,40 +13,61 @@ namespace CrunchyrollPlus
     public partial class Queue : ContentPage
     {
         CrunchyrollApi crunchyApi = CrunchyrollApi.GetSingleton();
+        public Media[] medias { get; private set; }
+        private CrunchyrollApi.QueueEntry[] entries;
         public Queue()
         {
             InitializeComponent();
-        }
-
-        protected override void OnAppearing() // I want to refresh every time the user enter queue
-        {
-
             InitQueue();
-            Console.WriteLine("LOG: QUEUE APPEARING ");
         }
+
         private async void InitQueue()
         {
-
             CrunchyrollApi.GetQueueResponse res = await crunchyApi.GetQueue();
-            queueMedia.Children.Clear();
+            //queueMedia.Children.Clear();
             if (res.success)
             {
-                for (int i = 0; i < res.entry.Length; i++)
-                {
-                    AddMedia(res.entry[i].mostLikely, -1);
-                }
 
+
+                medias = res.entry.Select(e => e.mostLikely).ToArray();
+                entries = res.entry;
+                BindingContext = this;
+                mediaList.IsRefreshing = false;
             }
             else
             {
             }
-        }
 
+        }
+        private void Refresh(object sender, EventArgs e)
+        {
+            InitQueue();
+            
+        }
         private void AddMedia(Media media, int index)
         {
 
-            queueMedia.Children.Add(new MediaView(media, true, media.collectionId));
+            //queueMedia.Children.Add(new MediaView(media, true, media.collectionId));
 
+        }
+        private async void OpenMedia(object sender, ItemTappedEventArgs e)
+        {
+            Media selectedMedia = (Media)mediaList.SelectedItem;
+
+            await Navigation.PushAsync(new Player(selectedMedia.iD, Array.FindIndex<Media>(medias,i => i.iD == selectedMedia.iD), medias, true));
+        }
+
+        private async  void OpenShow(object sender, EventArgs e)
+        {
+            Series selectedSeries = entries[0].series; // Not going to be used but just in case so the compiler doesn't complain
+            for(int i = 0; i < medias.Length; i++)
+            {
+                if ((string)((MenuItem)sender).CommandParameter == entries[i].mostLikely.iD)
+                {
+                    selectedSeries = entries[i].series;
+                }
+            }
+            await Navigation.PushAsync(new ShowPage(selectedSeries));
         }
     }
 }

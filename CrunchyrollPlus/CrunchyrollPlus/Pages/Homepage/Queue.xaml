@@ -5,12 +5,25 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="CrunchyrollPlus.Queue"
+             xmlns:me="clr-namespace:CrunchyrollPlus"
              Title="Queue">
     <ContentPage.Content>
-        <ScrollView >
-            <StackLayout x:Name="queueMedia">
-
-            </StackLayout>
-        </ScrollView>
+        <ListView ItemsSource="{Binding medias}" HasUnevenRows="True" IsPullToRefreshEnabled="True"  x:Name="mediaList" Refreshing="Refresh" ItemTapped="OpenMedia">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <me:MediaViewCell >
+                        <me:MediaViewCell.ContextActions>
+                            <MenuItem 
+                                Clicked="OpenShow"
+                                CommandParameter="{Binding iD}"
+                                Text="Open show" />
+                            <MenuItem 
+                              CommandParameter="{Binding .}"
+                              Text="Delete" IsDestructive="True" /> 
+                        </me:MediaViewCell.ContextActions>
+                    </me:MediaViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </ContentPage.Content>
 </ContentPage>

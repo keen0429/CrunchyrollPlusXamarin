@@ -52,7 +52,7 @@ namespace CrunchyrollPlus
             freeAvailable = (bool)o["free_available"];
             premiumAvailable = (bool)o["premium_available"];
             seriesId = (string)o["series_id"];
-            episodeNumber = (string)o["episode_number"];
+            episodeNumber = "Episode: " +(string)o["episode_number"];
             if (o.ContainsKey("playhead"))
             {
                 playhead = (int)o["playhead"];
