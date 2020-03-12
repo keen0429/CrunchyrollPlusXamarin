@@ -16,13 +16,10 @@
         <AbsoluteLayout>
             
             <video:VideoPlayer x:Name="videoPlayer" AutoPlay="True"  AreTransportControlsEnabled="False"  AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" >
-                <!--<video:VideoPlayer.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="ShowHide" NumberOfTapsRequired="1"/>
 
-                </video:VideoPlayer.GestureRecognizers>-->
             </video:VideoPlayer>
+
             
-            <!--<Button Text="toggle" Clicked="ShowHide"/>-->
             <ActivityIndicator  AbsoluteLayout.LayoutBounds=".5,.5,.14,.14" AbsoluteLayout.LayoutFlags="All" x:Name="loadingSpinner" IsRunning="True"/>
             <AbsoluteLayout AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
                 <AbsoluteLayout.GestureRecognizers>
@@ -30,12 +27,15 @@
                 </AbsoluteLayout.GestureRecognizers>
             </AbsoluteLayout>
             <AbsoluteLayout AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" x:Name="mediaControls" IsVisible="False"  >
+                
                 <AbsoluteLayout.GestureRecognizers>
                     <TapGestureRecognizer Tapped="ShowHide" NumberOfTapsRequired="1"/>
                 </AbsoluteLayout.GestureRecognizers>
-
+                
                 <BoxView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" BackgroundColor="Black" Opacity=".5"/>
 
+                <ImageButton  Source="castNotConnected.png" Clicked="Cast" BackgroundColor="Transparent" VerticalOptions="Start" AbsoluteLayout.LayoutBounds=".9,.02,.12,.12" AbsoluteLayout.LayoutFlags="All" IsVisible="{Binding notConnected}" />
+                <!--<ImageButton x:Name="castConnected" Source="castConnected.png" Clicked="CastMenu" BackgroundColor="Transparent" VerticalOptions="Start" AbsoluteLayout.LayoutBounds=".9,.02,.12,.12" AbsoluteLayout.LayoutFlags="All" IsVisible="{Binding chromecastConnected}" />-->
                 <Image  Source="pause.png" AbsoluteLayout.LayoutBounds=".5,.5,.14,.14" AbsoluteLayout.LayoutFlags="All" HorizontalOptions="CenterAndExpand" x:Name="playPause"  >
                 <Image.GestureRecognizers>
                     <TapGestureRecognizer Tapped="playPause_Clicked" NumberOfTapsRequired="1"/>

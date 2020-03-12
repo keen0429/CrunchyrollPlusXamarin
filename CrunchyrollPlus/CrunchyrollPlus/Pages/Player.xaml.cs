@@ -8,7 +8,12 @@ using System.Timers;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using FormsVideoLibrary;
-
+using SharpCaster.Services;
+using SharpCaster.Controllers;
+using SharpCaster.Models.ChromecastStatus;
+using SharpCaster.Models.MediaStatus;
+using System.Collections.ObjectModel;
+using SharpCaster.Models;
 
 namespace CrunchyrollPlus
 {
@@ -21,8 +26,14 @@ namespace CrunchyrollPlus
         Media[] medias;
         bool nextMedia = false;
         CustomTimer overlayToggle;
+        string sourceUrl;
+        static readonly ChromecastService ChromecastService = ChromecastService.Current;
+        private SharpCasterDemoController _controller;
 
-        
+        bool chromecastConnected { get;  set; } = false;
+        bool notConnected { get; set; } = true;
+ 
+
         public Player(string mediaId,int index, Media[] medias,bool enterFullScreen)
         {
             nextMedia = !enterFullScreen;
@@ -50,7 +61,11 @@ namespace CrunchyrollPlus
         public void Init(int index, string mediaId, bool enterFullScreen)
            
         {
-            
+            notConnected = true;
+            chromecastConnected = false;
+            BindingContext = this;
+            ChromecastService.Current.ChromeCastClient.ConnectedChanged += ChromeCastClient_ConnectedChanged;
+            ChromecastService.Current.ChromeCastClient.ApplicationStarted += ChromeCastClient_ApplicationStarted;
 
             nextMedia = !enterFullScreen;
             this.mediaId = mediaId;
@@ -121,7 +136,7 @@ namespace CrunchyrollPlus
             if (res.success)
             {
                 Console.WriteLine("LOG: SOURCE SUCCESS");
-
+                sourceUrl = res.url;
                 videoPlayer.Source = VideoSource.FromUri(res.url);
                 videoPlayer.Position = new TimeSpan(0, 0, res.playhead);
                 
@@ -249,5 +264,46 @@ namespace CrunchyrollPlus
                 return false;
             });
         }
+        private async void Cast(object sender, EventArgs e)
+        {
+            ObservableCollection<Chromecast> chromecasts = await ChromecastService.Current.StartLocatingDevices();
+
+            string[] buttons = chromecasts.Select((i) => i.FriendlyName).ToArray();
+            string action = await DisplayActionSheet("Select device to cast to", "Cancel", null, buttons);
+            foreach(Chromecast i in chromecasts)
+            {
+                if (i.FriendlyName == action)
+                {
+                    await ChromecastService.ConnectToChromecast(i);
+                    chromecastConnected = true;
+                    notConnected = false;
+
+                }
+            }
+        }
+
+        private async void ChromeCastClient_ApplicationStarted(object sender, ChromecastApplication e)
+        {
+            if (_controller == null)
+            {
+                _controller = await ChromecastService.ChromeCastClient.LaunchSharpCaster();
+            }
+            
+            await _controller.LoadMedia(sourceUrl, "video/mp4", null, "BUFFERED", 0D,null,null,null,true,videoPlayer.Position.TotalSeconds);
+            
+
+        }
+
+        private async void ChromeCastClient_ConnectedChanged(object sender, EventArgs e)
+        {
+            _controller = await ChromecastService.ChromeCastClient.LaunchSharpCaster();
+
+        }
+        private void CastMenu(object sender, EventArgs e)
+        {
+
+        }
+
+        
     }
 }
