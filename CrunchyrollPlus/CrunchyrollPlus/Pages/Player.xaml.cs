@@ -14,6 +14,7 @@ using SharpCaster.Models.ChromecastStatus;
 using SharpCaster.Models.MediaStatus;
 using System.Collections.ObjectModel;
 using SharpCaster.Models;
+using Nito.AsyncEx;
 
 namespace CrunchyrollPlus
 {
@@ -29,11 +30,12 @@ namespace CrunchyrollPlus
         string sourceUrl;
         static readonly ChromecastService ChromecastService = ChromecastService.Current;
         private SharpCasterDemoController _controller;
+        ObservableCollection<Chromecast> chromecasts;
 
         bool chromecastConnected { get;  set; } = false;
         bool notConnected { get; set; } = true;
  
-
+        
         public Player(string mediaId,int index, Media[] medias,bool enterFullScreen)
         {
             nextMedia = !enterFullScreen;
@@ -71,12 +73,13 @@ namespace CrunchyrollPlus
             this.mediaId = mediaId;
             this.index = index;
             videoPlayer.UpdateStatus += StatusChange;
-            Device.StartTimer(TimeSpan.FromMilliseconds(600), () => UpdateTime()); // Need to have lower than 1000 ms because it is not in sync with the video 
+            Device.StartTimer(TimeSpan.FromMilliseconds(600), UpdateTime); // Need to have lower than 1000 ms because it is not in sync with the video 
+            Device.StartTimer(TimeSpan.FromSeconds(10), CheckChromecast);
             
 
 
         }
-
+        
         bool UpdateTime()
         {
            
@@ -266,7 +269,7 @@ namespace CrunchyrollPlus
         }
         private async void Cast(object sender, EventArgs e)
         {
-            ObservableCollection<Chromecast> chromecasts = await ChromecastService.Current.StartLocatingDevices();
+            //ObservableCollection<Chromecast> chromecasts = await ChromecastService.Current.StartLocatingDevices();
 
             string[] buttons = chromecasts.Select((i) => i.FriendlyName).ToArray();
             string action = await DisplayActionSheet("Select device to cast to", "Cancel", null, buttons);
@@ -303,7 +306,33 @@ namespace CrunchyrollPlus
         {
 
         }
+        bool CheckChromecast()
+        {
+            Task.Run(async () =>
+            {
+                chromecasts = await ChromecastService.Current.StartLocatingDevices();
+                if (chromecasts.Count > 0)
+                {
+                    EnableChromecast();
+                }
+                else
+                {
+                    DisableChromecast();
+                }
+                
+            });
+            return true;
 
-        
+        }
+        void EnableChromecast()
+        {
+            castButton.IsVisible = true;
+        }
+        void DisableChromecast()
+        {
+            castButton.IsVisible = false;
+        }
+
+
     }
 }

@@ -34,7 +34,7 @@
                 
                 <BoxView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" BackgroundColor="Black" Opacity=".5"/>
 
-                <ImageButton  Source="castNotConnected.png" Clicked="Cast" BackgroundColor="Transparent" VerticalOptions="Start" AbsoluteLayout.LayoutBounds=".9,.02,.12,.12" AbsoluteLayout.LayoutFlags="All" IsVisible="{Binding notConnected}" />
+                <ImageButton x:Name="castButton"  Source="castNotConnected.png" Clicked="Cast" BackgroundColor="Transparent" VerticalOptions="Start" AbsoluteLayout.LayoutBounds=".9,.02,.12,.12" AbsoluteLayout.LayoutFlags="All" IsVisible="False" />
                 <!--<ImageButton x:Name="castConnected" Source="castConnected.png" Clicked="CastMenu" BackgroundColor="Transparent" VerticalOptions="Start" AbsoluteLayout.LayoutBounds=".9,.02,.12,.12" AbsoluteLayout.LayoutFlags="All" IsVisible="{Binding chromecastConnected}" />-->
                 <Image  Source="pause.png" AbsoluteLayout.LayoutBounds=".5,.5,.14,.14" AbsoluteLayout.LayoutFlags="All" HorizontalOptions="CenterAndExpand" x:Name="playPause"  >
                 <Image.GestureRecognizers>
