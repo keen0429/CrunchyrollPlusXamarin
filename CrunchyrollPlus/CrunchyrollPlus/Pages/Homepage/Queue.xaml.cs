@@ -53,8 +53,8 @@ namespace CrunchyrollPlus
         private async void OpenMedia(object sender, ItemTappedEventArgs e)
         {
             Media selectedMedia = (Media)mediaList.SelectedItem;
-
-            await Navigation.PushAsync(new Player(selectedMedia.iD, Array.FindIndex<Media>(medias,i => i.iD == selectedMedia.iD), medias, true));
+            
+            await Navigation.PushAsync(new Player(selectedMedia.iD,selectedMedia.collectionId, true));
         }
 
         private async  void OpenShow(object sender, EventArgs e)

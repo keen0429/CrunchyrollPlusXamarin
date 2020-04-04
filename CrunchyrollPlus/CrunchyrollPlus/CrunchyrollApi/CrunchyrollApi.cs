@@ -177,7 +177,7 @@ namespace CrunchyrollPlus
         {
             return Task.Run(async () =>
             {
-                const string FIELDS = "&fields=most_likely_media, series,media.playhead, media.name,media.media_id,media.description,media.screenshot_image,media.free_available,media.premium_available,media.episode_number,media.series_id,media.duration";
+                const string FIELDS = "&fields=most_likely_media, series,media.playhead, media.name,media.media_id,media.description,media.screenshot_image,media.free_available,media.premium_available,media.episode_number,media.series_id,media.duration,media.collection_id";
                 string url = GetPath("queue", "&media_types=anime"+FIELDS);
                 
                 HttpResponseMessage res = await crunchyClient.PostAsync(url, null);

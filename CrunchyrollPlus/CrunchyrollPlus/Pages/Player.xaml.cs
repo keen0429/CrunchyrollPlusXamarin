@@ -50,7 +50,7 @@ namespace CrunchyrollPlus
             InitSource();
             InitSkip();
         }
-        public Player(string mediaId, int index, string collectionId, bool enterFullScreen)
+        public Player(string mediaId, string collectionId, bool enterFullScreen)
         {
 
             InitializeComponent();
