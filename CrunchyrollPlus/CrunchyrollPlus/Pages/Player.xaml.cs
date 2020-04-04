@@ -32,6 +32,9 @@ namespace CrunchyrollPlus
         private SharpCasterDemoController _controller;
         ObservableCollection<Chromecast> chromecasts;
 
+
+        ChromecastWrapper chromecastWrapper = ChromecastWrapper.GetSingleton();
+
         bool chromecastConnected { get;  set; } = false;
         bool notConnected { get; set; } = true;
  
@@ -66,16 +69,22 @@ namespace CrunchyrollPlus
             notConnected = true;
             chromecastConnected = false;
             BindingContext = this;
-            ChromecastService.Current.ChromeCastClient.ConnectedChanged += ChromeCastClient_ConnectedChanged;
-            ChromecastService.Current.ChromeCastClient.ApplicationStarted += ChromeCastClient_ApplicationStarted;
+            
 
             nextMedia = !enterFullScreen;
             this.mediaId = mediaId;
             this.index = index;
             videoPlayer.UpdateStatus += StatusChange;
             Device.StartTimer(TimeSpan.FromMilliseconds(600), UpdateTime); // Need to have lower than 1000 ms because it is not in sync with the video 
-            Device.StartTimer(TimeSpan.FromSeconds(10), CheckChromecast);
-            
+            if (chromecastWrapper.chromecasts.Count > 0)
+            {
+                EnableChromecast();
+            }
+            else
+            {
+                DisableChromecast();
+            }
+            chromecastWrapper.chromecastChange += chromeCastEnabled;
 
 
         }
@@ -269,61 +278,19 @@ namespace CrunchyrollPlus
         }
         private async void Cast(object sender, EventArgs e)
         {
-            //ObservableCollection<Chromecast> chromecasts = await ChromecastService.Current.StartLocatingDevices();
+            Chromecast chromecast = chromecastWrapper.SelectChromecast(await DisplayActionSheet("Select device to cast to", "Cancel", null, chromecastWrapper.GetChromecastOptions()));
+            await chromecastWrapper.LoadMedia(sourceUrl, videoPlayer.Position.TotalSeconds);
+            await chromecastWrapper.ChromecastService.ConnectToChromecast(chromecast);
 
-            string[] buttons = chromecasts.Select((i) => i.FriendlyName).ToArray();
-            string action = await DisplayActionSheet("Select device to cast to", "Cancel", null, buttons);
-            foreach(Chromecast i in chromecasts)
-            {
-                if (i.FriendlyName == action)
-                {
-                    await ChromecastService.ConnectToChromecast(i);
-                    chromecastConnected = true;
-                    notConnected = false;
-
-                }
-            }
-        }
-
-        private async void ChromeCastClient_ApplicationStarted(object sender, ChromecastApplication e)
-        {
-            if (_controller == null)
-            {
-                _controller = await ChromecastService.ChromeCastClient.LaunchSharpCaster();
-            }
             
-            await _controller.LoadMedia(sourceUrl, "video/mp4", null, "BUFFERED", 0D,null,null,null,true,videoPlayer.Position.TotalSeconds);
             
-
         }
 
-        private async void ChromeCastClient_ConnectedChanged(object sender, EventArgs e)
-        {
-            _controller = await ChromecastService.ChromeCastClient.LaunchSharpCaster();
 
-        }
-        private void CastMenu(object sender, EventArgs e)
-        {
+        
 
-        }
-        bool CheckChromecast()
-        {
-            Task.Run(async () =>
-            {
-                chromecasts = await ChromecastService.Current.StartLocatingDevices();
-                if (chromecasts.Count > 0)
-                {
-                    EnableChromecast();
-                }
-                else
-                {
-                    DisableChromecast();
-                }
-                
-            });
-            return true;
-
-        }
+        
+        
         void EnableChromecast()
         {
             castButton.IsVisible = true;
@@ -333,6 +300,10 @@ namespace CrunchyrollPlus
             castButton.IsVisible = false;
         }
 
-
+        void chromeCastEnabled(bool enable)
+        {
+            if (enable) EnableChromecast();
+            else DisableChromecast();
+        }
     }
 }

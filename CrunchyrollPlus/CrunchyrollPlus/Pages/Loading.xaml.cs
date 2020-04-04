@@ -10,6 +10,9 @@ namespace CrunchyrollPlus
     public partial class Loading : ContentPage
     {
         CrunchyrollApi crunchyrollApi = CrunchyrollApi.GetSingleton();
+
+        ChromecastWrapper chromecast = ChromecastWrapper.GetSingleton(); // This is to init the chromecastWrapper
+
         public Loading()
         {
             InitializeComponent();
