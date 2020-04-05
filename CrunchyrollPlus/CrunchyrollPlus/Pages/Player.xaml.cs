@@ -21,8 +21,9 @@ namespace CrunchyrollPlus
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Player : ContentPage
     {
+        Series anime;
         CrunchyrollApi crunchyApi = CrunchyrollApi.GetSingleton();
-        string mediaId;
+        Media media;
         int index;
         Media[] medias;
         bool nextMedia = false;
@@ -39,40 +40,43 @@ namespace CrunchyrollPlus
         bool notConnected { get; set; } = true;
  
         
-        public Player(string mediaId,int index, Media[] medias,bool enterFullScreen)
+        public Player(Media media, Media[] medias,bool enterFullScreen,Series anime)
         {
             nextMedia = !enterFullScreen;
             
             InitializeComponent();
 
-            Init(index, mediaId, enterFullScreen);
+            Init(index, media, enterFullScreen,  anime);
             this.medias = medias;
             InitSource();
             InitSkip();
         }
-        public Player(string mediaId, string collectionId, bool enterFullScreen)
+        public Player(Media media, bool enterFullScreen, Series anime)
         {
 
             InitializeComponent();
             
-            GetMedias(collectionId);
-            Init(index, mediaId, enterFullScreen);
+            GetMedias(media.collectionId);
+            Init(index, media, enterFullScreen,  anime);
             InitSource();
             
 
         }
 
         
-        public void Init(int index, string mediaId, bool enterFullScreen)
+        public void Init(int index,Media media,bool enterFullScreen, Series anime)
            
         {
+            this.anime = anime;
+            this.media = media;
+            animeName.Text = anime.name;
+            episodeInfo.Text = $"{media.episodeNumber} \t {media.name}";
             notConnected = true;
             chromecastConnected = false;
             BindingContext = this;
             
 
             nextMedia = !enterFullScreen;
-            this.mediaId = mediaId;
             this.index = index;
             videoPlayer.UpdateStatus += StatusChange;
             Device.StartTimer(TimeSpan.FromMilliseconds(600), UpdateTime); // Need to have lower than 1000 ms because it is not in sync with the video 
@@ -131,7 +135,7 @@ namespace CrunchyrollPlus
         }
         private void FindIndex()
         {
-            index = Array.FindIndex<Media>(medias, i => i.iD == mediaId);
+            index = Array.FindIndex<Media>(medias, i => i.iD == media.iD);
         }
         private void InitSkip()
         {
@@ -144,7 +148,7 @@ namespace CrunchyrollPlus
             
 
 
-            CrunchyrollApi.StreamDataResponse res = await crunchyApi.GetStreamData(mediaId);
+            CrunchyrollApi.StreamDataResponse res = await crunchyApi.GetStreamData(media.iD);
             if (res.success)
             {
                 Console.WriteLine("LOG: SOURCE SUCCESS");
@@ -180,7 +184,7 @@ namespace CrunchyrollPlus
         {
             Console.WriteLine("LOG: Dissapearing");
 
-            if(User.signedIn) crunchyApi.LogProgess(mediaId, (int)videoPlayer.Position.TotalSeconds);
+            if(User.signedIn) crunchyApi.LogProgess(media.iD, (int)videoPlayer.Position.TotalSeconds);
 
 
 
@@ -243,7 +247,7 @@ namespace CrunchyrollPlus
         private async void skip_Clicked(object sender, EventArgs e)
         {
             nextMedia = true;
-            Navigation.InsertPageBefore(new Player(medias[index + 1].iD, index + 1, medias,false),this);
+            Navigation.InsertPageBefore(new Player(medias[index + 1], medias,false,anime),this);
             await Navigation.PopAsync();
         }
 

@@ -54,7 +54,8 @@ namespace CrunchyrollPlus
         {
             Media selectedMedia = (Media)mediaList.SelectedItem;
             
-            await Navigation.PushAsync(new Player(selectedMedia.iD,selectedMedia.collectionId, true));
+
+            await Navigation.PushAsync(new Player(selectedMedia, true,entries[Array.FindIndex<Media>(medias, i => i.iD==selectedMedia.iD)].series));
         }
 
         private async  void OpenShow(object sender, EventArgs e)
