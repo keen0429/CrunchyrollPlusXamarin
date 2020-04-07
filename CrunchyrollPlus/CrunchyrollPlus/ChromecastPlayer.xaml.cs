@@ -14,17 +14,19 @@ namespace CrunchyrollPlus
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ChromecastPlayer : ContentPage
     {
+        
         ChromecastWrapper wrapper = ChromecastWrapper.GetSingleton();
         Media media;
         Media[] medias;
         Series anime;
         double time = 0;
-
+        CrunchyrollApi crunchyrollApi = CrunchyrollApi.GetSingleton();
         
 
         public ChromecastPlayer(Media media, Media[] medias,  Series anime)
         {
             InitializeComponent();
+
             this.media = media;
             this.medias = medias;
             this.anime = anime;
@@ -37,8 +39,17 @@ namespace CrunchyrollPlus
             slider.Maximum = media.duration;
             Device.StartTimer(TimeSpan.FromSeconds(1), Tick);
             wrapper.ChromecastService.ChromeCastClient.MediaStatusChanged += ChromeCastClient_MediaStatusChanged;
-            
-            
+
+            wrapper.ChromecastService.ChromeCastClient.ChromecastStatusChanged += ChromeCastClient_ChromecastStatusChanged;
+        
+        }
+
+        
+
+        private void ChromeCastClient_ChromecastStatusChanged(object sender, SharpCaster.Models.ChromecastStatus.ChromecastStatus e)
+        {
+
+            crunchyrollApi.LogProgess(media.iD, (int)wrapper.ChromecastService.ChromeCastClient.MediaStatus.CurrentTime);
         }
 
         bool Tick()

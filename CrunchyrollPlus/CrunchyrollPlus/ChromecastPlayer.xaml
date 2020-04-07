@@ -41,7 +41,7 @@
                          HorizontalOptions="CenterAndExpand" x:Name="forward" Clicked="Forward"/>
             <ImageButton BackgroundColor="Transparent" Source="skip.png"  Grid.Column="4" Grid.Row="2"
                          HorizontalOptions="CenterAndExpand" x:Name="skip" Clicked="Skip"/>
-            <Slider Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5" x:Name="slider" Value="200" ValueChanged="slider_ValueChanged"/>
+            <Slider Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5" x:Name="slider" Value="200" ValueChanged="slider_ValueChanged" MinimumTrackColor="{StaticResource crunchyAccentColor}" ThumbColor="{StaticResource crunchyAccentColor}"/>
 
         </Grid>
     </ContentPage.Content>
