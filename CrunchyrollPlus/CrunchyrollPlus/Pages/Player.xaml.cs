@@ -90,10 +90,13 @@ namespace CrunchyrollPlus
                 DisableChromecast();
             }
             chromecastWrapper.chromecastChange += chromeCastEnabled;
+            chromecastWrapper.mediaLoaded += ChromecastWrapper_mediaLoaded;
 
 
         }
+
         
+
         bool UpdateTime()
         {
            
@@ -292,8 +295,7 @@ namespace CrunchyrollPlus
 
             Chromecast chromecast = chromecastWrapper.SelectChromecast(action);
             await chromecastWrapper.LoadMedia(sourceUrl, videoPlayer.Position.TotalSeconds);
-            Navigation.InsertPageBefore(new ChromecastPlayer(),this);
-            await Navigation.PopAsync();
+            
 
             await chromecastWrapper.ChromecastService.ConnectToChromecast(chromecast);
 
@@ -320,6 +322,14 @@ namespace CrunchyrollPlus
             else DisableChromecast();
         }
 
-        
+        private async void ChromecastWrapper_mediaLoaded()
+        {
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                Navigation.InsertPageBefore(new ChromecastPlayer(media, medias, anime), this);
+                await Navigation.PopAsync();
+            });
+            
+        }
     }
 }

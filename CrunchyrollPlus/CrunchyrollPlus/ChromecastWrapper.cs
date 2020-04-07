@@ -36,7 +36,11 @@ namespace CrunchyrollPlus
 
         public event ChromecastPresentChangeHandler chromecastChange;
         public delegate void ChromecastPresentChangeHandler(bool present);
-        
+
+
+        public event MediaLoaded mediaLoaded;
+        public delegate void MediaLoaded ();
+
         private ChromecastWrapper()
         {
             Device.StartTimer(TimeSpan.FromSeconds(10), CheckChromecast);
@@ -91,6 +95,7 @@ namespace CrunchyrollPlus
             if (connectToUrl != "")
             {
                 await controller.LoadMedia(connectToUrl, "video/mp4", null, "BUFFERED", 0D, null, null, null, true, timeStamp);
+                mediaLoaded();
             }
 
             

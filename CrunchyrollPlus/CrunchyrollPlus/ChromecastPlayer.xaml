@@ -4,7 +4,8 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="CrunchyrollPlus.ChromecastPlayer">
+             x:Class="CrunchyrollPlus.ChromecastPlayer"
+             NavigationPage.HasNavigationBar="False">
     <ContentPage.Content>
         <Grid ColumnSpacing="40" RowSpacing="40">
             <Grid.ColumnDefinitions>
@@ -17,6 +18,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="3*"/>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <ImageButton BackgroundColor="Transparent" Source="back.png"  Grid.Column="0" Grid.Row="0"
@@ -39,6 +41,7 @@
                          HorizontalOptions="CenterAndExpand" x:Name="forward" Clicked="Forward"/>
             <ImageButton BackgroundColor="Transparent" Source="skip.png"  Grid.Column="4" Grid.Row="2"
                          HorizontalOptions="CenterAndExpand" x:Name="skip" Clicked="Skip"/>
+            <Slider Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5" x:Name="slider" Value="200" ValueChanged="slider_ValueChanged"/>
 
         </Grid>
     </ContentPage.Content>
