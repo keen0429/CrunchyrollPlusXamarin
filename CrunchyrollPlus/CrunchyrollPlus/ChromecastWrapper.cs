@@ -48,8 +48,10 @@ namespace CrunchyrollPlus
         {
             Task.Run(async () =>
             {
+                
                 //chromecasts = await ChromecastService.Current.DeviceLocator.LocateDevicesAsync();
-                chromecasts = await ChromecastService.Current.StartLocatingDevices();
+                chromecasts = await ChromecastService.StartLocatingDevices();
+                //chromecasts = await ChromecastService.DeviceLocator.LocateDevicesAsync();
                 
                 Console.WriteLine("LOG   checkCompleted");
                 chromecastChange(chromecasts.Count > 0);
@@ -70,7 +72,7 @@ namespace CrunchyrollPlus
                 }
             }
 
-            return chromecasts[0]; // This shoudln't happen
+            return null; // This shappens if user doesn't select any device
 
         }
 

@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="CrunchyrollPlus.ChromecastPlayer">
+    <ContentPage.Content>
+        <Grid ColumnSpacing="40" RowSpacing="40">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <ImageButton BackgroundColor="Transparent" Source="back.png"  Grid.Column="0" Grid.Row="0"
+                         HorizontalOptions="CenterAndExpand" x:Name="back" Clicked="Exit"/>
+            <ImageButton BackgroundColor="Transparent" Source="castConnected.png"  Grid.Column="4" Grid.Row="0"
+                         HorizontalOptions="CenterAndExpand" x:Name="cast" Clicked="CastMenu"/>
+
+            <Image Source="https://img1.ak.crunchyroll.com/i/spire2-tmb/fbba17a64dc4530710f959f8cc7225b81543582782_fwide.jpg" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5"
+                   HorizontalOptions="Center"/>
+
+            <ImageButton BackgroundColor="Transparent" Source="rewind10.png"  Grid.Column="1" Grid.Row="2"
+                         HorizontalOptions="CenterAndExpand" x:Name="rewind" Clicked="Rewind"/>
+            
+            <Image  Source="pause.png" Grid.Row="2" Grid.Column="2" HorizontalOptions="CenterAndExpand" x:Name="playPause"  >
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="PlayPause" NumberOfTapsRequired="1"/>
+                </Image.GestureRecognizers>
+            </Image>
+            <ImageButton BackgroundColor="Transparent" Source="forward10.png" Grid.Column="3" Grid.Row="2"
+                         HorizontalOptions="CenterAndExpand" x:Name="forward" Clicked="Forward"/>
+            <ImageButton BackgroundColor="Transparent" Source="skip.png"  Grid.Column="4" Grid.Row="2"
+                         HorizontalOptions="CenterAndExpand" x:Name="skip" Clicked="Skip"/>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

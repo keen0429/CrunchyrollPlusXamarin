@@ -67,6 +67,7 @@ namespace CrunchyrollPlus
         public void Init(int index,Media media,bool enterFullScreen, Series anime)
            
         {
+            
             this.anime = anime;
             this.media = media;
             animeName.Text = anime.name;
@@ -282,12 +283,21 @@ namespace CrunchyrollPlus
         }
         private async void Cast(object sender, EventArgs e)
         {
-            Chromecast chromecast = chromecastWrapper.SelectChromecast(await DisplayActionSheet("Select device to cast to", "Cancel", null, chromecastWrapper.GetChromecastOptions()));
+            string action = await DisplayActionSheet("Select device to cast to", "Cancel", null, chromecastWrapper.GetChromecastOptions());
+
+            if (action == "Cancel"||action==null)
+            {
+                return;
+            }
+
+            Chromecast chromecast = chromecastWrapper.SelectChromecast(action);
             await chromecastWrapper.LoadMedia(sourceUrl, videoPlayer.Position.TotalSeconds);
+            Navigation.InsertPageBefore(new ChromecastPlayer(),this);
+            await Navigation.PopAsync();
+
             await chromecastWrapper.ChromecastService.ConnectToChromecast(chromecast);
 
-            
-            
+
         }
 
 
@@ -309,5 +319,7 @@ namespace CrunchyrollPlus
             if (enable) EnableChromecast();
             else DisableChromecast();
         }
+
+        
     }
 }
