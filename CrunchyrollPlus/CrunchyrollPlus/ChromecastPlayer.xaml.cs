@@ -21,12 +21,12 @@ namespace CrunchyrollPlus
         Series anime;
         double time = 0;
         CrunchyrollApi crunchyrollApi = CrunchyrollApi.GetSingleton();
-        
+        int index;
 
-        public ChromecastPlayer(Media media, Media[] medias,  Series anime)
+        public ChromecastPlayer(Media media, Media[] medias,  Series anime, int index)
         {
             InitializeComponent();
-
+            this.index = index;
             this.media = media;
             this.medias = medias;
             this.anime = anime;
@@ -41,10 +41,14 @@ namespace CrunchyrollPlus
             wrapper.ChromecastService.ChromeCastClient.MediaStatusChanged += ChromeCastClient_MediaStatusChanged;
 
             wrapper.ChromecastService.ChromeCastClient.ChromecastStatusChanged += ChromeCastClient_ChromecastStatusChanged;
-        
+            wrapper.mediaLoaded += Wrapper_mediaLoaded;
         }
 
-        
+        private async void Wrapper_mediaLoaded()
+        {
+            Navigation.InsertPageBefore(new ChromecastPlayer(medias[index + 1], medias, anime, index + 1), this);
+            await Navigation.PopAsync();
+        }
 
         private void ChromeCastClient_ChromecastStatusChanged(object sender, SharpCaster.Models.ChromecastStatus.ChromecastStatus e)
         {
@@ -111,6 +115,23 @@ namespace CrunchyrollPlus
         async void Skip(object sender, EventArgs e)
         {
 
+            CrunchyrollApi.StreamDataResponse res = await crunchyrollApi.GetStreamData(medias[index+1].iD);
+            if (res.success)
+            {
+               
+
+                await wrapper.LoadMedia(res.url, res.playhead);
+                Console.WriteLine("LOG: DONELOADING");
+                
+            }
+            else
+            {
+                if (res.message == "NoStream") await DisplayAlert("Couldn't get stream", "Media not available, player going to be exited", "OK");
+                else await DisplayAlert("Unknown error", "Unknown error occured, player going to be exited", "OK");
+                await Navigation.PopAsync();
+            }
+
+            
         }
 
         private void slider_ValueChanged(object sender, ValueChangedEventArgs e)

@@ -326,7 +326,7 @@ namespace CrunchyrollPlus
         {
             Device.BeginInvokeOnMainThread(async () =>
             {
-                Navigation.InsertPageBefore(new ChromecastPlayer(media, medias, anime), this);
+                Navigation.InsertPageBefore(new ChromecastPlayer(media, medias, anime,index ), this);
                 await Navigation.PopAsync();
             });
             
