@@ -23,6 +23,8 @@ namespace CrunchyrollPlus
         CrunchyrollApi crunchyrollApi = CrunchyrollApi.GetSingleton();
         int index;
 
+        bool paused = false;
+
         public ChromecastPlayer(Media media, Media[] medias,  Series anime, int index)
         {
             InitializeComponent();
@@ -58,13 +60,25 @@ namespace CrunchyrollPlus
 
         bool Tick()
         {
-            time += 1;
-            slider.Value = time;
+            if (!paused)
+            {
+                time += 1;
+                slider.Value = time;
+                
+            }
             return true;
         }
         private void ChromeCastClient_MediaStatusChanged(object sender, MediaStatus e)
         {
-            
+            switch (e.PlayerState)
+            {
+                case PlayerState.Playing:
+                    paused = false;
+                    break;
+                default:
+                    paused = true;
+                    break;
+            }
             time= wrapper.ChromecastService.ChromeCastClient.MediaStatus.CurrentTime;
             slider.Value = time;
         }
@@ -75,10 +89,12 @@ namespace CrunchyrollPlus
             if (wrapper.ChromecastService.ChromeCastClient.MediaStatus.PlayerState == PlayerState.Playing)
             {
                 await wrapper.controller.Pause();
+                playPause.Source = "play.png";
             }
             else
             {
                 await wrapper.controller.Play();
+                playPause.Source = "pause.png";
             }
         }
         async void Exit(object sender, EventArgs e)
