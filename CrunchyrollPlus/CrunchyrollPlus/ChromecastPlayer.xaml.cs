@@ -52,10 +52,10 @@ namespace CrunchyrollPlus
             await Navigation.PopAsync();
         }
 
-        private void ChromeCastClient_ChromecastStatusChanged(object sender, SharpCaster.Models.ChromecastStatus.ChromecastStatus e)
+        private async void ChromeCastClient_ChromecastStatusChanged(object sender, SharpCaster.Models.ChromecastStatus.ChromecastStatus e)
         {
 
-            crunchyrollApi.LogProgess(media.iD, (int)wrapper.ChromecastService.ChromeCastClient.MediaStatus.CurrentTime);
+            bool success = await crunchyrollApi.LogProgess(media.iD, (int)wrapper.ChromecastService.ChromeCastClient.MediaStatus.CurrentTime);
         }
 
         bool Tick()
@@ -107,6 +107,7 @@ namespace CrunchyrollPlus
             if (await DisplayAlert("Disconnect", $"Would you like to disconnect from {wrapper.ChromecastService.ConnectedChromecast.FriendlyName}?", "Yes", "No"))
             {
                 await wrapper.controller.StopApplication();
+                media.playhead = (int)time;
                 Navigation.InsertPageBefore(new Player(media, medias, true, anime),this);
                 await Navigation.PopAsync();
             }
